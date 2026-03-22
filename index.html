@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plant Maintenance PRO</title>
+
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  background: linear-gradient(#3b82f6, #9333ea);
+  padding-top: 20px;
+  color: white;
+}
+
+.sidebar button {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background: none;
+  color: white;
+  text-align: left;
+  font-size: 16px;
+}
+
+.sidebar button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Content */
+.content {
+  margin-left: 220px;
+  padding: 20px;
+}
+
+/* Cards */
+.card {
+  background: #f9f9f9;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+/* Tabs */
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <button onclick="showSection('dashboard')">Dashboard</button>
+  <button onclick="showSection('breakdown')">Breakdown</button>
+  <button onclick="showSection('pm')">PM</button>
+  <button onclick="showSection('equipment')">Equipment</button>
+  <button onclick="showSection('spares')">Spares</button>
+</div>
+
+<div class="content">
+
+<div id="dashboard" class="section active">
+  <h2>Dashboard</h2>
+</div>
+
+<div id="breakdown" class="section">
+  <h2>Breakdown</h2>
+  <div id="breakdownList"></div>
+  <div class="pagination">
+    <button onclick="prevPage('breakdown')">Previous</button>
+    <button onclick="nextPage('breakdown')">Next</button>
+  </div>
+</div>
+
+<div id="pm" class="section">
+  <h2>PM</h2>
+  <div id="pmList"></div>
+  <div class="pagination">
+    <button onclick="prevPage('pm')">Previous</button>
+    <button onclick="nextPage('pm')">Next</button>
+  </div>
+</div>
+
+<div id="equipment" class="section">
+  <h2>Equipment</h2>
+  <div id="equipmentList"></div>
+  <div class="pagination">
+    <button onclick="prevPage('equipment')">Previous</button>
+    <button onclick="nextPage('equipment')">Next</button>
+  </div>
+</div>
+
+<div id="spares" class="section">
+  <h2>Spares</h2>
+  <div id="spareList"></div>
+  <div class="pagination">
+    <button onclick="prevPage('spares')">Previous</button>
+    <button onclick="nextPage('spares')">Next</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>
