@@ -17,7 +17,6 @@
       --rose1:#ef4444; --rose2:#f472b6; --cyan1:#0891b2; --cyan2:#22d3ee;
       --shadow:0 2px 14px rgba(15,23,42,.08);
     }
-
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text)}
     .app{max-width:430px;margin:0 auto;min-height:100vh;background:#eef2f6}
@@ -27,68 +26,18 @@
     .hero .sub2{margin-top:8px;font-size:13px;opacity:.95}
     .wrap{padding:14px 14px 90px}
 
-    .tabs{
-      display:grid;
-      grid-template-columns:repeat(8,1fr);
-      gap:8px;
-      margin-bottom:14px
-    }
-    .tab{
-      border:none;
-      border-radius:18px;
-      background:#fff;
-      padding:12px 4px;
-      font-weight:700;
-      color:#334155;
-      box-shadow:var(--shadow);
-      font-size:11px
-    }
+    .tabs{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-bottom:14px}
+    .tab{border:none;border-radius:18px;background:#fff;padding:12px 4px;font-weight:700;color:#334155;box-shadow:var(--shadow);font-size:11px}
     .tab.active{background:#0f172a;color:#fff}
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      padding:18px;
-      margin-bottom:14px
-    }
-
-    .title{
-      margin:0 0 14px;
-      font-size:22px;
-      font-weight:800;
-      color:#2551c0
-    }
-
-    .grid2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px
-    }
-
-    .color-card{
-      border:none;
-      border-radius:24px;
-      padding:18px 14px;
-      color:#fff;
-      text-align:left;
-      box-shadow:var(--shadow);
-      cursor:pointer
-    }
-
-    .color-card .big{
-      font-size:22px;
-      font-weight:800;
-      line-height:1.1
-    }
-
-    .color-card .small{
-      margin-top:8px;
-      font-size:13px;
-      opacity:.95
-    }
-
+    .card{background:var(--card);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+    .title{margin:0 0 14px;font-size:22px;font-weight:800;color:#2551c0}
+    .subTitle{margin:0 0 10px;font-size:18px;font-weight:800;color:#2551c0}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .color-card{border:none;border-radius:24px;padding:18px 14px;color:#fff;text-align:left;box-shadow:var(--shadow);cursor:pointer}
+    .color-card .big{font-size:22px;font-weight:800;line-height:1.1}
+    .color-card .small{margin-top:8px;font-size:13px;opacity:.95}
     .blue{background:linear-gradient(90deg,#2563eb,#60a5fa)}
     .purple{background:linear-gradient(90deg,#4f46e5,#8b5cf6)}
     .green{background:linear-gradient(90deg,#059669,#34d399)}
@@ -98,168 +47,59 @@
     .slate{background:linear-gradient(90deg,#334155,#64748b)}
 
     .field{margin-bottom:14px}
-    .field label{
-      display:block;
-      margin-bottom:8px;
-      font-size:16px;
-      font-weight:800;
-      color:#374151
-    }
-
-    .input,.select,.textarea{
-      width:100%;
-      border:1px solid #bfc6d1;
-      border-radius:18px;
-      background:#fff;
-      padding:15px 16px;
-      font-size:16px;
-      color:#111827
-    }
-
+    .field label{display:block;margin-bottom:8px;font-size:16px;font-weight:800;color:#374151}
+    .input,.select,.textarea{width:100%;border:1px solid #bfc6d1;border-radius:18px;background:#fff;padding:15px 16px;font-size:16px;color:#111827}
     .textarea{min-height:120px;resize:vertical}
 
-    .btn{
-      width:100%;
-      border:none;
-      border-radius:18px;
-      padding:16px 14px;
-      color:#fff;
-      font-size:17px;
-      font-weight:800;
-      cursor:pointer;
-      margin-top:8px;
-      box-shadow:var(--shadow)
-    }
-
+    .btn{width:100%;border:none;border-radius:18px;padding:16px 14px;color:#fff;font-size:17px;font-weight:800;cursor:pointer;margin-top:8px;box-shadow:var(--shadow)}
     .btn-purple{background:linear-gradient(90deg,var(--purple1),var(--purple2))}
     .btn-green{background:linear-gradient(90deg,var(--green1),var(--green2))}
     .btn-teal{background:linear-gradient(90deg,var(--cyan1),var(--cyan2))}
     .btn-red{background:linear-gradient(90deg,#dc2626,#fb7185)}
 
-    .note{
-      border-radius:18px;
-      background:#fff;
-      border:1px solid var(--line);
-      padding:14px 16px;
-      font-size:16px
-    }
-
+    .note{border-radius:18px;background:#fff;border:1px solid var(--line);padding:14px 16px;font-size:16px}
     .helper{margin-bottom:14px}
     .list{display:grid;gap:12px}
+    .mini-card{border:none;width:100%;text-align:left;border-radius:22px;background:#fff;border:1px solid var(--line);padding:15px;box-shadow:var(--shadow);cursor:pointer}
+    .mini-card .h{font-size:18px;font-weight:800;color:#0f172a}
+    .mini-card .p{margin-top:6px;color:#475569;font-size:14px}
 
-    .mini-card{
-      border:none;
-      width:100%;
-      text-align:left;
-      border-radius:22px;
-      background:#fff;
-      border:1px solid var(--line);
-      padding:15px;
-      box-shadow:var(--shadow);
-      cursor:pointer
-    }
-
-    .mini-card .h{
-      font-size:18px;
-      font-weight:800;
-      color:#0f172a
-    }
-
-    .mini-card .p{
-      margin-top:6px;
-      color:#475569;
-      font-size:14px
-    }
-
-    .pager{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:14px
-    }
-
-    .pager button,.smallBtn{
-      border:none;
-      background:#e5e7eb;
-      padding:10px 14px;
-      border-radius:14px;
-      font-weight:800
-    }
-
+    .pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+    .pager button,.smallBtn,.filterBtn{border:none;background:#e5e7eb;padding:10px 14px;border-radius:14px;font-weight:800}
     .smallBtn.danger{background:#fecaca}
-    .rowActions{display:flex;gap:8px;margin-top:10px}
+    .rowActions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
     .muted{color:#64748b;font-size:13px}
     .hidden{display:none}
+    .status{margin-top:12px;padding:12px 14px;border-radius:16px;background:#eef4ff;color:#1e3a8a;font-size:14px;white-space:pre-wrap}
 
-    .status{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:16px;
-      background:#eef4ff;
-      color:#1e3a8a;
-      font-size:14px;
-      white-space:pre-wrap
-    }
+    .badge{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:999px;background:#eef2ff;font-size:12px;font-weight:700;color:#334155}
+    .status-badge{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;color:#fff}
+    .status-open{background:#dc2626}
+    .status-progress{background:#f59e0b}
+    .status-closed{background:#16a34a}
 
-    .badge{
-      display:inline-block;
-      margin-top:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#eef2ff;
-      font-size:12px;
-      font-weight:700;
-      color:#334155
-    }
+    .pm-pending{background:#f59e0b;color:#fff}
+    .pm-overdue{background:#dc2626;color:#fff}
+    .pm-done{background:#16a34a;color:#fff}
 
-    #printArea{
-      display:none;
-    }
+    .filterBar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+    .filterBtn.active{background:#0f172a;color:#fff}
+
+    #printArea{display:none}
 
     @media print {
-      body * {
-        visibility: hidden;
-      }
-
-      #printArea, #printArea * {
-        visibility: visible;
-      }
-
+      body * { visibility: hidden; }
+      #printArea, #printArea * { visibility: visible; }
       #printArea {
         display:block !important;
         position:absolute;
-        left:0;
-        top:0;
-        width:100%;
-        background:#fff;
-        color:#000;
-        padding:20px;
+        left:0; top:0; width:100%;
+        background:#fff; color:#000; padding:20px;
       }
-
-      .print-title{
-        font-size:24px;
-        font-weight:700;
-        margin-bottom:8px;
-      }
-
-      .print-subtitle{
-        font-size:14px;
-        color:#444;
-        margin-bottom:18px;
-      }
-
-      .print-row{
-        border:1px solid #ccc;
-        border-radius:10px;
-        padding:10px;
-        margin-bottom:10px;
-        page-break-inside: avoid;
-      }
-
-      .tabs,.btn,.pager,.rowActions,.hero {
-        display:none !important;
-      }
+      .print-title{font-size:24px;font-weight:700;margin-bottom:8px}
+      .print-subtitle{font-size:14px;color:#444;margin-bottom:18px}
+      .print-row{border:1px solid #ccc;border-radius:10px;padding:10px;margin-bottom:10px;page-break-inside:avoid}
+      .tabs,.btn,.pager,.rowActions,.hero,.filterBar { display:none !important; }
     }
   </style>
 </head>
@@ -268,7 +108,7 @@
     <div class="hero">
       <h1>MAJEED FOODS PVT LTD - BAHAWALPUR</h1>
       <div class="sub1">Electrical & Automation Maintenance System</div>
-      <div class="sub2">GitHub Pages + Firebase Realtime Database + PM Module</div>
+      <div class="sub2">GitHub Pages + Firebase Realtime Database + COO Dashboard</div>
     </div>
 
     <div class="wrap">
@@ -279,7 +119,7 @@
         <button class="tab" onclick="showScreen('pm')">PM</button>
         <button class="tab" onclick="showScreen('sections')">Plant</button>
         <button class="tab" onclick="showScreen('register')">Equip</button>
-        <button class="tab" onclick="showScreen('notifications')">Alert</button>
+        <button class="tab" onclick="showScreen('coo')">COO</button>
         <button class="tab" onclick="showScreen('tools')">Tools</button>
       </div>
 
@@ -309,20 +149,10 @@
         <div class="card">
           <h2 class="title">Dashboard Summary</h2>
           <div class="grid2">
-            <button class="color-card blue" onclick="openFaultFilter('all')"><div class="big">Open Faults</div><div class="small" id="openCount">0</div></button>
+            <button class="color-card blue" onclick="setFaultFilter('all')"><div class="big">Open Faults</div><div class="small" id="openCount">0</div></button>
             <button class="color-card green" onclick="showScreen('register')"><div class="big">Equipment</div><div class="small" id="equipmentCount">0</div></button>
             <button class="color-card orange" onclick="showScreen('pm')"><div class="big">PM Due</div><div class="small" id="pmDueCount">0</div></button>
-            <button class="color-card rose" onclick="showScreen('sections')"><div class="big">Sections</div><div class="small">Cleaning · Milling · Packing</div></button>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2 class="title">Quick Access</h2>
-          <div class="grid2">
-            <button class="color-card purple" onclick="showScreen('login')"><div class="big">Login</div><div class="small">Account screen</div></button>
-            <button class="color-card cyan" onclick="showScreen('breakdown')"><div class="big">Breakdown</div><div class="small">Add new fault</div></button>
-            <button class="color-card green" onclick="showScreen('pm')"><div class="big">PM Records</div><div class="small">Add PM / due list</div></button>
-            <button class="color-card slate" onclick="showScreen('tools')"><div class="big">Import / Export</div><div class="small">Print, PDF, delete</div></button>
+            <button class="color-card rose" onclick="showScreen('coo')"><div class="big">COO View</div><div class="small">Executive summary</div></button>
           </div>
         </div>
       </section>
@@ -342,6 +172,13 @@
 
         <div class="card">
           <h2 class="title">Saved Breakdowns</h2>
+          <div class="filterBar">
+            <button id="flt-all" class="filterBtn active" onclick="setFaultFilter('all')">All</button>
+            <button id="flt-open" class="filterBtn" onclick="setFaultFilter('status:Open')">Open</button>
+            <button id="flt-progress" class="filterBtn" onclick="setFaultFilter('status:In Progress')">In Progress</button>
+            <button id="flt-closed" class="filterBtn" onclick="setFaultFilter('status:Closed')">Closed</button>
+            <button id="flt-critical" class="filterBtn" onclick="setFaultFilter('critical')">Critical</button>
+          </div>
           <div id="faultList" class="list"></div>
           <div class="pager">
             <button onclick="prevFaultPage()">Previous</button>
@@ -429,10 +266,27 @@
         </div>
       </section>
 
-      <section id="notifications" class="screen hidden">
+      <section id="coo" class="screen hidden">
         <div class="card">
-          <h2 class="title">Notifications</h2>
-          <div id="notificationList" class="list"></div>
+          <h2 class="title">COO Executive Summary</h2>
+          <div class="grid2">
+            <div class="color-card blue"><div class="big" id="cooTotalFaults">0</div><div class="small">Total Faults</div></div>
+            <div class="color-card orange"><div class="big" id="cooOpenFaults">0</div><div class="small">Open + In Progress</div></div>
+            <div class="color-card green"><div class="big" id="cooClosedFaults">0</div><div class="small">Closed Faults</div></div>
+            <div class="color-card rose"><div class="big" id="cooPmPending">0</div><div class="small">PM Pending/Overdue</div></div>
+            <div class="color-card cyan"><div class="big" id="cooPmDone">0</div><div class="small">PM Done</div></div>
+            <div class="color-card slate"><div class="big" id="cooEquipment">0</div><div class="small">Total Equipment</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subTitle">Top Problem Equipment</h3>
+          <div id="cooProblemList" class="list"></div>
+        </div>
+
+        <div class="card">
+          <h3 class="subTitle">Section Summary</h3>
+          <div id="cooSectionList" class="list"></div>
         </div>
       </section>
 
@@ -445,8 +299,6 @@
           <button class="btn btn-teal" onclick="printPMHistory()">Print Maintenance Record</button>
           <button class="btn btn-teal" onclick="printEquipmentRegister()">Print Equipment Register</button>
           <button class="btn btn-green" onclick="alert('Use browser share or Print > Save as PDF.')">Share PDF</button>
-          <button class="btn btn-green" onclick="alert('Import template can be added in next version.')">Import Data</button>
-          <button class="btn btn-green" onclick="alert('Export template can be added in next version.')">Export Data</button>
         </div>
       </section>
     </div>
@@ -471,11 +323,7 @@ const auth = firebase.auth();
 const db = firebase.database();
 
 const sectionMap = {
-  "Cleaning": [
-    "Dampening Device","Sliding Gate","Low Level Sensor","High Level Sensor",
-    "Material Elevator Motor","Material Elevator Head Anti Blocking Sensor",
-    "Material Elevator Deviation Sensor","Colour Sort Machine"
-  ],
+  "Cleaning": ["Dampening Device","Sliding Gate","Low Level Sensor","High Level Sensor","Material Elevator Motor","Material Elevator Head Anti Blocking Sensor","Material Elevator Deviation Sensor","Colour Sort Machine"],
   "Milling": ["Auto Scale","Plansifter","Purifier","Roller Mill Machines","Conveyors"],
   "Packing": ["Packing Machine","Packing Conveyor","Weight Checker","Packing Machine Panel","Packing Machine Electronics Cards","Packing Machine VFD"],
   "Utility": ["Air Compressor 01","Air Compressor 02","Air Dryer","Transformer 01","VCB Panel 01"],
@@ -489,11 +337,6 @@ const equipmentTypes = ["PLC Panel","Motor","Sensor","Machine","Conveyor","Compr
 const faultTypes = ["Electrical","Mechanical","Communication","Trip","Overload","Deviation Sensor Fault","Anti Blocking Fault"];
 
 let currentUser = null;
-let notifications = [
-  { id:"n1", text:"PM due today for Transformer 01" },
-  { id:"n2", text:"Packing Machine VFD temperature alert" },
-  { id:"n3", text:"Control Room PLC IO module check required" }
-];
 let allFaults = [];
 let allEquipment = [];
 let allPm = [];
@@ -503,15 +346,13 @@ let pmPage = 1;
 let faultFilter = "all";
 const pageSize = 5;
 
-function setStatus(msg){
-  document.getElementById("status").innerText = msg;
-}
+function setStatus(msg){ document.getElementById("status").innerText = msg; }
 
 function showScreen(id){
   document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  const map = {login:0,dashboard:1,breakdown:2,pm:3,sections:4,register:5,notifications:6,tools:7};
+  const map = {login:0,dashboard:1,breakdown:2,pm:3,sections:4,register:5,coo:6,tools:7};
   document.querySelectorAll(".tab")[map[id]].classList.add("active");
   renderAll();
 }
@@ -520,21 +361,44 @@ function paginate(list, page){
   const totalPages = Math.max(1, Math.ceil(list.length / pageSize));
   const safePage = Math.max(1, Math.min(page, totalPages));
   const start = (safePage - 1) * pageSize;
-  const end = start + pageSize;
-  return {
-    rows: list.slice(start, end),
-    page: safePage,
-    totalPages
-  };
+  return { rows: list.slice(start, start + pageSize), page: safePage, totalPages };
+}
+
+function getStatusClass(status){
+  if (status === "Closed") return "status-closed";
+  if (status === "In Progress") return "status-progress";
+  return "status-open";
+}
+
+function getPmStatusClass(status){
+  if (status === "Done") return "pm-done";
+  if (status === "Overdue") return "pm-overdue";
+  return "pm-pending";
+}
+
+function setFaultFilter(filter){
+  faultFilter = filter;
+  faultPage = 1;
+  updateFaultFilterButtons();
+  showScreen("breakdown");
+}
+
+function updateFaultFilterButtons(){
+  ["all","open","progress","closed","critical"].forEach(x => {
+    const el = document.getElementById("flt-" + x);
+    if (el) el.classList.remove("active");
+  });
+  if (faultFilter === "all") document.getElementById("flt-all")?.classList.add("active");
+  if (faultFilter === "status:Open") document.getElementById("flt-open")?.classList.add("active");
+  if (faultFilter === "status:In Progress") document.getElementById("flt-progress")?.classList.add("active");
+  if (faultFilter === "status:Closed") document.getElementById("flt-closed")?.classList.add("active");
+  if (faultFilter === "critical") document.getElementById("flt-critical")?.classList.add("active");
 }
 
 function getFilteredFaults(){
-  if (faultFilter === "critical") {
-    return allFaults.filter(x => ["Trip","Anti Blocking Fault"].includes(x.faultType));
-  }
-  if (faultFilter.startsWith("section:")) {
-    return allFaults.filter(x => x.area === faultFilter.split(":")[1]);
-  }
+  if (faultFilter === "critical") return allFaults.filter(x => ["Trip","Anti Blocking Fault"].includes(x.faultType));
+  if (faultFilter.startsWith("section:")) return allFaults.filter(x => x.area === faultFilter.split(":")[1]);
+  if (faultFilter.startsWith("status:")) return allFaults.filter(x => (x.status || "Open") === faultFilter.split(":")[1]);
   return allFaults;
 }
 
@@ -544,8 +408,7 @@ function updateBreakdownEquipment(){
   select.innerHTML = "";
   (sectionMap[area] || []).forEach(x => {
     const op = document.createElement("option");
-    op.value = x;
-    op.textContent = x;
+    op.value = x; op.textContent = x;
     select.appendChild(op);
   });
 }
@@ -556,8 +419,7 @@ function updatePmEquipment(){
   select.innerHTML = "";
   (sectionMap[area] || []).forEach(x => {
     const op = document.createElement("option");
-    op.value = x;
-    op.textContent = x;
+    op.value = x; op.textContent = x;
     select.appendChild(op);
   });
 }
@@ -565,12 +427,7 @@ function updatePmEquipment(){
 function openSection(area){
   faultFilter = "section:" + area;
   faultPage = 1;
-  showScreen("breakdown");
-}
-
-function openFaultFilter(mode){
-  faultFilter = mode;
-  faultPage = 1;
+  updateFaultFilterButtons();
   showScreen("breakdown");
 }
 
@@ -581,48 +438,77 @@ function nextEquipmentPage(){ equipmentPage++; renderEquipment(); }
 function prevPmPage(){ pmPage--; renderPm(); }
 function nextPmPage(){ pmPage++; renderPm(); }
 
+function toggleFaultStatus(id, currentStatus){
+  let newStatus = "Open";
+  if (currentStatus === "Open") newStatus = "In Progress";
+  else if (currentStatus === "In Progress") newStatus = "Closed";
+  else if (currentStatus === "Closed") newStatus = "Open";
+
+  db.ref("faults/" + id + "/status").set(newStatus)
+    .then(() => setStatus("Fault status updated to " + newStatus))
+    .catch((err) => setStatus("Status update error: " + err.message));
+}
+
+function calculateNextDueDate(dateStr, frequency){
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return "";
+  if (frequency === "Daily") d.setDate(d.getDate() + 1);
+  else if (frequency === "Weekly") d.setDate(d.getDate() + 7);
+  else if (frequency === "Monthly") d.setMonth(d.getMonth() + 1);
+  else if (frequency === "Quarterly") d.setMonth(d.getMonth() + 3);
+  else if (frequency === "Yearly") d.setFullYear(d.getFullYear() + 1);
+  return d.toISOString().slice(0,10);
+}
+
+function isPast(dateStr){
+  if (!dateStr) return false;
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return false;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const chk = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  return chk < today;
+}
+
 function renderFaults(){
-  const filtered = getFilteredFaults();
-  const sorted = [...filtered].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const sorted = [...getFilteredFaults()].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   const pg = paginate(sorted, faultPage);
   faultPage = pg.page;
-
   const root = document.getElementById("faultList");
   root.innerHTML = "";
-
   if (!pg.rows.length) {
     root.innerHTML = '<div class="note">No records found.</div>';
   } else {
     pg.rows.forEach(item => {
       const safeDesc = (item.description || "No description").replace(/'/g, "\\'").replace(/\n/g, " ");
+      const currentStatus = item.status || "Open";
       const card = document.createElement("div");
       card.className = "mini-card";
       card.innerHTML = `
         <div class="h">${item.equipmentName || "-"}</div>
         <div class="p">${item.area || "-"} · ${item.faultCode || item.faultType || "-"}</div>
         <div class="p">${item.date || "-"}</div>
+        <div class="status-badge ${getStatusClass(currentStatus)}">${currentStatus}</div>
         <div class="rowActions">
           <button class="smallBtn" onclick="alert('${safeDesc}')">Open</button>
+          <button class="smallBtn" onclick="toggleFaultStatus('${item.id}','${currentStatus}')">Status</button>
           <button class="smallBtn danger" onclick="deleteFault('${item.id}')">Delete</button>
         </div>
       `;
       root.appendChild(card);
     });
   }
-
   document.getElementById("faultPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
-  document.getElementById("openCount").innerText =
-    allFaults.filter(x => x.status === "Open" || x.status === "In Progress").length;
+  document.getElementById("openCount").innerText = allFaults.filter(x => (x.status || "Open") !== "Closed").length;
 }
 
 function renderEquipment(){
-  const sorted = [...allEquipment].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const sorted = [...allEquipment].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   const pg = paginate(sorted, equipmentPage);
   equipmentPage = pg.page;
-
   const root = document.getElementById("equipmentList");
   root.innerHTML = "";
-
   if (!pg.rows.length) {
     root.innerHTML = '<div class="note">No equipment added yet.</div>';
   } else {
@@ -643,16 +529,14 @@ function renderEquipment(){
       root.appendChild(card);
     });
   }
-
   document.getElementById("equipmentPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
   document.getElementById("equipmentCount").innerText = allEquipment.length;
 }
 
 function renderPm(){
-  const sorted = [...allPm].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const sorted = [...allPm].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   const pg = paginate(sorted, pmPage);
   pmPage = pg.page;
-
   const root = document.getElementById("pmList");
   root.innerHTML = "";
 
@@ -661,13 +545,21 @@ function renderPm(){
   } else {
     pg.rows.forEach(item => {
       const safeRemarks = (item.remarks || "No remarks").replace(/'/g, "\\'").replace(/\n/g, " ");
+      const status = item.status || "Pending";
+      const nextDue = item.nextDueDate || "";
+      const overdue = status !== "Done" && isPast(nextDue);
+      const shownStatus = overdue ? "Overdue" : status;
+      const badgeClass = getPmStatusClass(shownStatus);
+
       const card = document.createElement("div");
       card.className = "mini-card";
       card.innerHTML = `
         <div class="h">${item.equipment || "-"}</div>
         <div class="p">${item.area || "-"} · ${item.frequency || "-"}</div>
-        <div class="p">${item.date || "-"} · ${item.assignedTo || "-"}</div>
-        <div class="badge">${item.status || "-"}</div>
+        <div class="p">PM Date: ${item.date || "-"}</div>
+        <div class="p">Next Due: ${nextDue || "-"}</div>
+        <div class="p">Assigned: ${item.assignedTo || "-"}</div>
+        <div class="status-badge ${badgeClass}">${shownStatus}</div>
         <div class="rowActions">
           <button class="smallBtn" onclick="alert('${safeRemarks}')">Open</button>
           <button class="smallBtn danger" onclick="deletePM('${item.id}')">Delete</button>
@@ -678,34 +570,58 @@ function renderPm(){
   }
 
   document.getElementById("pmPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
-  document.getElementById("pmDueCount").innerText =
-    allPm.filter(x => x.status === "Pending" || x.status === "Overdue").length;
+  document.getElementById("pmDueCount").innerText = allPm.filter(x => {
+    const status = x.status || "Pending";
+    return status === "Pending" || status === "Overdue" || (status !== "Done" && isPast(x.nextDueDate));
+  }).length;
 }
 
-function renderNotifications(){
-  const root = document.getElementById("notificationList");
-  root.innerHTML = "";
-  if (!notifications.length) {
-    root.innerHTML = '<div class="note">No notifications.</div>';
-  } else {
-    notifications.forEach(item => {
-      const card = document.createElement("button");
-      card.className = "mini-card";
-      card.innerHTML = `<div class="h">Alert</div><div class="p">${item.text}</div>`;
-      card.onclick = () => {
-        notifications = notifications.filter(x => x.id !== item.id);
-        renderNotifications();
-      };
-      root.appendChild(card);
-    });
-  }
+function renderCoo(){
+  const totalFaults = allFaults.length;
+  const openFaults = allFaults.filter(x => (x.status || "Open") !== "Closed").length;
+  const closedFaults = allFaults.filter(x => (x.status || "Open") === "Closed").length;
+  const pmPending = allPm.filter(x => {
+    const status = x.status || "Pending";
+    return status === "Pending" || status === "Overdue" || (status !== "Done" && isPast(x.nextDueDate));
+  }).length;
+  const pmDone = allPm.filter(x => (x.status || "") === "Done").length;
+
+  document.getElementById("cooTotalFaults").innerText = totalFaults;
+  document.getElementById("cooOpenFaults").innerText = openFaults;
+  document.getElementById("cooClosedFaults").innerText = closedFaults;
+  document.getElementById("cooPmPending").innerText = pmPending;
+  document.getElementById("cooPmDone").innerText = pmDone;
+  document.getElementById("cooEquipment").innerText = allEquipment.length;
+
+  const problemMap = {};
+  allFaults.forEach(x => {
+    const key = x.equipmentName || "Unknown";
+    problemMap[key] = (problemMap[key] || 0) + 1;
+  });
+  const topProblems = Object.entries(problemMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const problemRoot = document.getElementById("cooProblemList");
+  problemRoot.innerHTML = topProblems.length
+    ? topProblems.map(([name,count]) => `<div class="mini-card"><div class="h">${name}</div><div class="p">Fault Count: ${count}</div></div>`).join("")
+    : '<div class="note">No fault data yet.</div>';
+
+  const sectionMapCount = {};
+  allFaults.forEach(x => {
+    const key = x.area || "Unknown";
+    sectionMapCount[key] = (sectionMapCount[key] || 0) + 1;
+  });
+  const sectionRoot = document.getElementById("cooSectionList");
+  const sectionRows = Object.entries(sectionMapCount).sort((a,b)=>b[1]-a[1]);
+  sectionRoot.innerHTML = sectionRows.length
+    ? sectionRows.map(([name,count]) => `<div class="mini-card"><div class="h">${name}</div><div class="p">Total Faults: ${count}</div></div>`).join("")
+    : '<div class="note">No section summary yet.</div>';
 }
 
 function renderAll(){
+  updateFaultFilterButtons();
   renderFaults();
   renderEquipment();
   renderPm();
-  renderNotifications();
+  renderCoo();
 }
 
 function seedSelects(){
@@ -724,39 +640,22 @@ function seedSelects(){
   bFaultType.innerHTML = "";
 
   Object.keys(sectionMap).forEach(x => {
-    const op1 = document.createElement("option");
-    op1.value = x;
-    op1.textContent = x;
-    bArea.appendChild(op1);
-
-    const op2 = document.createElement("option");
-    op2.value = x;
-    op2.textContent = x;
-    rSection.appendChild(op2);
-
-    const op3 = document.createElement("option");
-    op3.value = x;
-    op3.textContent = x;
-    pmArea.appendChild(op3);
+    [bArea, rSection, pmArea].forEach(sel => {
+      const op = document.createElement("option");
+      op.value = x; op.textContent = x; sel.appendChild(op);
+    });
   });
 
   equipmentTypes.forEach(x => {
-    const op1 = document.createElement("option");
-    op1.value = x;
-    op1.textContent = x;
-    bType.appendChild(op1);
-
-    const op2 = document.createElement("option");
-    op2.value = x;
-    op2.textContent = x;
-    rType.appendChild(op2);
+    [bType, rType].forEach(sel => {
+      const op = document.createElement("option");
+      op.value = x; op.textContent = x; sel.appendChild(op);
+    });
   });
 
   faultTypes.forEach(x => {
     const op = document.createElement("option");
-    op.value = x;
-    op.textContent = x;
-    bFaultType.appendChild(op);
+    op.value = x; op.textContent = x; bFaultType.appendChild(op);
   });
 
   document.getElementById("bDate").value = new Date().toISOString().slice(0,10);
@@ -770,15 +669,12 @@ function createAccount(){
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
   const role = document.getElementById("role").value;
-
   if (!email || !password) return setStatus("Email aur password likhein.");
 
   auth.createUserWithEmailAndPassword(email, password)
     .then((cred) => {
       currentUser = cred.user;
-      db.ref("users/" + cred.user.uid).set({
-        name, email, role, createdAt: new Date().toISOString()
-      });
+      db.ref("users/" + cred.user.uid).set({ name, email, role, createdAt: new Date().toISOString() });
       setStatus("Account created successfully.");
       showScreen("dashboard");
     })
@@ -791,7 +687,6 @@ function createAccount(){
 function loginUser(){
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
-
   if (!email || !password) return setStatus("Email aur password likhein.");
 
   auth.signInWithEmailAndPassword(email, password)
@@ -803,9 +698,7 @@ function loginUser(){
 }
 
 function logoutUser(){
-  auth.signOut()
-    .then(() => setStatus("Logged out."))
-    .catch((err) => setStatus("Logout error: " + err.message));
+  auth.signOut().then(() => setStatus("Logged out.")).catch((err) => setStatus("Logout error: " + err.message));
 }
 
 function saveBreakdown(){
@@ -826,7 +719,6 @@ function saveBreakdown(){
 
   db.ref("faults").push(item)
     .then(() => {
-      notifications.unshift({ id: String(Date.now()), text: item.equipmentName + " fault added in " + item.area });
       faultPage = 1;
       document.getElementById("bCode").value = "";
       document.getElementById("bDesc").value = "";
@@ -838,7 +730,6 @@ function saveBreakdown(){
 
 function saveEquipment(){
   if (!currentUser) return setStatus("Pehle login karo.");
-
   const item = {
     section: document.getElementById("rSection").value,
     name: document.getElementById("rName").value || "New Equipment",
@@ -850,7 +741,6 @@ function saveEquipment(){
 
   db.ref("equipment").push(item)
     .then(() => {
-      notifications.unshift({ id: String(Date.now()), text: item.name + " added in equipment register" });
       equipmentPage = 1;
       document.getElementById("rName").value = "";
       document.getElementById("rCode").value = "";
@@ -863,21 +753,25 @@ function saveEquipment(){
 function savePM(){
   if (!currentUser) return setStatus("Pehle login karo.");
 
+  const date = document.getElementById("pmDate").value;
+  const frequency = document.getElementById("pmFrequency").value;
+  const nextDueDate = calculateNextDueDate(date, frequency);
+
   const item = {
-    date: document.getElementById("pmDate").value,
+    date,
     area: document.getElementById("pmArea").value,
     equipment: document.getElementById("pmEquipment").value,
-    frequency: document.getElementById("pmFrequency").value,
+    frequency,
     assignedTo: document.getElementById("pmAssignedTo").value || "Not assigned",
     status: document.getElementById("pmStatus").value,
     remarks: document.getElementById("pmRemarks").value,
+    nextDueDate,
     createdAt: Date.now(),
     createdBy: currentUser.email
   };
 
   db.ref("pmRecords").push(item)
     .then(() => {
-      notifications.unshift({ id: String(Date.now()), text: "PM record saved for " + item.equipment });
       pmPage = 1;
       document.getElementById("pmAssignedTo").value = "";
       document.getElementById("pmRemarks").value = "";
@@ -887,106 +781,58 @@ function savePM(){
     .catch((err) => setStatus("PM save error: " + err.message));
 }
 
-function deleteFault(id){
-  db.ref("faults/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
-}
-
-function deleteEquipment(id){
-  db.ref("equipment/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
-}
-
-function deletePM(id){
-  db.ref("pmRecords/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
-}
+function deleteFault(id){ db.ref("faults/" + id).remove().catch((err) => setStatus("Delete error: " + err.message)); }
+function deleteEquipment(id){ db.ref("equipment/" + id).remove().catch((err) => setStatus("Delete error: " + err.message)); }
+function deletePM(id){ db.ref("pmRecords/" + id).remove().catch((err) => setStatus("Delete error: " + err.message)); }
 
 function isWithinDays(dateString, days){
   if (!dateString) return false;
   const itemDate = new Date(dateString);
   if (isNaN(itemDate.getTime())) return false;
   const now = new Date();
-  const diff = now - itemDate;
-  return diff <= days * 24 * 60 * 60 * 1000;
+  return (now - itemDate) <= days * 24 * 60 * 60 * 1000;
 }
 
 function formatPrintRows(rows, type){
-  if (!rows.length) {
-    return '<div class="print-row">No records found.</div>';
-  }
+  if (!rows.length) return '<div class="print-row">No records found.</div>';
 
   return rows.map(item => {
     if (type === "faults") {
-      return `
-        <div class="print-row">
-          <strong>${item.equipmentName || "-"}</strong><br>
-          Section: ${item.area || "-"}<br>
-          Fault: ${item.faultCode || item.faultType || "-"}<br>
-          Date: ${item.date || "-"}<br>
-          Description: ${item.description || "-"}<br>
-          Status: ${item.status || "-"}
-        </div>
-      `;
+      return `<div class="print-row"><strong>${item.equipmentName || "-"}</strong><br>Section: ${item.area || "-"}<br>Fault: ${item.faultCode || item.faultType || "-"}<br>Date: ${item.date || "-"}<br>Description: ${item.description || "-"}<br>Status: ${item.status || "-"}</div>`;
     }
-
     if (type === "pm") {
-      return `
-        <div class="print-row">
-          <strong>${item.equipment || "-"}</strong><br>
-          Section: ${item.area || "-"}<br>
-          Frequency: ${item.frequency || "-"}<br>
-          Date: ${item.date || "-"}<br>
-          Assigned To: ${item.assignedTo || "-"}<br>
-          Status: ${item.status || "-"}<br>
-          Remarks: ${item.remarks || "-"}
-        </div>
-      `;
+      return `<div class="print-row"><strong>${item.equipment || "-"}</strong><br>Section: ${item.area || "-"}<br>Frequency: ${item.frequency || "-"}<br>Date: ${item.date || "-"}<br>Next Due: ${item.nextDueDate || "-"}<br>Assigned To: ${item.assignedTo || "-"}<br>Status: ${item.status || "-"}<br>Remarks: ${item.remarks || "-"}</div>`;
     }
-
     if (type === "equipment") {
-      return `
-        <div class="print-row">
-          <strong>${item.name || "-"}</strong><br>
-          Section: ${item.section || "-"}<br>
-          Type: ${item.type || "-"}<br>
-          Code: ${item.code || "-"}
-        </div>
-      `;
+      return `<div class="print-row"><strong>${item.name || "-"}</strong><br>Section: ${item.section || "-"}<br>Type: ${item.type || "-"}<br>Code: ${item.code || "-"}</div>`;
     }
-
     return "";
   }).join("");
 }
 
 function printToPage(titleText, rowsHtml){
-  const html = `
+  document.getElementById("printArea").innerHTML = `
     <div class="print-title">MAJEED FOODS PVT LTD - BAHAWALPUR</div>
     <div class="print-subtitle">${titleText}</div>
     ${rowsHtml}
   `;
-  document.getElementById("printArea").innerHTML = html;
   window.print();
 }
 
 function printWeeklyFaultHistory(){
-  const rows = [...allFaults]
-    .filter(x => isWithinDays(x.date, 7))
-    .sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const rows = [...allFaults].filter(x => isWithinDays(x.date, 7)).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   printToPage("Weekly Fault History", formatPrintRows(rows, "faults"));
 }
-
 function printMonthlyFaultHistory(){
-  const rows = [...allFaults]
-    .filter(x => isWithinDays(x.date, 30))
-    .sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const rows = [...allFaults].filter(x => isWithinDays(x.date, 30)).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   printToPage("Monthly Fault History", formatPrintRows(rows, "faults"));
 }
-
 function printPMHistory(){
-  const rows = [...allPm].sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const rows = [...allPm].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   printToPage("Preventive Maintenance Record", formatPrintRows(rows, "pm"));
 }
-
 function printEquipmentRegister(){
-  const rows = [...allEquipment].sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const rows = [...allEquipment].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   printToPage("Equipment Register", formatPrintRows(rows, "equipment"));
 }
 
@@ -998,34 +844,22 @@ auth.onAuthStateChanged((user) => {
 db.ref("faults").on("value", (snap) => {
   allFaults = [];
   const data = snap.val();
-  if (data) {
-    Object.keys(data).forEach((key) => {
-      allFaults.push({ id: key, ...data[key] });
-    });
-  }
-  renderFaults();
+  if (data) Object.keys(data).forEach((key) => allFaults.push({ id: key, ...data[key] }));
+  renderAll();
 }, (err) => setStatus("Read error (faults): " + err.message));
 
 db.ref("equipment").on("value", (snap) => {
   allEquipment = [];
   const data = snap.val();
-  if (data) {
-    Object.keys(data).forEach((key) => {
-      allEquipment.push({ id: key, ...data[key] });
-    });
-  }
-  renderEquipment();
+  if (data) Object.keys(data).forEach((key) => allEquipment.push({ id: key, ...data[key] }));
+  renderAll();
 }, (err) => setStatus("Read error (equipment): " + err.message));
 
 db.ref("pmRecords").on("value", (snap) => {
   allPm = [];
   const data = snap.val();
-  if (data) {
-    Object.keys(data).forEach((key) => {
-      allPm.push({ id: key, ...data[key] });
-    });
-  }
-  renderPm();
+  if (data) Object.keys(data).forEach((key) => allPm.push({ id: key, ...data[key] }));
+  renderAll();
 }, (err) => setStatus("Read error (PM): " + err.message));
 
 seedSelects();
