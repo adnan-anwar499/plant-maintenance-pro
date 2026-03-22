@@ -1,132 +1,532 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plant Maintenance PRO</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAJEED FOODS PVT LTD - BAHAWALPUR</title>
 
-<style>
-body {
-  margin:0;
-  font-family: Arial;
-}
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
-/* Sidebar */
-.sidebar {
-  width: 220px;
-  height: 100vh;
-  position: fixed;
-  background: linear-gradient(#3b82f6, #9333ea);
-  padding-top: 20px;
-  color: white;
-}
-
-.sidebar button {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  border: none;
-  background: none;
-  color: white;
-  text-align: left;
-  font-size: 16px;
-}
-
-.sidebar button:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-/* Content */
-.content {
-  margin-left: 220px;
-  padding: 20px;
-}
-
-/* Cards */
-.card {
-  background: #f9f9f9;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-}
-
-/* Tabs */
-.section {
-  display: none;
-}
-
-.section.active {
-  display: block;
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-</style>
+  <style>
+    :root{
+      --bg:#edf1f5; --card:#f8f9fb; --line:#d7dde7; --text:#1f2937;
+      --blue1:#0a1d58; --blue2:#2c5bff; --purple1:#3b82f6; --purple2:#7c3aed;
+      --green1:#10b981; --green2:#34d399; --orange1:#f97316; --orange2:#fb923c;
+      --rose1:#ef4444; --rose2:#f472b6; --cyan1:#0891b2; --cyan2:#22d3ee;
+      --shadow:0 2px 14px rgba(15,23,42,.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text)}
+    .app{max-width:430px;margin:0 auto;min-height:100vh;background:#eef2f6}
+    .hero{background:linear-gradient(90deg,var(--blue1),var(--blue2));color:#fff;padding:28px 16px 22px;text-align:center}
+    .hero h1{margin:0;font-size:28px;line-height:1.15;font-weight:800}
+    .hero .sub1{margin-top:14px;font-size:18px;font-weight:700}
+    .hero .sub2{margin-top:8px;font-size:13px;opacity:.95}
+    .wrap{padding:14px 14px 90px}
+    .tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px}
+    .tab{border:none;border-radius:18px;background:#fff;padding:12px 4px;font-weight:700;color:#334155;box-shadow:var(--shadow);font-size:12px}
+    .tab.active{background:#0f172a;color:#fff}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+    .title{margin:0 0 14px;font-size:22px;font-weight:800;color:#2551c0}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .color-card{border:none;border-radius:24px;padding:18px 14px;color:#fff;text-align:left;box-shadow:var(--shadow);cursor:pointer}
+    .color-card .big{font-size:24px;font-weight:800;line-height:1.1}
+    .color-card .small{margin-top:8px;font-size:13px;opacity:.95}
+    .blue{background:linear-gradient(90deg,#2563eb,#60a5fa)}
+    .purple{background:linear-gradient(90deg,#4f46e5,#8b5cf6)}
+    .green{background:linear-gradient(90deg,#059669,#34d399)}
+    .orange{background:linear-gradient(90deg,#ea580c,#fb923c)}
+    .rose{background:linear-gradient(90deg,#dc2626,#fb7185)}
+    .cyan{background:linear-gradient(90deg,#0f766e,#22d3ee)}
+    .slate{background:linear-gradient(90deg,#334155,#64748b)}
+    .field{margin-bottom:14px}
+    .field label{display:block;margin-bottom:8px;font-size:16px;font-weight:800;color:#374151}
+    .input,.select,.textarea{width:100%;border:1px solid #bfc6d1;border-radius:18px;background:#fff;padding:15px 16px;font-size:16px;color:#111827}
+    .textarea{min-height:120px;resize:vertical}
+    .btn{width:100%;border:none;border-radius:18px;padding:16px 14px;color:#fff;font-size:17px;font-weight:800;cursor:pointer;margin-top:8px;box-shadow:var(--shadow)}
+    .btn-purple{background:linear-gradient(90deg,var(--purple1),var(--purple2))}
+    .btn-green{background:linear-gradient(90deg,var(--green1),var(--green2))}
+    .btn-teal{background:linear-gradient(90deg,var(--cyan1),var(--cyan2))}
+    .btn-red{background:linear-gradient(90deg,#dc2626,#fb7185)}
+    .note{border-radius:18px;background:#fff;border:1px solid var(--line);padding:14px 16px;font-size:16px}
+    .helper{margin-bottom:14px}
+    .list{display:grid;gap:12px}
+    .mini-card{border:none;width:100%;text-align:left;border-radius:22px;background:#fff;border:1px solid var(--line);padding:15px;box-shadow:var(--shadow);cursor:pointer}
+    .mini-card .h{font-size:18px;font-weight:800;color:#0f172a}
+    .mini-card .p{margin-top:6px;color:#475569;font-size:14px}
+    .pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+    .pager button,.smallBtn{border:none;background:#e5e7eb;padding:10px 14px;border-radius:14px;font-weight:800}
+    .smallBtn.danger{background:#fecaca}
+    .rowActions{display:flex;gap:8px;margin-top:10px}
+    .muted{color:#64748b;font-size:13px}
+    .hidden{display:none}
+    .status{margin-top:12px;padding:12px 14px;border-radius:16px;background:#eef4ff;color:#1e3a8a;font-size:14px;white-space:pre-wrap}
+    @media print {
+      .tabs,.btn,.pager,.rowActions{display:none!important}
+      .app{max-width:none}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <div class="hero">
+      <h1>MAJEED FOODS PVT LTD - BAHAWALPUR</h1>
+      <div class="sub1">Electrical & Automation Maintenance System</div>
+      <div class="sub2">GitHub Pages + Firebase Realtime Database</div>
+    </div>
 
-<div class="sidebar">
-  <button onclick="showSection('dashboard')">Dashboard</button>
-  <button onclick="showSection('breakdown')">Breakdown</button>
-  <button onclick="showSection('pm')">PM</button>
-  <button onclick="showSection('equipment')">Equipment</button>
-  <button onclick="showSection('spares')">Spares</button>
-</div>
+    <div class="wrap">
+      <div class="tabs">
+        <button class="tab active" onclick="showScreen('login')">Login</button>
+        <button class="tab" onclick="showScreen('dashboard')">Dash</button>
+        <button class="tab" onclick="showScreen('breakdown')">Fault</button>
+        <button class="tab" onclick="showScreen('sections')">Plant</button>
+        <button class="tab" onclick="showScreen('register')">Equip</button>
+        <button class="tab" onclick="showScreen('notifications')">Alert</button>
+        <button class="tab" onclick="showScreen('tools')">Tools</button>
+      </div>
 
-<div class="content">
+      <section id="login" class="screen">
+        <div class="card">
+          <h2 class="title">Login / Create Account</h2>
+          <div class="field"><label>Name</label><input id="name" class="input" placeholder="Adnan / Ahmed / Boss" /></div>
+          <div class="field"><label>Email</label><input id="email" class="input" type="email" placeholder="name@email.com" /></div>
+          <div class="field"><label>Password</label><input id="password" class="input" type="password" placeholder="minimum 6 characters" /></div>
+          <div class="field"><label>Role</label>
+            <select id="role" class="select">
+              <option>Engineer</option>
+              <option>Supervisor</option>
+              <option>COO</option>
+            </select>
+          </div>
+          <button class="btn btn-purple" onclick="createAccount()">Create Account</button>
+          <button class="btn btn-purple" onclick="loginUser()">Login</button>
+          <button class="btn btn-red" onclick="logoutUser()">Logout</button>
+          <div id="userBox" class="note">Not logged in.</div>
+          <div id="status" class="status">Ready</div>
+        </div>
+      </section>
 
-<div id="dashboard" class="section active">
-  <h2>Dashboard</h2>
-</div>
+      <section id="dashboard" class="screen hidden">
+        <div class="card">
+          <h2 class="title">Dashboard Summary</h2>
+          <div class="grid2">
+            <button class="color-card blue" onclick="openFaultFilter('all')"><div class="big">Open Faults</div><div class="small" id="openCount">0</div></button>
+            <button class="color-card green" onclick="showScreen('register')"><div class="big">Equipment</div><div class="small" id="equipmentCount">0</div></button>
+            <button class="color-card orange" onclick="openFaultFilter('critical')"><div class="big">Critical</div><div class="small">Major issues</div></button>
+            <button class="color-card rose" onclick="showScreen('sections')"><div class="big">Sections</div><div class="small">Cleaning · Milling · Packing</div></button>
+          </div>
+        </div>
 
-<div id="breakdown" class="section">
-  <h2>Breakdown</h2>
-  <div id="breakdownList"></div>
-  <div class="pagination">
-    <button onclick="prevPage('breakdown')">Previous</button>
-    <button onclick="nextPage('breakdown')">Next</button>
+        <div class="card">
+          <h2 class="title">Quick Access</h2>
+          <div class="grid2">
+            <button class="color-card purple" onclick="showScreen('login')"><div class="big">Login</div><div class="small">Account screen</div></button>
+            <button class="color-card cyan" onclick="showScreen('breakdown')"><div class="big">Breakdown</div><div class="small">Add new fault</div></button>
+            <button class="color-card slate" onclick="showScreen('sections')"><div class="big">Plant Sections</div><div class="small">Open all sections</div></button>
+            <button class="color-card green" onclick="showScreen('tools')"><div class="big">Import / Export</div><div class="small">Print, PDF, delete</div></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="breakdown" class="screen hidden">
+        <div class="card">
+          <h2 class="title">New Breakdown</h2>
+          <div class="field"><label>Date</label><input id="bDate" class="input" type="date" /></div>
+          <div class="field"><label>Area</label><select id="bArea" class="select" onchange="updateBreakdownEquipment()"></select></div>
+          <div class="field"><label>Equipment Name</label><select id="bEquipment" class="select"></select></div>
+          <div class="field"><label>Equipment Type</label><select id="bType" class="select"></select></div>
+          <div class="field"><label>Fault Type</label><select id="bFaultType" class="select"></select></div>
+          <div class="field"><label>Fault Code</label><input id="bCode" class="input" placeholder="F0002 / COMM FAULT / VCB Trip" /></div>
+          <div class="field"><label>Problem Description</label><textarea id="bDesc" class="textarea" placeholder="Fault details, symptoms, trip reason, observations"></textarea></div>
+          <button class="btn btn-purple" onclick="saveBreakdown()">Save Breakdown</button>
+        </div>
+
+        <div class="card">
+          <h2 class="title">Saved Breakdowns</h2>
+          <div id="faultList" class="list"></div>
+          <div class="pager">
+            <button onclick="prevFaultPage()">Previous</button>
+            <span class="muted" id="faultPageInfo">Page 1</span>
+            <button onclick="nextFaultPage()">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="sections" class="screen hidden">
+        <div class="card">
+          <h2 class="title">Plant Sections</h2>
+          <div class="grid2">
+            <button class="color-card blue" onclick="openSection('Cleaning')"><div class="big">Cleaning</div><div class="small">Dampening, gates, sensors, colour sort machine</div></button>
+            <button class="color-card purple" onclick="openSection('Milling')"><div class="big">Milling</div><div class="small">Auto scale, plansifters, purifier, roller mill machines, conveyors</div></button>
+            <button class="color-card green" onclick="openSection('Packing')"><div class="big">Packing</div><div class="small">Packing machines, panels, electronics cards, VFDs</div></button>
+            <button class="color-card orange" onclick="openSection('Utility')"><div class="big">Utility</div><div class="small">Compressors, dryer, transformer</div></button>
+            <button class="color-card cyan" onclick="openSection('Control Room')"><div class="big">Control Room</div><div class="small">PLC panels, MCC panels, CPU, IO modules, relays, VFDs</div></button>
+            <button class="color-card rose" onclick="openSection('Robotic')"><div class="big">Robotic</div><div class="small">ABB IRB460, IRC5</div></button>
+            <button class="color-card slate" onclick="openSection('Drying System')"><div class="big">Drying System</div><div class="small">PLC Panel, MCC Panel, Boiler</div></button>
+            <button class="color-card blue" onclick="openSection('Elevators')"><div class="big">Elevators</div><div class="small">Passenger elevator, cargo elevator</div></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="register" class="screen hidden">
+        <div class="card">
+          <h2 class="title">Equipment Register</h2>
+          <div class="note helper">Flexible register: if any plant equipment is missing, you can add it later from this screen so nothing in your plant stays missed.</div>
+          <div class="field"><label>Section</label><select id="rSection" class="select"></select></div>
+          <div class="field"><label>Equipment Name</label><input id="rName" class="input" placeholder="ABB IRB460 / Air Compressor / Roller Mill" /></div>
+          <div class="field"><label>Equipment Type</label><select id="rType" class="select"></select></div>
+          <div class="field"><label>Tag / Code</label><input id="rCode" class="input" placeholder="RBT-001 / UTL-001 / MIL-001" /></div>
+          <button class="btn btn-green" onclick="saveEquipment()">Save Equipment</button>
+        </div>
+
+        <div class="card">
+          <h2 class="title">Registered Equipment</h2>
+          <div id="equipmentList" class="list"></div>
+          <div class="pager">
+            <button onclick="prevEquipmentPage()">Previous</button>
+            <span class="muted" id="equipmentPageInfo">Page 1</span>
+            <button onclick="nextEquipmentPage()">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="notifications" class="screen hidden">
+        <div class="card">
+          <h2 class="title">Notifications</h2>
+          <div id="notificationList" class="list"></div>
+        </div>
+      </section>
+
+      <section id="tools" class="screen hidden">
+        <div class="card">
+          <h2 class="title">Data Import / Export / Print</h2>
+          <div class="note helper">Use these options for weekly history, monthly history, maintenance records, printing, PDF sharing, backup import/export.</div>
+          <button class="btn btn-purple" onclick="window.print()">Print Weekly History</button>
+          <button class="btn btn-purple" onclick="window.print()">Print Monthly History</button>
+          <button class="btn btn-teal" onclick="window.print()">Print Maintenance Record</button>
+          <button class="btn btn-teal" onclick="alert('Use browser share or Print > Save as PDF.')">Share PDF</button>
+          <button class="btn btn-green" onclick="alert('Import template can be added in next version.')">Import Data</button>
+          <button class="btn btn-green" onclick="alert('Export can be added in next version.')">Export Data</button>
+        </div>
+      </section>
+    </div>
   </div>
-</div>
-
-<div id="pm" class="section">
-  <h2>PM</h2>
-  <div id="pmList"></div>
-  <div class="pagination">
-    <button onclick="prevPage('pm')">Previous</button>
-    <button onclick="nextPage('pm')">Next</button>
-  </div>
-</div>
-
-<div id="equipment" class="section">
-  <h2>Equipment</h2>
-  <div id="equipmentList"></div>
-  <div class="pagination">
-    <button onclick="prevPage('equipment')">Previous</button>
-    <button onclick="nextPage('equipment')">Next</button>
-  </div>
-</div>
-
-<div id="spares" class="section">
-  <h2>Spares</h2>
-  <div id="spareList"></div>
-  <div class="pagination">
-    <button onclick="prevPage('spares')">Previous</button>
-    <button onclick="nextPage('spares')">Next</button>
-  </div>
-</div>
-
-</div>
 
 <script>
-function showSection(id){
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-</script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBo7D3l-RTAzgXjj2jmqW9rpQIyzAd5Zy0",
+  authDomain: "majeed-foods-maintenance.firebaseapp.com",
+  databaseURL: "https://majeed-foods-maintenance-default-rtdb.firebaseio.com/",
+  projectId: "majeed-foods-maintenance",
+  storageBucket: "majeed-foods-maintenance.firebasestorage.app",
+  messagingSenderId: "690395805727",
+  appId: "1:690395805727:web:84372f4710c54997a6bd2a",
+  measurementId: "G-J5C4VJD6H4"
+};
 
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+const sectionMap = {
+  "Cleaning": [
+    "Dampening Device","Sliding Gate","Low Level Sensor","High Level Sensor",
+    "Material Elevator Motor","Material Elevator Head Anti Blocking Sensor",
+    "Material Elevator Deviation Sensor","Colour Sort Machine"
+  ],
+  "Milling": ["Auto Scale","Plansifter","Purifier","Roller Mill Machines","Conveyors"],
+  "Packing": ["Packing Machine","Packing Conveyor","Weight Checker","Packing Machine Panel","Packing Machine Electronics Cards","Packing Machine VFD"],
+  "Utility": ["Air Compressor 01","Air Compressor 02","Air Dryer","Transformer 01","VCB Panel 01"],
+  "Control Room": ["PLC Panel 01","PLC CPU","IO Modules","PLC Relays","MCC Panel 01","Motor Protection Breakers","Magnet Contactors","Control Relays","VFDs"],
+  "Robotic": ["ABB IRB460 Robotic Arm","FlexPendant","IRC5 Controller","Palletizer PLC Panel","Palletizer Conveyor"],
+  "Drying System": ["Drying PLC Panel","Drying MCC Panel","Boiler"],
+  "Elevators": ["Passenger Elevator","Cargo Elevator"]
+};
+
+const equipmentTypes = ["PLC Panel","Motor","Sensor","Machine","Conveyor","Compressor","Transformer","Robot","Boiler","MCC Panel"];
+const faultTypes = ["Electrical","Mechanical","Communication","Trip","Overload","Deviation Sensor Fault","Anti Blocking Fault"];
+
+let currentScreen = "login";
+let currentUser = null;
+let notifications = [
+  { id:"n1", text:"PM due today for Transformer 01" },
+  { id:"n2", text:"Packing Machine VFD temperature alert" },
+  { id:"n3", text:"Control Room PLC IO module check required" }
+];
+let allFaults = [];
+let allEquipment = [];
+let faultPage = 1;
+let equipmentPage = 1;
+let faultFilter = "all";
+const pageSize = 5;
+
+function setStatus(msg){ document.getElementById("status").innerText = msg; }
+
+function showScreen(id){
+  currentScreen = id;
+  document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  const map = {login:0,dashboard:1,breakdown:2,sections:3,register:4,notifications:5,tools:6};
+  document.querySelectorAll(".tab")[map[id]].classList.add("active");
+  renderAll();
+}
+
+function paginate(list, page){
+  const totalPages = Math.max(1, Math.ceil(list.length / pageSize));
+  const safePage = Math.min(Math.max(1, page), totalPages);
+  return { rows:list.slice((safePage-1)*pageSize, safePage*pageSize), page:safePage, totalPages };
+}
+
+function getFilteredFaults(){
+  if (faultFilter === "critical") return allFaults.filter(x => ["Trip","Anti Blocking Fault"].includes(x.faultType));
+  if (faultFilter.startsWith("section:")) return allFaults.filter(x => x.area === faultFilter.split(":")[1]);
+  return allFaults;
+}
+
+function updateBreakdownEquipment(){
+  const area = document.getElementById("bArea").value;
+  const select = document.getElementById("bEquipment");
+  select.innerHTML = "";
+  (sectionMap[area] || []).forEach(x => {
+    const op = document.createElement("option");
+    op.value = x; op.textContent = x;
+    select.appendChild(op);
+  });
+}
+
+function openSection(area){
+  faultFilter = "section:" + area;
+  faultPage = 1;
+  showScreen("breakdown");
+}
+
+function openFaultFilter(mode){
+  faultFilter = mode;
+  faultPage = 1;
+  showScreen("breakdown");
+}
+
+function prevFaultPage(){ faultPage--; renderFaults(); }
+function nextFaultPage(){ faultPage++; renderFaults(); }
+function prevEquipmentPage(){ equipmentPage--; renderEquipment(); }
+function nextEquipmentPage(){ equipmentPage++; renderEquipment(); }
+
+function renderFaults(){
+  const filtered = getFilteredFaults();
+  const pg = paginate(filtered, faultPage);
+  faultPage = pg.page;
+  const root = document.getElementById("faultList");
+  root.innerHTML = "";
+  if (!pg.rows.length) {
+    root.innerHTML = '<div class="note">No records found.</div>';
+  } else {
+    pg.rows.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "mini-card";
+      card.innerHTML = `
+        <div class="h">${item.equipmentName || "-"}</div>
+        <div class="p">${item.area || "-"} · ${item.faultCode || item.faultType || "-"}</div>
+        <div class="p">${item.date || "-"}</div>
+        <div class="rowActions">
+          <button class="smallBtn" onclick="alert(${JSON.stringify("DESC_PLACEHOLDER")}.replace('DESC_PLACEHOLDER', ${JSON.stringify(item.description || "No description")}))">Open</button>
+          <button class="smallBtn danger" onclick="deleteFault('${item.id}')">Delete</button>
+        </div>
+      `;
+      root.appendChild(card);
+    });
+  }
+  document.getElementById("faultPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
+  document.getElementById("openCount").innerText = allFaults.filter(x => x.status === "Open" || x.status === "In Progress").length;
+}
+
+function renderEquipment(){
+  const pg = paginate(allEquipment, equipmentPage);
+  equipmentPage = pg.page;
+  const root = document.getElementById("equipmentList");
+  root.innerHTML = "";
+  if (!pg.rows.length) {
+    root.innerHTML = '<div class="note">No equipment added yet.</div>';
+  } else {
+    pg.rows.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "mini-card";
+      card.innerHTML = `
+        <div class="h">${item.name || "-"}</div>
+        <div class="p">${item.section || "-"} · ${item.type || "-"}</div>
+        <div class="p">${item.code || "-"}</div>
+        <div class="rowActions">
+          <button class="smallBtn" onclick="alert('${(item.name || "").replace(/'/g,"")} | ${(item.code || "").replace(/'/g,"")}')">Open</button>
+          <button class="smallBtn danger" onclick="deleteEquipment('${item.id}')">Delete</button>
+        </div>
+      `;
+      root.appendChild(card);
+    });
+  }
+  document.getElementById("equipmentPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
+  document.getElementById("equipmentCount").innerText = allEquipment.length;
+}
+
+function renderNotifications(){
+  const root = document.getElementById("notificationList");
+  root.innerHTML = "";
+  if (!notifications.length) {
+    root.innerHTML = '<div class="note">No notifications.</div>';
+  } else {
+    notifications.forEach(item => {
+      const card = document.createElement("button");
+      card.className = "mini-card";
+      card.innerHTML = `<div class="h">Alert</div><div class="p">${item.text}</div>`;
+      card.onclick = () => {
+        notifications = notifications.filter(x => x.id !== item.id);
+        renderNotifications();
+      };
+      root.appendChild(card);
+    });
+  }
+}
+
+function renderAll(){
+  renderFaults();
+  renderEquipment();
+  renderNotifications();
+}
+
+function seedSelects(){
+  const bArea = document.getElementById("bArea");
+  const rSection = document.getElementById("rSection");
+  const bType = document.getElementById("bType");
+  const rType = document.getElementById("rType");
+  const bFaultType = document.getElementById("bFaultType");
+  bArea.innerHTML = ""; rSection.innerHTML = ""; bType.innerHTML = ""; rType.innerHTML = ""; bFaultType.innerHTML = "";
+  Object.keys(sectionMap).forEach(x => {
+    const op1 = document.createElement("option"); op1.value=x; op1.textContent=x; bArea.appendChild(op1);
+    const op2 = document.createElement("option"); op2.value=x; op2.textContent=x; rSection.appendChild(op2);
+  });
+  equipmentTypes.forEach(x => {
+    const op1 = document.createElement("option"); op1.value=x; op1.textContent=x; bType.appendChild(op1);
+    const op2 = document.createElement("option"); op2.value=x; op2.textContent=x; rType.appendChild(op2);
+  });
+  faultTypes.forEach(x => {
+    const op = document.createElement("option"); op.value=x; op.textContent=x; bFaultType.appendChild(op);
+  });
+  document.getElementById("bDate").value = new Date().toISOString().slice(0,10);
+  updateBreakdownEquipment();
+}
+
+function createAccount(){
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const role = document.getElementById("role").value;
+  if (!email || !password) return setStatus("Email aur password likhein.");
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((cred) => {
+      currentUser = cred.user;
+      db.ref("users/" + cred.user.uid).set({
+        name, email, role, createdAt: new Date().toISOString()
+      });
+      setStatus("Account created successfully.");
+      showScreen("dashboard");
+    })
+    .catch((err) => {
+      if (err.code === "auth/email-already-in-use") setStatus("Account already exists. Login karo.");
+      else setStatus("Signup error: " + err.message);
+    });
+}
+
+function loginUser(){
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  if (!email || !password) return setStatus("Email aur password likhein.");
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      setStatus("Login successful.");
+      showScreen("dashboard");
+    })
+    .catch((err) => setStatus("Login error: " + err.message));
+}
+
+function logoutUser(){
+  auth.signOut().then(() => setStatus("Logged out.")).catch((err) => setStatus("Logout error: " + err.message));
+}
+
+function saveBreakdown(){
+  if (!currentUser) return setStatus("Pehle login karo.");
+  const item = {
+    date: document.getElementById("bDate").value,
+    area: document.getElementById("bArea").value,
+    equipmentName: document.getElementById("bEquipment").value,
+    equipmentType: document.getElementById("bType").value,
+    faultType: document.getElementById("bFaultType").value,
+    faultCode: document.getElementById("bCode").value,
+    description: document.getElementById("bDesc").value,
+    status: "Open",
+    createdAt: Date.now(),
+    createdBy: currentUser.email
+  };
+  db.ref("faults").push(item)
+    .then(() => {
+      notifications.unshift({ id: String(Date.now()), text: item.equipmentName + " fault added in " + item.area });
+      document.getElementById("bCode").value = "";
+      document.getElementById("bDesc").value = "";
+      setStatus("Fault saved successfully.");
+      showScreen("breakdown");
+    })
+    .catch((err) => setStatus("Save error: " + err.message));
+}
+
+function saveEquipment(){
+  if (!currentUser) return setStatus("Pehle login karo.");
+  const item = {
+    section: document.getElementById("rSection").value,
+    name: document.getElementById("rName").value || "New Equipment",
+    type: document.getElementById("rType").value,
+    code: document.getElementById("rCode").value || "AUTO-CODE",
+    createdAt: Date.now(),
+    createdBy: currentUser.email
+  };
+  db.ref("equipment").push(item)
+    .then(() => {
+      notifications.unshift({ id: String(Date.now()), text: item.name + " added in equipment register" });
+      document.getElementById("rName").value = "";
+      document.getElementById("rCode").value = "";
+      setStatus("Equipment saved successfully.");
+      showScreen("register");
+    })
+    .catch((err) => setStatus("Equipment save error: " + err.message));
+}
+
+function deleteFault(id){
+  db.ref("faults/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
+}
+
+function deleteEquipment(id){
+  db.ref("equipment/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
+}
+
+auth.onAuthStateChanged((user) => {
+  currentUser = user || null;
+  document.getElementById("userBox").innerText = user ? ("Logged in: " + user.email) : "Not logged in.";
+});
+
+db.ref("faults").on("value", (snap) => {
+  allFaults = [];
+  snap.forEach((child) => allFaults.unshift({ id: child.key, ...child.val() }));
+  renderFaults();
+}, (err) => setStatus("Read error (faults): " + err.message));
+
+db.ref("equipment").on("value", (snap) => {
+  allEquipment = [];
+  snap.forEach((child) => allEquipment.unshift({ id: child.key, ...child.val() }));
+  renderEquipment();
+}, (err) => setStatus("Read error (equipment): " + err.message));
+
+seedSelects();
+renderAll();
+</script>
 </body>
 </html>
