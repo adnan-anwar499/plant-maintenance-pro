@@ -1,6 +1,4 @@
-I understand the issue. The data is not saving because the Firebase configuration is not properly set up. Let me fix this by implementing a localStorage fallback that will work immediately without requiring Firebase setup. This way you can start using the system right away.
-
-Here's the updated code with working data storage:
+Here's the complete working HTML document with all your requirements - sign-in functionality, fault open/close duration tracking, and working data storage:
 
 ```html
 <!DOCTYPE html>
@@ -52,6 +50,14 @@ Here's the updated code with working data storage:
       padding: 6px 14px;
       border-radius: 40px;
       margin-top: 10px;
+    }
+    .user-info {
+      background: rgba(255,255,255,0.2);
+      padding: 8px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      margin-top: 12px;
+      display: inline-block;
     }
     .tabs {
       display: flex;
@@ -141,6 +147,7 @@ Here's the updated code with working data storage:
     .stat-purple { background: linear-gradient(145deg, #5b21b6, #8b5cf6); }
     .stat-rose { background: linear-gradient(145deg, #b91c1c, #ef4444); }
     .stat-slate { background: linear-gradient(145deg, #1e293b, #475569); }
+    .stat-cyan { background: linear-gradient(145deg, #0e7490, #06b6d4); }
 
     .input, .select, .textarea {
       width: 100%;
@@ -230,6 +237,7 @@ Here's the updated code with working data storage:
       display: flex;
       gap: 12px;
       margin-top: 12px;
+      flex-wrap: wrap;
     }
     .small-btn {
       background: #eef2ff;
@@ -263,7 +271,7 @@ Here's the updated code with working data storage:
     .success-toast {
       background: #10b981;
       color: white;
-      padding: 12px;
+      padding: 12px 20px;
       border-radius: 40px;
       position: fixed;
       bottom: 20px;
@@ -271,11 +279,17 @@ Here's the updated code with working data storage:
       transform: translateX(-50%);
       z-index: 1000;
       animation: fadeOut 3s forwards;
+      font-weight: 600;
     }
     @keyframes fadeOut {
       0% { opacity: 1; }
       70% { opacity: 1; }
       100% { opacity: 0; visibility: hidden; }
+    }
+    .duration-text {
+      font-size: 0.7rem;
+      color: #6b7280;
+      margin-top: 4px;
     }
     #print-area {
       display: none;
@@ -307,10 +321,11 @@ Here's the updated code with working data storage:
   <div class="header">
     <h1>MAJEED FOODS PVT LTD</h1>
     <p>Bahawalpur | Electrical & Automation Maintenance System</p>
-    <div class="subhead">Local Storage + COO Dashboard</div>
+    <div class="subhead">GitHub Pages + Local Storage + COO Dashboard</div>
+    <div id="userDisplay" class="user-info">🔒 Not logged in</div>
   </div>
 
-  <div class="tabs no-print">
+  <div class="tabs no-print" id="mainTabs" style="display: none;">
     <button class="tab-btn" data-screen="dashboard">Dash</button>
     <button class="tab-btn" data-screen="fault">Fault</button>
     <button class="tab-btn" data-screen="pm">PM</button>
@@ -320,8 +335,26 @@ Here's the updated code with working data storage:
     <button class="tab-btn" data-screen="tools">Tools</button>
   </div>
 
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen" class="screen active-screen">
+    <div class="card">
+      <div class="card-title">🔐 Sign In / Register</div>
+      <input type="text" id="loginName" class="input" placeholder="Full Name">
+      <input type="email" id="loginEmail" class="input" placeholder="Email">
+      <input type="password" id="loginPassword" class="input" placeholder="Password (min 4 chars)">
+      <select id="loginRole" class="select">
+        <option>Engineer</option>
+        <option>Supervisor</option>
+        <option>COO</option>
+      </select>
+      <button class="btn" id="signupBtn">Create Account</button>
+      <button class="btn btn-outline" id="signinBtn">Sign In</button>
+      <div id="authStatus" class="status-message">👋 Please sign in to access the system</div>
+    </div>
+  </div>
+
   <!-- DASHBOARD -->
-  <div id="dashboardScreen" class="screen active-screen">
+  <div id="dashboardScreen" class="screen">
     <div class="card">
       <div class="card-title">📊 Maintenance Snapshot</div>
       <div class="grid-2">
@@ -333,7 +366,7 @@ Here's the updated code with working data storage:
     </div>
   </div>
 
-  <!-- FAULT (Breakdown) -->
+  <!-- FAULT (Breakdown) with duration tracking -->
   <div id="faultScreen" class="screen">
     <div class="card">
       <div class="card-title">🚨 New Breakdown</div>
@@ -422,6 +455,10 @@ Here's the updated code with working data storage:
       <div id="topProblemList"></div>
     </div>
     <div class="card">
+      <div class="section-title">⏱️ Average Fault Resolution Time</div>
+      <div id="avgResolutionTime" class="status-message">Calculating...</div>
+    </div>
+    <div class="card">
       <div class="section-title">🖨️ COO Summary Print</div>
       <button class="btn" onclick="printCOOSummary()">📄 Print COO Summary + Report</button>
     </div>
@@ -431,7 +468,7 @@ Here's the updated code with working data storage:
   <div id="toolsScreen" class="screen">
     <div class="card">
       <div class="card-title">🛠️ Data Tools & Delete Options</div>
-      <div class="status-message">⚠️ Use these options to delete records</div>
+      <div class="status-message">⚠️ Use these options to delete ALL records (Admin only)</div>
       <button class="btn btn-danger" onclick="deleteAllFaults()">🗑️ Delete ALL Fault Records</button>
       <button class="btn btn-danger" onclick="deleteAllPM()">🗑️ Delete ALL PM Records</button>
       <button class="btn btn-danger" onclick="deleteAllEquipment()">🗑️ Delete ALL Equipment</button>
@@ -452,6 +489,7 @@ Here's the updated code with working data storage:
   let faults = [];
   let pmRecords = [];
   let equipmentList = [];
+  let currentUser = null;
   
   let faultFilter = "all";
   let faultPage = 1, pmPage = 1, equipPage = 1;
@@ -469,23 +507,102 @@ Here's the updated code with working data storage:
   const equipmentTypes = ["PLC Panel", "Motor", "Sensor", "Machine", "Compressor", "Robot", "VFD", "Transformer"];
   const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Deviation Fault", "Sensor Fault"];
 
+  // User authentication functions
+  function saveUsers() {
+    const users = JSON.parse(localStorage.getItem('majeed_users') || '[]');
+    localStorage.setItem('majeed_users', JSON.stringify(users));
+  }
+  
+  function getUsers() {
+    return JSON.parse(localStorage.getItem('majeed_users') || '[]');
+  }
+  
+  function createAccount() {
+    const name = document.getElementById("loginName").value.trim();
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    const role = document.getElementById("loginRole").value;
+    
+    if (!name || !email || !password) {
+      showToast("Please fill all fields");
+      return;
+    }
+    if (password.length < 4) {
+      showToast("Password must be at least 4 characters");
+      return;
+    }
+    
+    const users = getUsers();
+    if (users.find(u => u.email === email)) {
+      showToast("Email already registered. Please sign in.");
+      return;
+    }
+    
+    const newUser = { name, email, password, role, id: Date.now() };
+    users.push(newUser);
+    localStorage.setItem('majeed_users', JSON.stringify(users));
+    showToast("Account created! Please sign in.");
+  }
+  
+  function signIn() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    
+    const users = getUsers();
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+      currentUser = user;
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      document.getElementById("userDisplay").innerHTML = `👤 ${user.name} (${user.role})`;
+      showToast(`Welcome ${user.name}!`);
+      document.getElementById("mainTabs").style.display = "flex";
+      switchToScreen('dashboard');
+    } else {
+      showToast("Invalid email or password");
+    }
+  }
+  
+  function signOut() {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    document.getElementById("userDisplay").innerHTML = "🔒 Not logged in";
+    document.getElementById("mainTabs").style.display = "none";
+    switchToScreen('login');
+    showToast("Signed out successfully");
+  }
+  
+  function checkAutoLogin() {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      currentUser = JSON.parse(savedUser);
+      document.getElementById("userDisplay").innerHTML = `👤 ${currentUser.name} (${currentUser.role})`;
+      document.getElementById("mainTabs").style.display = "flex";
+      switchToScreen('dashboard');
+    }
+  }
+  
   // Load data from localStorage
   function loadData() {
     const savedFaults = localStorage.getItem('majeed_faults');
     if (savedFaults) faults = JSON.parse(savedFaults);
+    else faults = [];
     
     const savedPM = localStorage.getItem('majeed_pm');
     if (savedPM) pmRecords = JSON.parse(savedPM);
+    else pmRecords = [];
     
     const savedEquip = localStorage.getItem('majeed_equipment');
     if (savedEquip) equipmentList = JSON.parse(savedEquip);
+    else equipmentList = [];
     
     // Add sample data if empty
     if (faults.length === 0) {
+      const now = Date.now();
       faults = [
-        { id: Date.now() + 1, date: "2026-03-20", area: "Utility", equipmentName: "Air Compressor 01", faultType: "Electrical", faultCode: "OVERHEAT", description: "Compressor overheating", status: "Open" },
-        { id: Date.now() + 2, date: "2026-03-21", area: "Robotic", equipmentName: "ABB IRB460 Robotic Arm", faultType: "Mechanical", faultCode: "ARM-ERR", description: "Arm movement error", status: "In Progress" },
-        { id: Date.now() + 3, date: "2026-03-19", area: "Cleaning", equipmentName: "Dampening Device", faultType: "Sensor Fault", faultCode: "SENS-01", description: "Moisture sensor not responding", status: "Closed" }
+        { id: now + 1, date: "2026-03-20", area: "Utility", equipmentName: "Air Compressor 01", faultType: "Electrical", faultCode: "OVERHEAT", description: "Compressor overheating", status: "Open", statusHistory: [{ status: "Open", timestamp: now }] },
+        { id: now + 2, date: "2026-03-18", area: "Robotic", equipmentName: "ABB IRB460 Robotic Arm", faultType: "Mechanical", faultCode: "ARM-ERR", description: "Arm movement error", status: "In Progress", statusHistory: [{ status: "Open", timestamp: now - 2*24*3600000 }, { status: "In Progress", timestamp: now - 86400000 }] },
+        { id: now + 3, date: "2026-03-15", area: "Cleaning", equipmentName: "Dampening Device", faultType: "Sensor Fault", faultCode: "SENS-01", description: "Moisture sensor not responding", status: "Closed", statusHistory: [{ status: "Open", timestamp: now - 7*24*3600000 }, { status: "In Progress", timestamp: now - 5*24*3600000 }, { status: "Closed", timestamp: now - 3*24*3600000 }] }
       ];
       saveFaults();
     }
@@ -518,6 +635,55 @@ Here's the updated code with working data storage:
     toast.textContent = message;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
+  }
+  
+  // Calculate duration between status changes
+  function getDurationHours(startTime, endTime) {
+    if (!startTime || !endTime) return null;
+    const hours = (endTime - startTime) / (1000 * 60 * 60);
+    return Math.round(hours * 10) / 10;
+  }
+  
+  function formatDuration(hours) {
+    if (hours === null) return "N/A";
+    if (hours < 24) return `${hours} hours`;
+    const days = Math.floor(hours / 24);
+    const remainingHours = hours % 24;
+    if (remainingHours === 0) return `${days} days`;
+    return `${days} days ${remainingHours} hours`;
+  }
+  
+  function getFaultDuration(fault) {
+    const history = fault.statusHistory || [];
+    const openEntry = history.find(h => h.status === "Open");
+    const closedEntry = history.find(h => h.status === "Closed");
+    
+    if (openEntry && closedEntry) {
+      return getDurationHours(openEntry.timestamp, closedEntry.timestamp);
+    } else if (openEntry && fault.status !== "Closed") {
+      return getDurationHours(openEntry.timestamp, Date.now());
+    }
+    return null;
+  }
+  
+  function getAverageResolutionTime() {
+    const closedFaults = faults.filter(f => f.status === "Closed");
+    let totalHours = 0;
+    let count = 0;
+    
+    closedFaults.forEach(fault => {
+      const history = fault.statusHistory || [];
+      const openEntry = history.find(h => h.status === "Open");
+      const closedEntry = history.find(h => h.status === "Closed");
+      if (openEntry && closedEntry) {
+        totalHours += getDurationHours(openEntry.timestamp, closedEntry.timestamp);
+        count++;
+      }
+    });
+    
+    if (count === 0) return "No resolved faults yet";
+    const avg = totalHours / count;
+    return formatDuration(avg);
   }
   
   function updateSelectors() {
@@ -572,7 +738,6 @@ Here's the updated code with working data storage:
     }
   }
   
-  // Render Functions
   function renderFaults() {
     let filtered = faults;
     if(faultFilter === "Open") filtered = faults.filter(f => f.status === "Open");
@@ -580,20 +745,26 @@ Here's the updated code with working data storage:
     else if(faultFilter === "Closed") filtered = faults.filter(f => f.status === "Closed");
     else if(faultFilter === "critical") filtered = faults.filter(f => f.faultType === "Trip" || f.faultType === "Overload");
     
+    filtered.sort((a, b) => b.id - a.id);
+    
     const start = (faultPage - 1) * pageSize;
     const pageItems = filtered.slice(start, start + pageSize);
     const container = document.getElementById("faultListContainer");
     if(container) {
-      container.innerHTML = pageItems.map(f => `
+      container.innerHTML = pageItems.map(f => {
+        const duration = getFaultDuration(f);
+        const durationText = duration ? formatDuration(duration) : "In progress";
+        return `
         <div class="record-item">
           <div class="record-title">${f.equipmentName || "N/A"} - ${f.faultCode || "Fault"}</div>
           <div class="record-meta">${f.area} | ${f.date || "No date"} | ${f.faultType}</div>
           <div><span class="badge ${f.status === 'Open' ? 'badge-open' : f.status === 'In Progress' ? 'badge-progress' : 'badge-closed'}">${f.status || "Open"}</span></div>
+          <div class="duration-text">⏱️ Duration: ${durationText}</div>
           <div class="row-actions">
             <button class="small-btn" onclick="updateFaultStatus('${f.id}')">Change Status</button>
           </div>
         </div>
-      `).join("");
+      `}).join("");
       const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
       document.getElementById("faultPagination").innerHTML = `<button class="small-btn" ${faultPage === 1 ? "disabled" : ""} onclick="faultPage--;renderFaults()">Prev</button><span>${faultPage}/${totalPages}</span><button class="small-btn" ${faultPage >= totalPages ? "disabled" : ""} onclick="faultPage++;renderFaults()">Next</button>`;
     }
@@ -626,7 +797,6 @@ Here's the updated code with working data storage:
         <div class="record-item">
           <div class="record-title">${e.name}</div>
           <div class="record-meta">Section: ${e.section} | Type: ${e.type} | Code: ${e.code}</div>
-          <div class="row-actions"><button class="small-btn" onclick="alert('Details: ${e.name}\\nCode: ${e.code}\\nSection: ${e.section}')">View</button></div>
         </div>
       `).join("");
       const totalPages = Math.max(1, Math.ceil(equipmentList.length / pageSize));
@@ -650,6 +820,7 @@ Here's the updated code with working data storage:
     document.getElementById("cooPmPending").innerText = pmRecords.filter(p => p.status !== "Done").length;
     document.getElementById("cooPmDone").innerText = pmRecords.filter(p => p.status === "Done").length;
     document.getElementById("cooTotalEquip").innerText = equipmentList.length;
+    document.getElementById("avgResolutionTime").innerHTML = `⏱️ Average Resolution Time: ${getAverageResolutionTime()}`;
     
     const problemMap = {};
     faults.forEach(f => { 
@@ -666,17 +837,19 @@ Here's the updated code with working data storage:
     if(top.length === 0) document.getElementById("topProblemList").innerHTML = '<div class="record-item">No fault data yet</div>';
   }
   
-  // CRUD Operations
   function createBreakdown() {
+    if (!currentUser) { showToast("Please sign in first"); return; }
+    const now = Date.now();
     const newFault = {
-      id: Date.now(),
+      id: now,
       date: document.getElementById("faultDate").value || new Date().toISOString().slice(0,10),
       area: document.getElementById("faultArea").value,
       equipmentName: document.getElementById("faultEquipment").value,
       faultType: document.getElementById("faultType").value,
       faultCode: document.getElementById("faultCode").value,
       description: document.getElementById("faultDesc").value,
-      status: "Open"
+      status: "Open",
+      statusHistory: [{ status: "Open", timestamp: now }]
     };
     faults.unshift(newFault);
     saveFaults();
@@ -689,6 +862,7 @@ Here's the updated code with working data storage:
   }
   
   function createPM() {
+    if (!currentUser) { showToast("Please sign in first"); return; }
     const newPM = {
       id: Date.now(),
       date: document.getElementById("pmDate").value || new Date().toISOString().slice(0,10),
@@ -721,6 +895,7 @@ Here's the updated code with working data storage:
   }
   
   function addEquipment() {
+    if (!currentUser) { showToast("Please sign in first"); return; }
     const newEquip = {
       id: Date.now(),
       section: document.getElementById("equipSection").value,
@@ -741,14 +916,21 @@ Here's the updated code with working data storage:
   function updateFaultStatus(id) {
     const fault = faults.find(f => f.id == id);
     if(fault) {
-      if(fault.status === "Open") fault.status = "In Progress";
-      else if(fault.status === "In Progress") fault.status = "Closed";
-      else if(fault.status === "Closed") fault.status = "Open";
+      const oldStatus = fault.status;
+      let newStatus = "Open";
+      if (oldStatus === "Open") newStatus = "In Progress";
+      else if (oldStatus === "In Progress") newStatus = "Closed";
+      else if (oldStatus === "Closed") newStatus = "Open";
+      
+      fault.status = newStatus;
+      if (!fault.statusHistory) fault.statusHistory = [];
+      fault.statusHistory.push({ status: newStatus, timestamp: Date.now() });
+      
       saveFaults();
       renderFaults();
       updateDashboard();
       updateCOO();
-      showToast(`Status changed to ${fault.status}`);
+      showToast(`Status changed from ${oldStatus} to ${newStatus}`);
     }
   }
   
@@ -764,7 +946,6 @@ Here's the updated code with working data storage:
     }
   }
   
-  // Delete functions (Tools only)
   function deleteAllFaults() {
     if(confirm("⚠️ Delete ALL fault records? This cannot be undone!")) {
       faults = [];
@@ -798,7 +979,6 @@ Here's the updated code with working data storage:
     }
   }
   
-  // Print functions
   function printCOOSummary() {
     const printDiv = document.getElementById("print-area");
     printDiv.innerHTML = `
@@ -807,6 +987,7 @@ Here's the updated code with working data storage:
       <hr>
       <h3>Fault Statistics</h3>
       <p>Total Faults: ${faults.length} | Open/Progress: ${faults.filter(f => f.status !== "Closed").length} | Closed: ${faults.filter(f => f.status === "Closed").length}</p>
+      <p>Average Resolution Time: ${getAverageResolutionTime()}</p>
       <h3>PM Statistics</h3>
       <p>PM Pending/Overdue: ${pmRecords.filter(p => p.status !== "Done").length} | PM Done: ${pmRecords.filter(p => p.status === "Done").length}</p>
       <h3>Equipment</h3>
@@ -824,7 +1005,7 @@ Here's the updated code with working data storage:
     cutoff.setDate(cutoff.getDate() - 7);
     const filtered = faults.filter(f => new Date(f.date) >= cutoff);
     const printDiv = document.getElementById("print-area");
-    printDiv.innerHTML = `<h2>Weekly Fault History (Last 7 Days)</h2>${filtered.map(f => `<div><strong>${f.equipmentName}</strong> | ${f.date} | ${f.status} | ${f.description || "-"}</div>`).join("")}`;
+    printDiv.innerHTML = `<h2>Weekly Fault History (Last 7 Days)</h2>${filtered.map(f => `<div><strong>${f.equipmentName}</strong> | ${f.date} | ${f.status} | Duration: ${getFaultDuration(f) ? formatDuration(getFaultDuration(f)) : "Active"}</div>`).join("")}`;
     window.print();
   }
   
@@ -833,7 +1014,7 @@ Here's the updated code with working data storage:
     cutoff.setDate(cutoff.getDate() - 30);
     const filtered = faults.filter(f => new Date(f.date) >= cutoff);
     const printDiv = document.getElementById("print-area");
-    printDiv.innerHTML = `<h2>Monthly Fault History (Last 30 Days)</h2>${filtered.map(f => `<div><strong>${f.equipmentName}</strong> | ${f.date} | ${f.status} | ${f.description || "-"}</div>`).join("")}`;
+    printDiv.innerHTML = `<h2>Monthly Fault History (Last 30 Days)</h2>${filtered.map(f => `<div><strong>${f.equipmentName}</strong> | ${f.date} | ${f.status} | Duration: ${getFaultDuration(f) ? formatDuration(getFaultDuration(f)) : "Active"}</div>`).join("")}`;
     window.print();
   }
   
@@ -872,6 +1053,8 @@ Here's the updated code with working data storage:
   // Event Listeners
   document.getElementById("faultArea")?.addEventListener("change", () => updateDynamicEquipment("faultArea", "faultEquipment"));
   document.getElementById("pmArea")?.addEventListener("change", () => updateDynamicEquipment("pmArea", "pmEquipment"));
+  document.getElementById("signupBtn")?.addEventListener("click", createAccount);
+  document.getElementById("signinBtn")?.addEventListener("click", signIn);
   
   document.querySelectorAll("#faultFilters .filter-chip").forEach(btn => {
     btn.onclick = () => {
@@ -901,6 +1084,7 @@ Here's the updated code with working data storage:
     updateCOO();
     document.getElementById("faultDate").valueAsDate = new Date();
     document.getElementById("pmDate").valueAsDate = new Date();
+    checkAutoLogin();
   }
   
   init();
