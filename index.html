@@ -249,7 +249,6 @@ const sectionMap = {
 const equipmentTypes = ["PLC Panel","Motor","Sensor","Machine","Conveyor","Compressor","Transformer","Robot","Boiler","MCC Panel"];
 const faultTypes = ["Electrical","Mechanical","Communication","Trip","Overload","Deviation Sensor Fault","Anti Blocking Fault"];
 
-let currentScreen = "login";
 let currentUser = null;
 let notifications = [
   { id:"n1", text:"PM due today for Transformer 01" },
@@ -263,10 +262,11 @@ let equipmentPage = 1;
 let faultFilter = "all";
 const pageSize = 5;
 
-function setStatus(msg){ document.getElementById("status").innerText = msg; }
+function setStatus(msg){
+  document.getElementById("status").innerText = msg;
+}
 
 function showScreen(id){
-  currentScreen = id;
   document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -277,13 +277,23 @@ function showScreen(id){
 
 function paginate(list, page){
   const totalPages = Math.max(1, Math.ceil(list.length / pageSize));
-  const safePage = Math.min(Math.max(1, page), totalPages);
-  return { rows:list.slice((safePage-1)*pageSize, safePage*pageSize), page:safePage, totalPages };
+  const safePage = Math.max(1, Math.min(page, totalPages));
+  const start = (safePage - 1) * pageSize;
+  const end = start + pageSize;
+  return {
+    rows: list.slice(start, end),
+    page: safePage,
+    totalPages
+  };
 }
 
 function getFilteredFaults(){
-  if (faultFilter === "critical") return allFaults.filter(x => ["Trip","Anti Blocking Fault"].includes(x.faultType));
-  if (faultFilter.startsWith("section:")) return allFaults.filter(x => x.area === faultFilter.split(":")[1]);
+  if (faultFilter === "critical") {
+    return allFaults.filter(x => ["Trip","Anti Blocking Fault"].includes(x.faultType));
+  }
+  if (faultFilter.startsWith("section:")) {
+    return allFaults.filter(x => x.area === faultFilter.split(":")[1]);
+  }
   return allFaults;
 }
 
@@ -293,7 +303,8 @@ function updateBreakdownEquipment(){
   select.innerHTML = "";
   (sectionMap[area] || []).forEach(x => {
     const op = document.createElement("option");
-    op.value = x; op.textContent = x;
+    op.value = x;
+    op.textContent = x;
     select.appendChild(op);
   });
 }
@@ -310,21 +321,47 @@ function openFaultFilter(mode){
   showScreen("breakdown");
 }
 
-function prevFaultPage(){ faultPage--; renderFaults(); }
-function nextFaultPage(){ faultPage++; renderFaults(); }
-function prevEquipmentPage(){ equipmentPage--; renderEquipment(); }
-function nextEquipmentPage(){ equipmentPage++; renderEquipment(); }
+function prevFaultPage(){
+  faultPage--;
+  renderFaults();
+}
+
+function nextFaultPage(){
+  faultPage++;
+  renderFaults();
+}
+
+function prevEquipmentPage(){
+  equipmentPage--;
+  renderEquipment();
+}
+
+function nextEquipmentPage(){
+  equipmentPage++;
+  renderEquipment();
+}
 
 function renderFaults(){
   const filtered = getFilteredFaults();
-  const pg = paginate(filtered, faultPage);
+
+  const sorted = [...filtered].sort((a, b) => {
+    return (b.createdAt || 0) - (a.createdAt || 0);
+  });
+
+  const pg = paginate(sorted, faultPage);
   faultPage = pg.page;
+
   const root = document.getElementById("faultList");
   root.innerHTML = "";
+
   if (!pg.rows.length) {
     root.innerHTML = '<div class="note">No records found.</div>';
   } else {
     pg.rows.forEach(item => {
+      const safeDesc = (item.description || "No description")
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, " ");
+
       const card = document.createElement("div");
       card.className = "mini-card";
       card.innerHTML = `
@@ -332,26 +369,37 @@ function renderFaults(){
         <div class="p">${item.area || "-"} · ${item.faultCode || item.faultType || "-"}</div>
         <div class="p">${item.date || "-"}</div>
         <div class="rowActions">
-          <button class="smallBtn" onclick="alert(${JSON.stringify("DESC_PLACEHOLDER")}.replace('DESC_PLACEHOLDER', ${JSON.stringify(item.description || "No description")}))">Open</button>
+          <button class="smallBtn" onclick="alert('${safeDesc}')">Open</button>
           <button class="smallBtn danger" onclick="deleteFault('${item.id}')">Delete</button>
         </div>
       `;
       root.appendChild(card);
     });
   }
+
   document.getElementById("faultPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
-  document.getElementById("openCount").innerText = allFaults.filter(x => x.status === "Open" || x.status === "In Progress").length;
+  document.getElementById("openCount").innerText =
+    allFaults.filter(x => x.status === "Open" || x.status === "In Progress").length;
 }
 
 function renderEquipment(){
-  const pg = paginate(allEquipment, equipmentPage);
+  const sorted = [...allEquipment].sort((a, b) => {
+    return (b.createdAt || 0) - (a.createdAt || 0);
+  });
+
+  const pg = paginate(sorted, equipmentPage);
   equipmentPage = pg.page;
+
   const root = document.getElementById("equipmentList");
   root.innerHTML = "";
+
   if (!pg.rows.length) {
     root.innerHTML = '<div class="note">No equipment added yet.</div>';
   } else {
     pg.rows.forEach(item => {
+      const safeName = (item.name || "").replace(/'/g, "\\'");
+      const safeCode = (item.code || "").replace(/'/g, "\\'");
+
       const card = document.createElement("div");
       card.className = "mini-card";
       card.innerHTML = `
@@ -359,13 +407,14 @@ function renderEquipment(){
         <div class="p">${item.section || "-"} · ${item.type || "-"}</div>
         <div class="p">${item.code || "-"}</div>
         <div class="rowActions">
-          <button class="smallBtn" onclick="alert('${(item.name || "").replace(/'/g,"")} | ${(item.code || "").replace(/'/g,"")}')">Open</button>
+          <button class="smallBtn" onclick="alert('${safeName} | ${safeCode}')">Open</button>
           <button class="smallBtn danger" onclick="deleteEquipment('${item.id}')">Delete</button>
         </div>
       `;
       root.appendChild(card);
     });
   }
+
   document.getElementById("equipmentPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
   document.getElementById("equipmentCount").innerText = allEquipment.length;
 }
@@ -401,18 +450,44 @@ function seedSelects(){
   const bType = document.getElementById("bType");
   const rType = document.getElementById("rType");
   const bFaultType = document.getElementById("bFaultType");
-  bArea.innerHTML = ""; rSection.innerHTML = ""; bType.innerHTML = ""; rType.innerHTML = ""; bFaultType.innerHTML = "";
+
+  bArea.innerHTML = "";
+  rSection.innerHTML = "";
+  bType.innerHTML = "";
+  rType.innerHTML = "";
+  bFaultType.innerHTML = "";
+
   Object.keys(sectionMap).forEach(x => {
-    const op1 = document.createElement("option"); op1.value=x; op1.textContent=x; bArea.appendChild(op1);
-    const op2 = document.createElement("option"); op2.value=x; op2.textContent=x; rSection.appendChild(op2);
+    const op1 = document.createElement("option");
+    op1.value = x;
+    op1.textContent = x;
+    bArea.appendChild(op1);
+
+    const op2 = document.createElement("option");
+    op2.value = x;
+    op2.textContent = x;
+    rSection.appendChild(op2);
   });
+
   equipmentTypes.forEach(x => {
-    const op1 = document.createElement("option"); op1.value=x; op1.textContent=x; bType.appendChild(op1);
-    const op2 = document.createElement("option"); op2.value=x; op2.textContent=x; rType.appendChild(op2);
+    const op1 = document.createElement("option");
+    op1.value = x;
+    op1.textContent = x;
+    bType.appendChild(op1);
+
+    const op2 = document.createElement("option");
+    op2.value = x;
+    op2.textContent = x;
+    rType.appendChild(op2);
   });
+
   faultTypes.forEach(x => {
-    const op = document.createElement("option"); op.value=x; op.textContent=x; bFaultType.appendChild(op);
+    const op = document.createElement("option");
+    op.value = x;
+    op.textContent = x;
+    bFaultType.appendChild(op);
   });
+
   document.getElementById("bDate").value = new Date().toISOString().slice(0,10);
   updateBreakdownEquipment();
 }
@@ -422,26 +497,40 @@ function createAccount(){
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
   const role = document.getElementById("role").value;
-  if (!email || !password) return setStatus("Email aur password likhein.");
+
+  if (!email || !password) {
+    return setStatus("Email aur password likhein.");
+  }
+
   auth.createUserWithEmailAndPassword(email, password)
     .then((cred) => {
       currentUser = cred.user;
       db.ref("users/" + cred.user.uid).set({
-        name, email, role, createdAt: new Date().toISOString()
+        name,
+        email,
+        role,
+        createdAt: new Date().toISOString()
       });
       setStatus("Account created successfully.");
       showScreen("dashboard");
     })
     .catch((err) => {
-      if (err.code === "auth/email-already-in-use") setStatus("Account already exists. Login karo.");
-      else setStatus("Signup error: " + err.message);
+      if (err.code === "auth/email-already-in-use") {
+        setStatus("Account already exists. Login karo.");
+      } else {
+        setStatus("Signup error: " + err.message);
+      }
     });
 }
 
 function loginUser(){
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
-  if (!email || !password) return setStatus("Email aur password likhein.");
+
+  if (!email || !password) {
+    return setStatus("Email aur password likhein.");
+  }
+
   auth.signInWithEmailAndPassword(email, password)
     .then(() => {
       setStatus("Login successful.");
@@ -451,11 +540,16 @@ function loginUser(){
 }
 
 function logoutUser(){
-  auth.signOut().then(() => setStatus("Logged out.")).catch((err) => setStatus("Logout error: " + err.message));
+  auth.signOut()
+    .then(() => setStatus("Logged out."))
+    .catch((err) => setStatus("Logout error: " + err.message));
 }
 
 function saveBreakdown(){
-  if (!currentUser) return setStatus("Pehle login karo.");
+  if (!currentUser) {
+    return setStatus("Pehle login karo.");
+  }
+
   const item = {
     date: document.getElementById("bDate").value,
     area: document.getElementById("bArea").value,
@@ -468,9 +562,14 @@ function saveBreakdown(){
     createdAt: Date.now(),
     createdBy: currentUser.email
   };
+
   db.ref("faults").push(item)
     .then(() => {
-      notifications.unshift({ id: String(Date.now()), text: item.equipmentName + " fault added in " + item.area });
+      notifications.unshift({
+        id: String(Date.now()),
+        text: item.equipmentName + " fault added in " + item.area
+      });
+      faultPage = 1;
       document.getElementById("bCode").value = "";
       document.getElementById("bDesc").value = "";
       setStatus("Fault saved successfully.");
@@ -480,7 +579,10 @@ function saveBreakdown(){
 }
 
 function saveEquipment(){
-  if (!currentUser) return setStatus("Pehle login karo.");
+  if (!currentUser) {
+    return setStatus("Pehle login karo.");
+  }
+
   const item = {
     section: document.getElementById("rSection").value,
     name: document.getElementById("rName").value || "New Equipment",
@@ -489,9 +591,14 @@ function saveEquipment(){
     createdAt: Date.now(),
     createdBy: currentUser.email
   };
+
   db.ref("equipment").push(item)
     .then(() => {
-      notifications.unshift({ id: String(Date.now()), text: item.name + " added in equipment register" });
+      notifications.unshift({
+        id: String(Date.now()),
+        text: item.name + " added in equipment register"
+      });
+      equipmentPage = 1;
       document.getElementById("rName").value = "";
       document.getElementById("rCode").value = "";
       setStatus("Equipment saved successfully.");
@@ -501,11 +608,13 @@ function saveEquipment(){
 }
 
 function deleteFault(id){
-  db.ref("faults/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
+  db.ref("faults/" + id).remove()
+    .catch((err) => setStatus("Delete error: " + err.message));
 }
 
 function deleteEquipment(id){
-  db.ref("equipment/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
+  db.ref("equipment/" + id).remove()
+    .catch((err) => setStatus("Delete error: " + err.message));
 }
 
 auth.onAuthStateChanged((user) => {
@@ -515,13 +624,33 @@ auth.onAuthStateChanged((user) => {
 
 db.ref("faults").on("value", (snap) => {
   allFaults = [];
-  snap.forEach((child) => allFaults.unshift({ id: child.key, ...child.val() }));
+  const data = snap.val();
+
+  if (data) {
+    Object.keys(data).forEach((key) => {
+      allFaults.push({
+        id: key,
+        ...data[key]
+      });
+    });
+  }
+
   renderFaults();
 }, (err) => setStatus("Read error (faults): " + err.message));
 
 db.ref("equipment").on("value", (snap) => {
   allEquipment = [];
-  snap.forEach((child) => allEquipment.unshift({ id: child.key, ...child.val() }));
+  const data = snap.val();
+
+  if (data) {
+    Object.keys(data).forEach((key) => {
+      allEquipment.push({
+        id: key,
+        ...data[key]
+      });
+    });
+  }
+
   renderEquipment();
 }, (err) => setStatus("Read error (equipment): " + err.message));
 
