@@ -25,14 +25,14 @@
     .hero .sub1{margin-top:14px;font-size:18px;font-weight:700}
     .hero .sub2{margin-top:8px;font-size:13px;opacity:.95}
     .wrap{padding:14px 14px 90px}
-    .tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px}
-    .tab{border:none;border-radius:18px;background:#fff;padding:12px 4px;font-weight:700;color:#334155;box-shadow:var(--shadow);font-size:12px}
+    .tabs{display:grid;grid-template-columns:repeat(8,1fr);gap:8px;margin-bottom:14px}
+    .tab{border:none;border-radius:18px;background:#fff;padding:12px 4px;font-weight:700;color:#334155;box-shadow:var(--shadow);font-size:11px}
     .tab.active{background:#0f172a;color:#fff}
     .card{background:var(--card);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
     .title{margin:0 0 14px;font-size:22px;font-weight:800;color:#2551c0}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     .color-card{border:none;border-radius:24px;padding:18px 14px;color:#fff;text-align:left;box-shadow:var(--shadow);cursor:pointer}
-    .color-card .big{font-size:24px;font-weight:800;line-height:1.1}
+    .color-card .big{font-size:22px;font-weight:800;line-height:1.1}
     .color-card .small{margin-top:8px;font-size:13px;opacity:.95}
     .blue{background:linear-gradient(90deg,#2563eb,#60a5fa)}
     .purple{background:linear-gradient(90deg,#4f46e5,#8b5cf6)}
@@ -63,6 +63,7 @@
     .muted{color:#64748b;font-size:13px}
     .hidden{display:none}
     .status{margin-top:12px;padding:12px 14px;border-radius:16px;background:#eef4ff;color:#1e3a8a;font-size:14px;white-space:pre-wrap}
+    .badge{display:inline-block;margin-top:8px;padding:6px 10px;border-radius:999px;background:#eef2ff;font-size:12px;font-weight:700;color:#334155}
     @media print {
       .tabs,.btn,.pager,.rowActions{display:none!important}
       .app{max-width:none}
@@ -74,7 +75,7 @@
     <div class="hero">
       <h1>MAJEED FOODS PVT LTD - BAHAWALPUR</h1>
       <div class="sub1">Electrical & Automation Maintenance System</div>
-      <div class="sub2">GitHub Pages + Firebase Realtime Database</div>
+      <div class="sub2">GitHub Pages + Firebase Realtime Database + PM Module</div>
     </div>
 
     <div class="wrap">
@@ -82,6 +83,7 @@
         <button class="tab active" onclick="showScreen('login')">Login</button>
         <button class="tab" onclick="showScreen('dashboard')">Dash</button>
         <button class="tab" onclick="showScreen('breakdown')">Fault</button>
+        <button class="tab" onclick="showScreen('pm')">PM</button>
         <button class="tab" onclick="showScreen('sections')">Plant</button>
         <button class="tab" onclick="showScreen('register')">Equip</button>
         <button class="tab" onclick="showScreen('notifications')">Alert</button>
@@ -115,7 +117,7 @@
           <div class="grid2">
             <button class="color-card blue" onclick="openFaultFilter('all')"><div class="big">Open Faults</div><div class="small" id="openCount">0</div></button>
             <button class="color-card green" onclick="showScreen('register')"><div class="big">Equipment</div><div class="small" id="equipmentCount">0</div></button>
-            <button class="color-card orange" onclick="openFaultFilter('critical')"><div class="big">Critical</div><div class="small">Major issues</div></button>
+            <button class="color-card orange" onclick="showScreen('pm')"><div class="big">PM Due</div><div class="small" id="pmDueCount">0</div></button>
             <button class="color-card rose" onclick="showScreen('sections')"><div class="big">Sections</div><div class="small">Cleaning · Milling · Packing</div></button>
           </div>
         </div>
@@ -125,8 +127,8 @@
           <div class="grid2">
             <button class="color-card purple" onclick="showScreen('login')"><div class="big">Login</div><div class="small">Account screen</div></button>
             <button class="color-card cyan" onclick="showScreen('breakdown')"><div class="big">Breakdown</div><div class="small">Add new fault</div></button>
-            <button class="color-card slate" onclick="showScreen('sections')"><div class="big">Plant Sections</div><div class="small">Open all sections</div></button>
-            <button class="color-card green" onclick="showScreen('tools')"><div class="big">Import / Export</div><div class="small">Print, PDF, delete</div></button>
+            <button class="color-card green" onclick="showScreen('pm')"><div class="big">PM Records</div><div class="small">Add PM / due list</div></button>
+            <button class="color-card slate" onclick="showScreen('tools')"><div class="big">Import / Export</div><div class="small">Print, PDF, delete</div></button>
           </div>
         </div>
       </section>
@@ -151,6 +153,44 @@
             <button onclick="prevFaultPage()">Previous</button>
             <span class="muted" id="faultPageInfo">Page 1</span>
             <button onclick="nextFaultPage()">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="pm" class="screen hidden">
+        <div class="card">
+          <h2 class="title">Preventive Maintenance Entry</h2>
+          <div class="field"><label>PM Date</label><input id="pmDate" class="input" type="date" /></div>
+          <div class="field"><label>Section</label><select id="pmArea" class="select" onchange="updatePmEquipment()"></select></div>
+          <div class="field"><label>Equipment</label><select id="pmEquipment" class="select"></select></div>
+          <div class="field"><label>Frequency</label>
+            <select id="pmFrequency" class="select">
+              <option>Daily</option>
+              <option>Weekly</option>
+              <option>Monthly</option>
+              <option>Quarterly</option>
+              <option>Yearly</option>
+            </select>
+          </div>
+          <div class="field"><label>Assigned To</label><input id="pmAssignedTo" class="input" placeholder="Technician / Engineer name" /></div>
+          <div class="field"><label>Status</label>
+            <select id="pmStatus" class="select">
+              <option>Pending</option>
+              <option>Done</option>
+              <option>Overdue</option>
+            </select>
+          </div>
+          <div class="field"><label>Checklist / Remarks</label><textarea id="pmRemarks" class="textarea" placeholder="Checklist completed, observations, spare check, lubrication, cleaning etc."></textarea></div>
+          <button class="btn btn-green" onclick="savePM()">Save PM Record</button>
+        </div>
+
+        <div class="card">
+          <h2 class="title">PM Records</h2>
+          <div id="pmList" class="list"></div>
+          <div class="pager">
+            <button onclick="prevPmPage()">Previous</button>
+            <span class="muted" id="pmPageInfo">Page 1</span>
+            <button onclick="nextPmPage()">Next</button>
           </div>
         </div>
       </section>
@@ -257,8 +297,10 @@ let notifications = [
 ];
 let allFaults = [];
 let allEquipment = [];
+let allPm = [];
 let faultPage = 1;
 let equipmentPage = 1;
+let pmPage = 1;
 let faultFilter = "all";
 const pageSize = 5;
 
@@ -270,7 +312,7 @@ function showScreen(id){
   document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  const map = {login:0,dashboard:1,breakdown:2,sections:3,register:4,notifications:5,tools:6};
+  const map = {login:0,dashboard:1,breakdown:2,pm:3,sections:4,register:5,notifications:6,tools:7};
   document.querySelectorAll(".tab")[map[id]].classList.add("active");
   renderAll();
 }
@@ -309,6 +351,18 @@ function updateBreakdownEquipment(){
   });
 }
 
+function updatePmEquipment(){
+  const area = document.getElementById("pmArea").value;
+  const select = document.getElementById("pmEquipment");
+  select.innerHTML = "";
+  (sectionMap[area] || []).forEach(x => {
+    const op = document.createElement("option");
+    op.value = x;
+    op.textContent = x;
+    select.appendChild(op);
+  });
+}
+
 function openSection(area){
   faultFilter = "section:" + area;
   faultPage = 1;
@@ -321,33 +375,16 @@ function openFaultFilter(mode){
   showScreen("breakdown");
 }
 
-function prevFaultPage(){
-  faultPage--;
-  renderFaults();
-}
-
-function nextFaultPage(){
-  faultPage++;
-  renderFaults();
-}
-
-function prevEquipmentPage(){
-  equipmentPage--;
-  renderEquipment();
-}
-
-function nextEquipmentPage(){
-  equipmentPage++;
-  renderEquipment();
-}
+function prevFaultPage(){ faultPage--; renderFaults(); }
+function nextFaultPage(){ faultPage++; renderFaults(); }
+function prevEquipmentPage(){ equipmentPage--; renderEquipment(); }
+function nextEquipmentPage(){ equipmentPage++; renderEquipment(); }
+function prevPmPage(){ pmPage--; renderPm(); }
+function nextPmPage(){ pmPage++; renderPm(); }
 
 function renderFaults(){
   const filtered = getFilteredFaults();
-
-  const sorted = [...filtered].sort((a, b) => {
-    return (b.createdAt || 0) - (a.createdAt || 0);
-  });
-
+  const sorted = [...filtered].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   const pg = paginate(sorted, faultPage);
   faultPage = pg.page;
 
@@ -358,10 +395,7 @@ function renderFaults(){
     root.innerHTML = '<div class="note">No records found.</div>';
   } else {
     pg.rows.forEach(item => {
-      const safeDesc = (item.description || "No description")
-        .replace(/'/g, "\\'")
-        .replace(/\n/g, " ");
-
+      const safeDesc = (item.description || "No description").replace(/'/g, "\\'").replace(/\n/g, " ");
       const card = document.createElement("div");
       card.className = "mini-card";
       card.innerHTML = `
@@ -383,10 +417,7 @@ function renderFaults(){
 }
 
 function renderEquipment(){
-  const sorted = [...allEquipment].sort((a, b) => {
-    return (b.createdAt || 0) - (a.createdAt || 0);
-  });
-
+  const sorted = [...allEquipment].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   const pg = paginate(sorted, equipmentPage);
   equipmentPage = pg.page;
 
@@ -399,7 +430,6 @@ function renderEquipment(){
     pg.rows.forEach(item => {
       const safeName = (item.name || "").replace(/'/g, "\\'");
       const safeCode = (item.code || "").replace(/'/g, "\\'");
-
       const card = document.createElement("div");
       card.className = "mini-card";
       card.innerHTML = `
@@ -417,6 +447,40 @@ function renderEquipment(){
 
   document.getElementById("equipmentPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
   document.getElementById("equipmentCount").innerText = allEquipment.length;
+}
+
+function renderPm(){
+  const sorted = [...allPm].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  const pg = paginate(sorted, pmPage);
+  pmPage = pg.page;
+
+  const root = document.getElementById("pmList");
+  root.innerHTML = "";
+
+  if (!pg.rows.length) {
+    root.innerHTML = '<div class="note">No PM records found.</div>';
+  } else {
+    pg.rows.forEach(item => {
+      const safeRemarks = (item.remarks || "No remarks").replace(/'/g, "\\'").replace(/\n/g, " ");
+      const card = document.createElement("div");
+      card.className = "mini-card";
+      card.innerHTML = `
+        <div class="h">${item.equipment || "-"}</div>
+        <div class="p">${item.area || "-"} · ${item.frequency || "-"}</div>
+        <div class="p">${item.date || "-"} · ${item.assignedTo || "-"}</div>
+        <div class="badge">${item.status || "-"}</div>
+        <div class="rowActions">
+          <button class="smallBtn" onclick="alert('${safeRemarks}')">Open</button>
+          <button class="smallBtn danger" onclick="deletePM('${item.id}')">Delete</button>
+        </div>
+      `;
+      root.appendChild(card);
+    });
+  }
+
+  document.getElementById("pmPageInfo").innerText = `Page ${pg.page} of ${pg.totalPages}`;
+  document.getElementById("pmDueCount").innerText =
+    allPm.filter(x => x.status === "Pending" || x.status === "Overdue").length;
 }
 
 function renderNotifications(){
@@ -441,44 +505,34 @@ function renderNotifications(){
 function renderAll(){
   renderFaults();
   renderEquipment();
+  renderPm();
   renderNotifications();
 }
 
 function seedSelects(){
   const bArea = document.getElementById("bArea");
   const rSection = document.getElementById("rSection");
+  const pmArea = document.getElementById("pmArea");
   const bType = document.getElementById("bType");
   const rType = document.getElementById("rType");
   const bFaultType = document.getElementById("bFaultType");
 
   bArea.innerHTML = "";
   rSection.innerHTML = "";
+  pmArea.innerHTML = "";
   bType.innerHTML = "";
   rType.innerHTML = "";
   bFaultType.innerHTML = "";
 
   Object.keys(sectionMap).forEach(x => {
-    const op1 = document.createElement("option");
-    op1.value = x;
-    op1.textContent = x;
-    bArea.appendChild(op1);
-
-    const op2 = document.createElement("option");
-    op2.value = x;
-    op2.textContent = x;
-    rSection.appendChild(op2);
+    const op1 = document.createElement("option"); op1.value = x; op1.textContent = x; bArea.appendChild(op1);
+    const op2 = document.createElement("option"); op2.value = x; op2.textContent = x; rSection.appendChild(op2);
+    const op3 = document.createElement("option"); op3.value = x; op3.textContent = x; pmArea.appendChild(op3);
   });
 
   equipmentTypes.forEach(x => {
-    const op1 = document.createElement("option");
-    op1.value = x;
-    op1.textContent = x;
-    bType.appendChild(op1);
-
-    const op2 = document.createElement("option");
-    op2.value = x;
-    op2.textContent = x;
-    rType.appendChild(op2);
+    const op1 = document.createElement("option"); op1.value = x; op1.textContent = x; bType.appendChild(op1);
+    const op2 = document.createElement("option"); op2.value = x; op2.textContent = x; rType.appendChild(op2);
   });
 
   faultTypes.forEach(x => {
@@ -489,7 +543,9 @@ function seedSelects(){
   });
 
   document.getElementById("bDate").value = new Date().toISOString().slice(0,10);
+  document.getElementById("pmDate").value = new Date().toISOString().slice(0,10);
   updateBreakdownEquipment();
+  updatePmEquipment();
 }
 
 function createAccount(){
@@ -498,38 +554,27 @@ function createAccount(){
   const password = document.getElementById("password").value.trim();
   const role = document.getElementById("role").value;
 
-  if (!email || !password) {
-    return setStatus("Email aur password likhein.");
-  }
+  if (!email || !password) return setStatus("Email aur password likhein.");
 
   auth.createUserWithEmailAndPassword(email, password)
     .then((cred) => {
       currentUser = cred.user;
       db.ref("users/" + cred.user.uid).set({
-        name,
-        email,
-        role,
-        createdAt: new Date().toISOString()
+        name, email, role, createdAt: new Date().toISOString()
       });
       setStatus("Account created successfully.");
       showScreen("dashboard");
     })
     .catch((err) => {
-      if (err.code === "auth/email-already-in-use") {
-        setStatus("Account already exists. Login karo.");
-      } else {
-        setStatus("Signup error: " + err.message);
-      }
+      if (err.code === "auth/email-already-in-use") setStatus("Account already exists. Login karo.");
+      else setStatus("Signup error: " + err.message);
     });
 }
 
 function loginUser(){
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
-
-  if (!email || !password) {
-    return setStatus("Email aur password likhein.");
-  }
+  if (!email || !password) return setStatus("Email aur password likhein.");
 
   auth.signInWithEmailAndPassword(email, password)
     .then(() => {
@@ -546,9 +591,7 @@ function logoutUser(){
 }
 
 function saveBreakdown(){
-  if (!currentUser) {
-    return setStatus("Pehle login karo.");
-  }
+  if (!currentUser) return setStatus("Pehle login karo.");
 
   const item = {
     date: document.getElementById("bDate").value,
@@ -565,10 +608,7 @@ function saveBreakdown(){
 
   db.ref("faults").push(item)
     .then(() => {
-      notifications.unshift({
-        id: String(Date.now()),
-        text: item.equipmentName + " fault added in " + item.area
-      });
+      notifications.unshift({ id: String(Date.now()), text: item.equipmentName + " fault added in " + item.area });
       faultPage = 1;
       document.getElementById("bCode").value = "";
       document.getElementById("bDesc").value = "";
@@ -579,9 +619,7 @@ function saveBreakdown(){
 }
 
 function saveEquipment(){
-  if (!currentUser) {
-    return setStatus("Pehle login karo.");
-  }
+  if (!currentUser) return setStatus("Pehle login karo.");
 
   const item = {
     section: document.getElementById("rSection").value,
@@ -594,10 +632,7 @@ function saveEquipment(){
 
   db.ref("equipment").push(item)
     .then(() => {
-      notifications.unshift({
-        id: String(Date.now()),
-        text: item.name + " added in equipment register"
-      });
+      notifications.unshift({ id: String(Date.now()), text: item.name + " added in equipment register" });
       equipmentPage = 1;
       document.getElementById("rName").value = "";
       document.getElementById("rCode").value = "";
@@ -607,14 +642,43 @@ function saveEquipment(){
     .catch((err) => setStatus("Equipment save error: " + err.message));
 }
 
+function savePM(){
+  if (!currentUser) return setStatus("Pehle login karo.");
+
+  const item = {
+    date: document.getElementById("pmDate").value,
+    area: document.getElementById("pmArea").value,
+    equipment: document.getElementById("pmEquipment").value,
+    frequency: document.getElementById("pmFrequency").value,
+    assignedTo: document.getElementById("pmAssignedTo").value || "Not assigned",
+    status: document.getElementById("pmStatus").value,
+    remarks: document.getElementById("pmRemarks").value,
+    createdAt: Date.now(),
+    createdBy: currentUser.email
+  };
+
+  db.ref("pmRecords").push(item)
+    .then(() => {
+      notifications.unshift({ id: String(Date.now()), text: "PM record saved for " + item.equipment });
+      pmPage = 1;
+      document.getElementById("pmAssignedTo").value = "";
+      document.getElementById("pmRemarks").value = "";
+      setStatus("PM record saved successfully.");
+      showScreen("pm");
+    })
+    .catch((err) => setStatus("PM save error: " + err.message));
+}
+
 function deleteFault(id){
-  db.ref("faults/" + id).remove()
-    .catch((err) => setStatus("Delete error: " + err.message));
+  db.ref("faults/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
 }
 
 function deleteEquipment(id){
-  db.ref("equipment/" + id).remove()
-    .catch((err) => setStatus("Delete error: " + err.message));
+  db.ref("equipment/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
+}
+
+function deletePM(id){
+  db.ref("pmRecords/" + id).remove().catch((err) => setStatus("Delete error: " + err.message));
 }
 
 auth.onAuthStateChanged((user) => {
@@ -625,34 +689,35 @@ auth.onAuthStateChanged((user) => {
 db.ref("faults").on("value", (snap) => {
   allFaults = [];
   const data = snap.val();
-
   if (data) {
     Object.keys(data).forEach((key) => {
-      allFaults.push({
-        id: key,
-        ...data[key]
-      });
+      allFaults.push({ id: key, ...data[key] });
     });
   }
-
   renderFaults();
 }, (err) => setStatus("Read error (faults): " + err.message));
 
 db.ref("equipment").on("value", (snap) => {
   allEquipment = [];
   const data = snap.val();
-
   if (data) {
     Object.keys(data).forEach((key) => {
-      allEquipment.push({
-        id: key,
-        ...data[key]
-      });
+      allEquipment.push({ id: key, ...data[key] });
     });
   }
-
   renderEquipment();
 }, (err) => setStatus("Read error (equipment): " + err.message));
+
+db.ref("pmRecords").on("value", (snap) => {
+  allPm = [];
+  const data = snap.val();
+  if (data) {
+    Object.keys(data).forEach((key) => {
+      allPm.push({ id: key, ...data[key] });
+    });
+  }
+  renderPm();
+}, (err) => setStatus("Read error (PM): " + err.message));
 
 seedSelects();
 renderAll();
