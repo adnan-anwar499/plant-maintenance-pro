@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -210,11 +210,27 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
-    .grid-3 {
+    /* Centered plant grid */
+    .plant-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      justify-items: center;
+      align-items: center;
     }
+    .plant-card {
+      width: 100%;
+      border-radius: 28px;
+      padding: 20px 14px;
+      color: white;
+      box-shadow: 0 12px 20px -8px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+    }
+    .plant-card:hover { transform: translateY(-5px) scale(1.02); }
+    .plant-card .big-number { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+    .plant-card .label { font-size: 0.75rem; opacity: 0.9; }
     .stat-card {
       border-radius: 28px;
       padding: 20px 14px;
@@ -229,7 +245,6 @@
     .stat-card .label { font-size: 0.85rem; opacity: 0.9; margin-top: 8px; font-weight: 600; }
     .stat-orange { background: linear-gradient(145deg, #c2410c, #f97316); }
     .stat-rose { background: linear-gradient(145deg, #b91c1c, #ef4444); }
-    .stat-teal { background: linear-gradient(145deg, #0f5c6b, #14b8a6); }
     .input, .select, .textarea {
       width: 100%;
       padding: 15px 18px;
@@ -272,7 +287,6 @@
     }
     .badge-pending { background: #ffedd5; color: #b45309; }
     .badge-done { background: #dcfce7; color: #15803d; }
-    .badge-overdue { background: #fef2f2; color: #b91c1c; }
     .badge-open { background: #fee2e2; color: #b91c1c; }
     .badge-progress { background: #fff3e3; color: #b45309; }
     .badge-closed { background: #e0f2e9; color: #15803d; }
@@ -320,15 +334,6 @@
       color: #6b7280;
       margin-top: 6px;
       font-weight: 600;
-    }
-    .duration-highlight {
-      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-      padding: 4px 12px;
-      border-radius: 20px;
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 800;
-      color: #b45309;
     }
     #print-area { display: none; }
     @media print {
@@ -448,11 +453,11 @@
     </div>
   </div>
 
-  <!-- PLANT SCREEN with DRYING SYSTEM -->
+  <!-- PLANT SCREEN with centered cards and unique colors -->
   <div id="plantScreen" class="screen">
     <div class="card">
       <div class="card-title">🏭 PLANT SECTIONS</div>
-      <div class="grid-2" id="plantGrid"></div>
+      <div class="plant-grid" id="plantGrid"></div>
     </div>
   </div>
 
@@ -522,7 +527,7 @@
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1;
   const pageSize = 5;
 
-  // Updated sections with DRYING SYSTEM
+  // Updated sections with COMBINED ELEVATOR
   const sections = {
     "Cleaning": ["Dampening Device", "Gates Sensor", "Colour Sort Machine", "Material Elevator"],
     "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Conveyors"],
@@ -530,12 +535,23 @@
     "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer", "Generator"],
     "Control Room": ["PLC Panel", "MCC Panel", "IO Modules", "VFDs", "CPU", "HMI"],
     "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer", "IRC5 Power Supply", "IRC5 Communication Module", "IRC5 Safety Board"],
-    "Passenger Elevator": ["Elevator Control Panel", "Elevator Motor", "Elevator Door Controller", "Position Sensor", "Safety Brake System", "Call Button Panel", "Display Unit"],
-    "Cargo Elevator": ["Cargo Elevator Control Panel", "Cargo Hoist Motor", "Door Interlock System", "Load Cell Sensor", "Limit Switches", "Emergency Stop System", "Control Relays"],
+    "Elevators": ["Passenger Elevator Control Panel", "Cargo Elevator Control Panel", "Elevator Motor", "Door Controller", "Position Sensor", "Safety Brake System", "Load Cell Sensor", "Limit Switches"],
     "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller", "Humidity Sensor", "Air Heater", "Exhaust Fan", "Conveyor Dryer", "Burner Control Unit"]
   };
   
-  const equipmentTypes = ["PLC Panel", "Motor", "Sensor", "Machine", "Compressor", "Robot", "VFD", "Transformer", "Control Panel", "Controller", "Power Supply", "Boiler", "Heater", "Fan"];
+  // Unique color palette for plant cards
+  const cardColors = [
+    "linear-gradient(135deg, #FF6B6B, #C92A2A)",
+    "linear-gradient(135deg, #4ECDC4, #0E7C6E)",
+    "linear-gradient(135deg, #45B7D1, #1E6F8F)",
+    "linear-gradient(135deg, #96CEB4, #2D6A4F)",
+    "linear-gradient(135deg, #FFEAA7, #F39C12)",
+    "linear-gradient(135deg, #D4A5A5, #8B5A5A)",
+    "linear-gradient(135deg, #9B59B6, #6C3483)",
+    "linear-gradient(135deg, #3498DB, #1F618D)"
+  ];
+  
+  const equipmentTypes = ["PLC Panel", "Motor", "Sensor", "Machine", "Compressor", "Robot", "VFD", "Transformer", "Control Panel", "Controller", "Power Supply", "Boiler", "Heater", "Fan", "Elevator Control Panel"];
   const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Deviation Fault", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue", "Pressure Issue"];
 
   function formatDurationDetailed(ms) {
@@ -559,11 +575,9 @@
     return null;
   }
 
-  // NOTIFICATION SYSTEM
   function generateNotifications() {
     const notifications = [];
     const now = new Date();
-    
     pmRecords.forEach(pm => {
       if (pm.status !== "Done") {
         const dueDate = new Date(pm.nextDueDate || pm.date);
@@ -575,7 +589,6 @@
         }
       }
     });
-    
     faults.forEach(fault => {
       if (fault.status === "Open") {
         const faultDate = new Date(fault.date);
@@ -599,13 +612,11 @@
     else { badge.style.display = "none"; }
     document.getElementById("dashNotifications").innerText = totalCount;
     document.getElementById("dashUrgent").innerText = urgentCount;
-    
     const notificationList = document.getElementById("notificationList");
     if (notifications.length === 0) { notificationList.innerHTML = '<div class="no-notifications">✅ All good! No pending notifications.</div>'; } 
     else {
       notificationList.innerHTML = notifications.map(n => `<div class="notification-item ${n.type === 'urgent' ? 'urgent' : 'warning'}"><div class="notification-title">${n.title}</div><div class="notification-desc">${n.description}</div><div class="notification-time">⏱️ ${n.time}</div></div>`).join("");
     }
-    
     const recentAlerts = notifications.slice(0, 3);
     const recentAlertsDiv = document.getElementById("recentAlerts");
     if (recentAlerts.length === 0) { recentAlertsDiv.innerHTML = '<div class="status-message">✅ No pending alerts</div>'; } 
@@ -672,7 +683,7 @@
     if (pmRecords.length === 0) {
       pmRecords = [
         { id: Date.now() + 1, date: "2026-03-22", area: "Drying System", equipment: "Drying PLC Panel", frequency: "Weekly", assignedTo: "Fahim", status: "Pending", nextDueDate: "2026-03-29" },
-        { id: Date.now() + 2, date: "2026-03-20", area: "Drying System", equipment: "Boiler", frequency: "Monthly", assignedTo: "Ahmed", status: "Pending", nextDueDate: "2026-04-20" },
+        { id: Date.now() + 2, date: "2026-03-20", area: "Elevators", equipment: "Passenger Elevator Control Panel", frequency: "Monthly", assignedTo: "Ahmed", status: "Pending", nextDueDate: "2026-04-20" },
         { id: Date.now() + 3, date: "2026-03-21", area: "Robotic", equipment: "IRC5 Controller", frequency: "Weekly", assignedTo: "Ali", status: "Pending", nextDueDate: "2026-03-28" }
       ];
       savePM();
@@ -681,11 +692,10 @@
       equipmentList = [
         { id: Date.now() + 1, section: "Utility", name: "Air Compressor 01", type: "Compressor", code: "UTL-001" },
         { id: Date.now() + 2, section: "Drying System", name: "Drying PLC Panel", type: "PLC Panel", code: "DRY-PLC-001" },
-        { id: Date.now() + 3, section: "Drying System", name: "Drying MCC Panel", type: "Control Panel", code: "DRY-MCC-001" },
-        { id: Date.now() + 4, section: "Drying System", name: "Boiler", type: "Boiler", code: "DRY-BLR-001" },
-        { id: Date.now() + 5, section: "Drying System", name: "Temperature Controller", type: "Controller", code: "DRY-TC-001" },
-        { id: Date.now() + 6, section: "Robotic", name: "ABB IRB460 Robotic Arm", type: "Robot", code: "RBT-001" },
-        { id: Date.now() + 7, section: "Robotic", name: "FlexPendant", type: "Controller", code: "RBT-002" }
+        { id: Date.now() + 3, section: "Drying System", name: "Boiler", type: "Boiler", code: "DRY-BLR-001" },
+        { id: Date.now() + 4, section: "Elevators", name: "Passenger Elevator Control Panel", type: "Control Panel", code: "ELV-P-001" },
+        { id: Date.now() + 5, section: "Elevators", name: "Cargo Elevator Control Panel", type: "Control Panel", code: "ELV-C-001" },
+        { id: Date.now() + 6, section: "Robotic", name: "ABB IRB460 Robotic Arm", type: "Robot", code: "RBT-001" }
       ];
       saveEquipment();
     }
@@ -787,8 +797,7 @@
     faults.forEach(f => { if(f.equipmentName) problemMap[f.equipmentName] = (problemMap[f.equipmentName]||0)+1; });
     const top = Object.entries(problemMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
     document.getElementById("topProblemList").innerHTML = top.map(([n,c]) => `<div class="record-item"><div class="record-title">${n}</div><div class="record-meta">Fault Count: ${c}</div></div>`).join("") || '<div class="status-message">No data</div>';
-    const avgTime = faults.filter(f => f.status === "Closed").length > 0 ? "Calculating..." : "No closed faults yet";
-    document.getElementById("avgResolutionTime").innerHTML = `⏱️ ${avgTime}`;
+    document.getElementById("avgResolutionTime").innerHTML = `⏱️ Average resolution time: Calculating...`;
   }
   
   function createBreakdown() {
@@ -867,10 +876,12 @@
     const grid = document.getElementById("plantGrid");
     if(grid) {
       const sectionsList = Object.keys(sections);
-      grid.innerHTML = sectionsList.map(sec => {
-        let colorClass = "";
-        if(sec === "Drying System") colorClass = "stat-teal";
-        return `<div class="stat-card ${colorClass}" onclick="switchToScreen('equip')"><div class="big-number">${sec}</div><div class="label">${sections[sec].slice(0, 2).join(", ")}..</div></div>`;
+      grid.innerHTML = sectionsList.map((sec, index) => {
+        const colorIndex = index % cardColors.length;
+        return `<div class="plant-card" style="background: ${cardColors[colorIndex]};" onclick="switchToScreen('equip')">
+          <div class="big-number">${sec}</div>
+          <div class="label">${sections[sec].slice(0, 2).join(", ")}..</div>
+        </div>`;
       }).join("");
     }
   }
