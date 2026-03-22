@@ -1,5 +1,3 @@
-Here's the updated HTML with a complete notification/alert system that automatically shows upcoming PM tasks, pending work, and overdue items:
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +23,6 @@ Here's the updated HTML with a complete notification/alert system that automatic
       min-height: 100vh;
       box-shadow: 0 0 30px rgba(0,0,0,0.1);
     }
-    /* 3D Colorful Header */
     .header {
       background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%);
       color: white;
@@ -82,7 +79,6 @@ Here's the updated HTML with a complete notification/alert system that automatic
       display: inline-block;
       font-weight: 700;
     }
-    /* Notification Bell */
     .notification-area {
       position: relative;
       display: inline-block;
@@ -124,18 +120,10 @@ Here's the updated HTML with a complete notification/alert system that automatic
       animation: slideDown 0.3s ease;
     }
     @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .notification-panel.show {
-      display: block;
-    }
+    .notification-panel.show { display: block; }
     .notification-header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -148,36 +136,11 @@ Here's the updated HTML with a complete notification/alert system that automatic
       border-bottom: 1px solid #e2e8f0;
       transition: background 0.2s;
     }
-    .notification-item:hover {
-      background: #f8fafc;
-    }
-    .notification-item.urgent {
-      background: #fef2f2;
-      border-left: 4px solid #ef4444;
-    }
-    .notification-item.warning {
-      background: #fffbeb;
-      border-left: 4px solid #f59e0b;
-    }
-    .notification-title {
-      font-weight: 700;
-      font-size: 0.85rem;
-      margin-bottom: 4px;
-    }
-    .notification-desc {
-      font-size: 0.75rem;
-      color: #64748b;
-    }
-    .notification-time {
-      font-size: 0.65rem;
-      color: #94a3b8;
-      margin-top: 4px;
-    }
-    .no-notifications {
-      padding: 20px;
-      text-align: center;
-      color: #94a3b8;
-    }
+    .notification-item.urgent { background: #fef2f2; border-left: 4px solid #ef4444; }
+    .notification-item.warning { background: #fffbeb; border-left: 4px solid #f59e0b; }
+    .notification-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; }
+    .notification-desc { font-size: 0.75rem; color: #64748b; }
+    .notification-time { font-size: 0.65rem; color: #94a3b8; margin-top: 4px; }
     .tabs {
       display: flex;
       flex-wrap: wrap;
@@ -230,9 +193,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
       border: 1px solid #e9edf2;
       transition: transform 0.2s ease;
     }
-    .card:hover {
-      transform: translateY(-3px);
-    }
+    .card:hover { transform: translateY(-3px); }
     .card-title {
       font-size: 1.7rem;
       font-weight: 800;
@@ -249,6 +210,11 @@ Here's the updated HTML with a complete notification/alert system that automatic
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
     .stat-card {
       border-radius: 28px;
       padding: 20px 14px;
@@ -258,21 +224,12 @@ Here's the updated HTML with a complete notification/alert system that automatic
       transition: all 0.3s ease;
       cursor: pointer;
     }
-    .stat-card:hover {
-      transform: translateY(-5px) scale(1.02);
-    }
-    .stat-card .big-number {
-      font-size: 2.4rem;
-      font-weight: 800;
-    }
-    .stat-card .label {
-      font-size: 0.85rem;
-      opacity: 0.9;
-      margin-top: 8px;
-      font-weight: 600;
-    }
+    .stat-card:hover { transform: translateY(-5px) scale(1.02); }
+    .stat-card .big-number { font-size: 2.4rem; font-weight: 800; }
+    .stat-card .label { font-size: 0.85rem; opacity: 0.9; margin-top: 8px; font-weight: 600; }
     .stat-orange { background: linear-gradient(145deg, #c2410c, #f97316); }
     .stat-rose { background: linear-gradient(145deg, #b91c1c, #ef4444); }
+    .stat-teal { background: linear-gradient(145deg, #0f5c6b, #14b8a6); }
     .input, .select, .textarea {
       width: 100%;
       padding: 15px 18px;
@@ -295,9 +252,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
       margin-top: 8px;
       transition: all 0.3s ease;
     }
-    .btn-danger {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    }
+    .btn-danger { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
     .record-item {
       background: #f9fbfd;
       border-radius: 28px;
@@ -305,15 +260,8 @@ Here's the updated HTML with a complete notification/alert system that automatic
       margin-bottom: 14px;
       border: 1px solid #e9edf2;
     }
-    .record-title {
-      font-weight: 800;
-      font-size: 1.2rem;
-    }
-    .record-meta {
-      font-size: 0.8rem;
-      color: #4b5563;
-      margin: 8px 0;
-    }
+    .record-title { font-weight: 800; font-size: 1.2rem; }
+    .record-meta { font-size: 0.8rem; color: #4b5563; margin: 8px 0; }
     .badge {
       display: inline-block;
       padding: 5px 14px;
@@ -326,11 +274,9 @@ Here's the updated HTML with a complete notification/alert system that automatic
     .badge-done { background: #dcfce7; color: #15803d; }
     .badge-overdue { background: #fef2f2; color: #b91c1c; }
     .badge-open { background: #fee2e2; color: #b91c1c; }
-    .row-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 14px;
-    }
+    .badge-progress { background: #fff3e3; color: #b45309; }
+    .badge-closed { background: #e0f2e9; color: #15803d; }
+    .row-actions { display: flex; gap: 12px; margin-top: 14px; }
     .small-btn {
       background: #eef2ff;
       border: none;
@@ -340,11 +286,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
       font-size: 0.75rem;
       cursor: pointer;
     }
-    .pagination {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 18px;
-    }
+    .pagination { display: flex; justify-content: space-between; margin-top: 18px; }
     .status-message {
       background: #eef2ff;
       padding: 12px;
@@ -436,9 +378,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
       <input type="email" id="loginEmail" class="input" placeholder="Email">
       <input type="password" id="loginPassword" class="input" placeholder="Password (min 4 chars)">
       <select id="loginRole" class="select">
-        <option>Engineer</option>
-        <option>Supervisor</option>
-        <option>COO</option>
+        <option>Engineer</option><option>Supervisor</option><option>COO</option>
       </select>
       <button class="btn" id="signupBtn">CREATE ACCOUNT</button>
       <button class="btn btn-outline" id="signinBtn">SIGN IN</button>
@@ -495,7 +435,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
       <input type="date" id="pmDate" class="input">
       <select id="pmArea" class="select"></select>
       <select id="pmEquipment" class="select"></select>
-      <select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option></select>
+      <select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option></select>
       <input id="pmAssigned" class="input" placeholder="Assigned To">
       <select id="pmStatusSelect" class="select"><option>Pending</option><option>Done</option></select>
       <textarea id="pmRemarks" class="textarea" placeholder="Remarks"></textarea>
@@ -508,6 +448,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
     </div>
   </div>
 
+  <!-- PLANT SCREEN with DRYING SYSTEM -->
   <div id="plantScreen" class="screen">
     <div class="card">
       <div class="card-title">🏭 PLANT SECTIONS</div>
@@ -515,6 +456,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
     </div>
   </div>
 
+  <!-- EQUIPMENT REGISTER -->
   <div id="equipScreen" class="screen">
     <div class="card">
       <div class="card-title">📟 EQUIPMENT REGISTER</div>
@@ -531,6 +473,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
     </div>
   </div>
 
+  <!-- COO SCREEN -->
   <div id="cooScreen" class="screen">
     <div class="card">
       <div class="card-title">👔 COO EXECUTIVE SUMMARY</div>
@@ -556,6 +499,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
     </div>
   </div>
 
+  <!-- TOOLS SCREEN -->
   <div id="toolsScreen" class="screen">
     <div class="card">
       <div class="card-title">🛠️ DATA TOOLS</div>
@@ -578,18 +522,21 @@ Here's the updated HTML with a complete notification/alert system that automatic
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1;
   const pageSize = 5;
 
+  // Updated sections with DRYING SYSTEM
   const sections = {
-    "Cleaning": ["Dampening Device", "Gates Sensor", "Colour Sort Machine"],
-    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill"],
-    "Packing": ["Packing Machine", "VFD", "Electronics Cards"],
-    "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer"],
-    "Control Room": ["PLC Panel", "MCC Panel", "IO Modules", "VFDs"],
-    "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller"],
-    "Passenger Elevator": ["Elevator Control Panel", "Elevator Motor", "Door Controller"],
-    "Cargo Elevator": ["Cargo Elevator Control Panel", "Hoist Motor", "Load Cell Sensor"]
+    "Cleaning": ["Dampening Device", "Gates Sensor", "Colour Sort Machine", "Material Elevator"],
+    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Conveyors"],
+    "Packing": ["Packing Machine", "VFD", "Electronics Cards", "Panel", "Bagging Machine"],
+    "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer", "Generator"],
+    "Control Room": ["PLC Panel", "MCC Panel", "IO Modules", "VFDs", "CPU", "HMI"],
+    "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer", "IRC5 Power Supply", "IRC5 Communication Module", "IRC5 Safety Board"],
+    "Passenger Elevator": ["Elevator Control Panel", "Elevator Motor", "Elevator Door Controller", "Position Sensor", "Safety Brake System", "Call Button Panel", "Display Unit"],
+    "Cargo Elevator": ["Cargo Elevator Control Panel", "Cargo Hoist Motor", "Door Interlock System", "Load Cell Sensor", "Limit Switches", "Emergency Stop System", "Control Relays"],
+    "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller", "Humidity Sensor", "Air Heater", "Exhaust Fan", "Conveyor Dryer", "Burner Control Unit"]
   };
-  const equipmentTypes = ["PLC Panel", "Motor", "Sensor", "Machine", "Compressor", "Robot", "Control Panel"];
-  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Sensor Fault"];
+  
+  const equipmentTypes = ["PLC Panel", "Motor", "Sensor", "Machine", "Compressor", "Robot", "VFD", "Transformer", "Control Panel", "Controller", "Power Supply", "Boiler", "Heater", "Fan"];
+  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Deviation Fault", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue", "Pressure Issue"];
 
   function formatDurationDetailed(ms) {
     if (!ms || ms < 1000) return "Just now";
@@ -617,57 +564,29 @@ Here's the updated HTML with a complete notification/alert system that automatic
     const notifications = [];
     const now = new Date();
     
-    // Check PM Records
     pmRecords.forEach(pm => {
       if (pm.status !== "Done") {
         const dueDate = new Date(pm.nextDueDate || pm.date);
         const daysDiff = Math.ceil((dueDate - now) / (1000 * 60 * 60 * 24));
-        
         if (daysDiff < 0) {
-          notifications.push({
-            id: `pm-overdue-${pm.id}`,
-            title: `⚠️ OVERDUE: ${pm.equipment}`,
-            description: `${pm.area} - PM was due on ${pm.date}. Please complete immediately!`,
-            type: "urgent",
-            time: `${Math.abs(daysDiff)} days overdue`
-          });
+          notifications.push({ id: `pm-overdue-${pm.id}`, title: `⚠️ OVERDUE: ${pm.equipment}`, description: `${pm.area} - PM was due on ${pm.date}. Please complete immediately!`, type: "urgent", time: `${Math.abs(daysDiff)} days overdue` });
         } else if (daysDiff <= 2) {
-          notifications.push({
-            id: `pm-upcoming-${pm.id}`,
-            title: `🔧 PM Due Soon: ${pm.equipment}`,
-            description: `${pm.area} - ${pm.frequency} maintenance due in ${daysDiff} day(s)`,
-            type: "warning",
-            time: `Due in ${daysDiff} day(s)`
-          });
+          notifications.push({ id: `pm-upcoming-${pm.id}`, title: `🔧 PM Due Soon: ${pm.equipment}`, description: `${pm.area} - ${pm.frequency} maintenance due in ${daysDiff} day(s)`, type: "warning", time: `Due in ${daysDiff} day(s)` });
         }
       }
     });
     
-    // Check Open Faults
     faults.forEach(fault => {
       if (fault.status === "Open") {
         const faultDate = new Date(fault.date);
         const daysOpen = Math.ceil((now - faultDate) / (1000 * 60 * 60 * 24));
         if (daysOpen >= 3) {
-          notifications.push({
-            id: `fault-old-${fault.id}`,
-            title: `⚠️ CRITICAL: ${fault.equipmentName}`,
-            description: `Fault open since ${fault.date} (${daysOpen} days). Requires immediate attention!`,
-            type: "urgent",
-            time: `${daysOpen} days open`
-          });
+          notifications.push({ id: `fault-old-${fault.id}`, title: `⚠️ CRITICAL: ${fault.equipmentName}`, description: `Fault open since ${fault.date} (${daysOpen} days). Requires immediate attention!`, type: "urgent", time: `${daysOpen} days open` });
         } else if (daysOpen >= 1) {
-          notifications.push({
-            id: `fault-pending-${fault.id}`,
-            title: `📌 Pending Fault: ${fault.equipmentName}`,
-            description: `${fault.faultType} - ${fault.faultCode || "No code"}`,
-            type: "warning",
-            time: `Open for ${daysOpen} day(s)`
-          });
+          notifications.push({ id: `fault-pending-${fault.id}`, title: `📌 Pending Fault: ${fault.equipmentName}`, description: `${fault.faultType} - ${fault.faultCode || "No code"}`, type: "warning", time: `Open for ${daysOpen} day(s)` });
         }
       }
     });
-    
     return notifications;
   }
 
@@ -676,54 +595,27 @@ Here's the updated HTML with a complete notification/alert system that automatic
     const badge = document.getElementById("notificationBadge");
     const urgentCount = notifications.filter(n => n.type === "urgent").length;
     const totalCount = notifications.length;
-    
-    if (totalCount > 0) {
-      badge.style.display = "inline-block";
-      badge.textContent = totalCount;
-    } else {
-      badge.style.display = "none";
-    }
-    
-    // Update dashboard
+    if (totalCount > 0) { badge.style.display = "inline-block"; badge.textContent = totalCount; } 
+    else { badge.style.display = "none"; }
     document.getElementById("dashNotifications").innerText = totalCount;
     document.getElementById("dashUrgent").innerText = urgentCount;
     
-    // Render notification panel
     const notificationList = document.getElementById("notificationList");
-    if (notifications.length === 0) {
-      notificationList.innerHTML = '<div class="no-notifications">✅ All good! No pending notifications.</div>';
-    } else {
-      notificationList.innerHTML = notifications.map(n => `
-        <div class="notification-item ${n.type === 'urgent' ? 'urgent' : 'warning'}">
-          <div class="notification-title">${n.title}</div>
-          <div class="notification-desc">${n.description}</div>
-          <div class="notification-time">⏱️ ${n.time}</div>
-        </div>
-      `).join("");
+    if (notifications.length === 0) { notificationList.innerHTML = '<div class="no-notifications">✅ All good! No pending notifications.</div>'; } 
+    else {
+      notificationList.innerHTML = notifications.map(n => `<div class="notification-item ${n.type === 'urgent' ? 'urgent' : 'warning'}"><div class="notification-title">${n.title}</div><div class="notification-desc">${n.description}</div><div class="notification-time">⏱️ ${n.time}</div></div>`).join("");
     }
     
-    // Render recent alerts on dashboard
     const recentAlerts = notifications.slice(0, 3);
     const recentAlertsDiv = document.getElementById("recentAlerts");
-    if (recentAlerts.length === 0) {
-      recentAlertsDiv.innerHTML = '<div class="status-message">✅ No pending alerts</div>';
-    } else {
-      recentAlertsDiv.innerHTML = recentAlerts.map(n => `
-        <div class="record-item" style="border-left: 4px solid ${n.type === 'urgent' ? '#ef4444' : '#f59e0b'}">
-          <div class="record-title">${n.title}</div>
-          <div class="record-meta">${n.description}</div>
-          <div class="duration-text">⏱️ ${n.time}</div>
-        </div>
-      `).join("");
+    if (recentAlerts.length === 0) { recentAlertsDiv.innerHTML = '<div class="status-message">✅ No pending alerts</div>'; } 
+    else {
+      recentAlertsDiv.innerHTML = recentAlerts.map(n => `<div class="record-item" style="border-left: 4px solid ${n.type === 'urgent' ? '#ef4444' : '#f59e0b'}"><div class="record-title">${n.title}</div><div class="record-meta">${n.description}</div><div class="duration-text">⏱️ ${n.time}</div></div>`).join("");
     }
   }
 
-  function toggleNotifications() {
-    const panel = document.getElementById("notificationPanel");
-    panel.classList.toggle("show");
-  }
+  function toggleNotifications() { document.getElementById("notificationPanel").classList.toggle("show"); }
 
-  // User functions
   function getUsers() { return JSON.parse(localStorage.getItem('majeed_users') || '[]'); }
   
   function createAccount() {
@@ -772,23 +664,28 @@ Here's the updated HTML with a complete notification/alert system that automatic
       const now = Date.now();
       faults = [
         { id: now + 1, date: "2026-03-20", area: "Utility", equipmentName: "Air Compressor 01", faultType: "Electrical", faultCode: "OVERHEAT", status: "Open", statusHistory: [{ status: "Open", timestamp: now - 5*24*3600000 }] },
-        { id: now + 2, date: "2026-03-21", area: "Robotic", equipmentName: "ABB IRB460 Robotic Arm", faultType: "Mechanical", faultCode: "ARM-ERR", status: "In Progress", statusHistory: [{ status: "Open", timestamp: now - 2*24*3600000 }] }
+        { id: now + 2, date: "2026-03-21", area: "Drying System", equipmentName: "Boiler", faultType: "Temperature Issue", faultCode: "TEMP-HIGH", status: "In Progress", statusHistory: [{ status: "Open", timestamp: now - 2*24*3600000 }, { status: "In Progress", timestamp: now - 1*24*3600000 }] },
+        { id: now + 3, date: "2026-03-18", area: "Robotic", equipmentName: "ABB IRB460 Robotic Arm", faultType: "Mechanical", faultCode: "ARM-ERR", status: "Closed", statusHistory: [{ status: "Open", timestamp: now - 7*24*3600000 }, { status: "In Progress", timestamp: now - 5*24*3600000 }, { status: "Closed", timestamp: now - 3*24*3600000 }] }
       ];
       saveFaults();
     }
     if (pmRecords.length === 0) {
-      const today = new Date();
       pmRecords = [
-        { id: Date.now() + 1, date: "2026-03-22", area: "Robotic", equipment: "IRC5 Controller", frequency: "Weekly", assignedTo: "Fahim", status: "Pending", nextDueDate: "2026-03-29" },
-        { id: Date.now() + 2, date: "2026-03-20", area: "Passenger Elevator", equipment: "Elevator Control Panel", frequency: "Monthly", assignedTo: "Ahmed", status: "Pending", nextDueDate: "2026-04-20" }
+        { id: Date.now() + 1, date: "2026-03-22", area: "Drying System", equipment: "Drying PLC Panel", frequency: "Weekly", assignedTo: "Fahim", status: "Pending", nextDueDate: "2026-03-29" },
+        { id: Date.now() + 2, date: "2026-03-20", area: "Drying System", equipment: "Boiler", frequency: "Monthly", assignedTo: "Ahmed", status: "Pending", nextDueDate: "2026-04-20" },
+        { id: Date.now() + 3, date: "2026-03-21", area: "Robotic", equipment: "IRC5 Controller", frequency: "Weekly", assignedTo: "Ali", status: "Pending", nextDueDate: "2026-03-28" }
       ];
       savePM();
     }
     if (equipmentList.length === 0) {
       equipmentList = [
         { id: Date.now() + 1, section: "Utility", name: "Air Compressor 01", type: "Compressor", code: "UTL-001" },
-        { id: Date.now() + 2, section: "Robotic", name: "ABB IRB460 Robotic Arm", type: "Robot", code: "RBT-001" },
-        { id: Date.now() + 3, section: "Robotic", name: "FlexPendant", type: "Controller", code: "RBT-002" }
+        { id: Date.now() + 2, section: "Drying System", name: "Drying PLC Panel", type: "PLC Panel", code: "DRY-PLC-001" },
+        { id: Date.now() + 3, section: "Drying System", name: "Drying MCC Panel", type: "Control Panel", code: "DRY-MCC-001" },
+        { id: Date.now() + 4, section: "Drying System", name: "Boiler", type: "Boiler", code: "DRY-BLR-001" },
+        { id: Date.now() + 5, section: "Drying System", name: "Temperature Controller", type: "Controller", code: "DRY-TC-001" },
+        { id: Date.now() + 6, section: "Robotic", name: "ABB IRB460 Robotic Arm", type: "Robot", code: "RBT-001" },
+        { id: Date.now() + 7, section: "Robotic", name: "FlexPendant", type: "Controller", code: "RBT-002" }
       ];
       saveEquipment();
     }
@@ -835,7 +732,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
         <div class="record-item">
           <div class="record-title">${f.equipmentName} - ${f.faultCode || "Fault"}</div>
           <div class="record-meta">${f.area} | ${f.date} | ${f.faultType}</div>
-          <div><span class="badge ${f.status === 'Open' ? 'badge-open' : 'badge-pending'}">${f.status}</span></div>
+          <div><span class="badge ${f.status === 'Open' ? 'badge-open' : f.status === 'In Progress' ? 'badge-progress' : 'badge-closed'}">${f.status}</span></div>
           <div class="duration-text">⏱️ Duration: ${getFaultDuration(f) ? formatDurationDetailed(getFaultDuration(f)) : "Active"}</div>
           <div class="row-actions"><button class="small-btn" onclick="updateFaultStatus('${f.id}')">Change Status</button></div>
         </div>
@@ -886,12 +783,12 @@ Here's the updated HTML with a complete notification/alert system that automatic
     document.getElementById("cooPmPending").innerText = pmRecords.filter(p => p.status !== "Done").length;
     document.getElementById("cooPmDone").innerText = pmRecords.filter(p => p.status === "Done").length;
     document.getElementById("cooTotalEquip").innerText = equipmentList.length;
-    const avg = faults.filter(f => f.status === "Closed").length > 0 ? "Calculating..." : "No data";
-    document.getElementById("avgResolutionTime").innerHTML = `⏱️ ${avg}`;
     const problemMap = {};
     faults.forEach(f => { if(f.equipmentName) problemMap[f.equipmentName] = (problemMap[f.equipmentName]||0)+1; });
-    const top = Object.entries(problemMap).sort((a,b)=>b[1]-a[1]).slice(0,3);
-    document.getElementById("topProblemList").innerHTML = top.map(([n,c]) => `<div class="record-item"><div class="record-title">${n}</div><div class="record-meta">Faults: ${c}</div></div>`).join("") || '<div class="status-message">No data</div>';
+    const top = Object.entries(problemMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    document.getElementById("topProblemList").innerHTML = top.map(([n,c]) => `<div class="record-item"><div class="record-title">${n}</div><div class="record-meta">Fault Count: ${c}</div></div>`).join("") || '<div class="status-message">No data</div>';
+    const avgTime = faults.filter(f => f.status === "Closed").length > 0 ? "Calculating..." : "No closed faults yet";
+    document.getElementById("avgResolutionTime").innerHTML = `⏱️ ${avgTime}`;
   }
   
   function createBreakdown() {
@@ -914,6 +811,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
     if(freq === "Daily") nextDue.setDate(nextDue.getDate()+1);
     else if(freq === "Weekly") nextDue.setDate(nextDue.getDate()+7);
     else if(freq === "Monthly") nextDue.setMonth(nextDue.getMonth()+1);
+    else if(freq === "Quarterly") nextDue.setMonth(nextDue.getMonth()+3);
     pmRecords.unshift({ id: Date.now(), date, area: document.getElementById("pmArea").value, equipment: document.getElementById("pmEquipment").value, frequency: freq, assignedTo: document.getElementById("pmAssigned").value, status: document.getElementById("pmStatusSelect").value, remarks: document.getElementById("pmRemarks").value, nextDueDate: nextDue.toISOString().slice(0,10) });
     savePM();
     renderPM();
@@ -926,10 +824,12 @@ Here's the updated HTML with a complete notification/alert system that automatic
   
   function addEquipment() {
     if (!currentUser) { showToast("Please sign in"); return; }
-    equipmentList.unshift({ id: Date.now(), section: document.getElementById("equipSection").value, name: document.getElementById("equipName").value || "New Equipment", type: document.getElementById("equipType").value, code: document.getElementById("equipCode").value || "AUTO" });
+    equipmentList.unshift({ id: Date.now(), section: document.getElementById("equipSection").value, name: document.getElementById("equipName").value || "New Equipment", type: document.getElementById("equipType").value, code: document.getElementById("equipCode").value || "AUTO-" + Date.now() });
     saveEquipment();
     renderEquipment();
     showToast("✅ Equipment added!");
+    document.getElementById("equipName").value = "";
+    document.getElementById("equipCode").value = "";
   }
   
   function updateFaultStatus(id) {
@@ -957,7 +857,7 @@ Here's the updated HTML with a complete notification/alert system that automatic
   function deleteAllPM() { if(confirm("Delete ALL PM?")) { pmRecords = []; savePM(); renderPM(); updateDashboard(); updateCOO(); } }
   function deleteAllEquipment() { if(confirm("Delete ALL equipment?")) { equipmentList = []; saveEquipment(); renderEquipment(); updateDashboard(); updateCOO(); } }
   
-  function printCOOSummary() { alert("Print functionality available - Use browser print"); }
+  function printCOOSummary() { alert("Print functionality - Use browser print (Ctrl+P)"); }
   function printWeeklyHistory() { alert("Weekly history - Use browser print"); }
   function printMonthlyHistory() { alert("Monthly history - Use browser print"); }
   function printPMFullHistory() { alert("PM records - Use browser print"); }
@@ -965,7 +865,14 @@ Here's the updated HTML with a complete notification/alert system that automatic
   
   function buildPlantGrid() {
     const grid = document.getElementById("plantGrid");
-    if(grid) grid.innerHTML = Object.keys(sections).map(sec => `<div class="stat-card" onclick="switchToScreen('equip')"><div class="big-number">${sec}</div><div class="label">${sections[sec][0]}..</div></div>`).join("");
+    if(grid) {
+      const sectionsList = Object.keys(sections);
+      grid.innerHTML = sectionsList.map(sec => {
+        let colorClass = "";
+        if(sec === "Drying System") colorClass = "stat-teal";
+        return `<div class="stat-card ${colorClass}" onclick="switchToScreen('equip')"><div class="big-number">${sec}</div><div class="label">${sections[sec].slice(0, 2).join(", ")}..</div></div>`;
+      }).join("");
+    }
   }
   
   function switchToScreen(screenId) {
