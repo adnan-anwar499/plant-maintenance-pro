@@ -1,10 +1,4 @@
-Here's the complete updated HTML document with all your requirements:
-
-1. Fault Duration - Now shows actual time in seconds/minutes/hours/days when fault is closed
-2. Elevators Section - Added with Passenger Elevator and Cargo Elevator with their control panels and equipment
-3. Robotics - Added FlexPendant, IRB460 related equipment, and IRC5 maintenance/parts
-4. Larger Tabs & Cards - Made tabs and cards bigger with better layout
-5. Working data storage with sign-in
+Here's the updated HTML with the description removed and a beautiful 3D colorful header for MAJEED FOODS PVT LTD BAHAWALPUR:
 
 ```html
 <!DOCTYPE html>
@@ -21,50 +15,92 @@ Here's the complete updated HTML document with all your requirements:
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
     body {
-      background: #eef2f9;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
     }
     .app-container {
       max-width: 550px;
       margin: 0 auto;
       background: #f8fafc;
       min-height: 100vh;
-      box-shadow: 0 0 30px rgba(0,0,0,0.05);
+      box-shadow: 0 0 30px rgba(0,0,0,0.1);
     }
+    /* 3D Colorful Header */
     .header {
-      background: linear-gradient(135deg, #0b2b5c, #102b47);
+      background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%);
       color: white;
-      padding: 28px 20px 24px;
+      padding: 35px 20px 30px;
       text-align: center;
-      border-bottom-left-radius: 32px;
-      border-bottom-right-radius: 32px;
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+      position: relative;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 10%;
+      right: 10%;
+      height: 20px;
+      background: rgba(0,0,0,0.2);
+      filter: blur(8px);
+      border-radius: 50%;
+      z-index: -1;
     }
     .header h1 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      letter-spacing: -0.3px;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+      background: linear-gradient(135deg, #fff 0%, #FFEAA7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
     }
     .header p {
-      font-size: 0.85rem;
-      opacity: 0.85;
+      font-size: 0.95rem;
+      opacity: 0.95;
       margin-top: 8px;
+      font-weight: 600;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+      letter-spacing: 1px;
     }
     .subhead {
-      font-weight: 600;
+      font-weight: 800;
       font-size: 0.9rem;
-      background: rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.3);
       display: inline-block;
-      padding: 8px 18px;
-      border-radius: 40px;
+      padding: 8px 20px;
+      border-radius: 50px;
       margin-top: 12px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.3);
     }
     .user-info {
-      background: rgba(255,255,255,0.2);
-      padding: 10px 16px;
-      border-radius: 40px;
+      background: rgba(0,0,0,0.4);
+      padding: 10px 18px;
+      border-radius: 50px;
       font-size: 0.85rem;
       margin-top: 12px;
       display: inline-block;
-      font-weight: 600;
+      font-weight: 700;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.3);
     }
     .tabs {
       display: flex;
@@ -78,6 +114,7 @@ Here's the complete updated HTML document with all your requirements:
       z-index: 10;
       background: #ffffffcc;
       backdrop-filter: blur(8px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
     .tab-btn {
       flex: 1;
@@ -89,14 +126,15 @@ Here's the complete updated HTML document with all your requirements:
       padding: 12px 0;
       border-radius: 50px;
       color: #334155;
-      transition: 0.2s;
+      transition: all 0.3s ease;
       cursor: pointer;
       letter-spacing: 0.5px;
     }
     .tab-btn.active {
-      background: #0f2b4d;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transform: translateY(-2px);
     }
     .screen {
       padding: 20px 18px 100px;
@@ -104,21 +142,34 @@ Here's the complete updated HTML document with all your requirements:
     }
     .screen.active-screen {
       display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .card {
       background: white;
       border-radius: 32px;
       padding: 24px 20px;
       margin-bottom: 24px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border: 1px solid #e9edf2;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
     }
     .card-title {
       font-size: 1.7rem;
       font-weight: 800;
-      color: #0b2b5c;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin-bottom: 20px;
-      border-left: 6px solid #2c5bff;
+      border-left: 6px solid #667eea;
       padding-left: 16px;
     }
     .section-title {
@@ -143,8 +194,12 @@ Here's the complete updated HTML document with all your requirements:
       background: linear-gradient(145deg, #1e3a8a, #2563eb);
       color: white;
       box-shadow: 0 12px 20px -8px rgba(0,0,0,0.2);
-      transition: 0.2s ease;
+      transition: all 0.3s ease;
       cursor: pointer;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
     }
     .stat-card .big-number {
       font-size: 2.4rem;
@@ -173,6 +228,12 @@ Here's the complete updated HTML document with all your requirements:
       font-size: 0.95rem;
       margin-bottom: 14px;
       font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .input:focus, .select:focus, .textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
     .textarea {
       min-height: 100px;
@@ -186,16 +247,21 @@ Here's the complete updated HTML document with all your requirements:
       font-weight: 800;
       font-size: 1.05rem;
       color: white;
-      background: #2c5bff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       cursor: pointer;
       margin-top: 8px;
-      transition: 0.2s;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
     }
     .btn-danger {
-      background: #dc2626;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     }
     .btn-outline {
-      background: #f1f5f9;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e9edf2 100%);
       color: #1f2b48;
       border: 1px solid #cbd5e1;
     }
@@ -213,10 +279,12 @@ Here's the complete updated HTML document with all your requirements:
       font-weight: 700;
       font-size: 0.8rem;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
     .filter-chip.active {
-      background: #0f2b4d;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
+      transform: translateY(-2px);
     }
     .record-item {
       background: #f9fbfd;
@@ -224,6 +292,11 @@ Here's the complete updated HTML document with all your requirements:
       padding: 18px;
       margin-bottom: 14px;
       border: 1px solid #e9edf2;
+      transition: all 0.3s ease;
+    }
+    .record-item:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
     }
     .record-title {
       font-weight: 800;
@@ -263,6 +336,11 @@ Here's the complete updated HTML document with all your requirements:
       font-weight: 700;
       font-size: 0.75rem;
       cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .small-btn:hover {
+      transform: translateY(-2px);
+      background: #e0e7ff;
     }
     .small-btn.danger {
       background: #fee2e2;
@@ -285,7 +363,7 @@ Here's the complete updated HTML document with all your requirements:
       text-align: center;
     }
     .success-toast {
-      background: #10b981;
+      background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
       color: white;
       padding: 14px 24px;
       border-radius: 50px;
@@ -294,14 +372,17 @@ Here's the complete updated HTML document with all your requirements:
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
-      animation: fadeOut 3s forwards;
+      animation: slideUp 0.3s ease, fadeOut 3s 2.7s forwards;
       font-weight: 700;
       font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    @keyframes slideUp {
+      from { bottom: -50px; opacity: 0; }
+      to { bottom: 20px; opacity: 1; }
     }
     @keyframes fadeOut {
-      0% { opacity: 1; }
-      70% { opacity: 1; }
-      100% { opacity: 0; visibility: hidden; }
+      to { opacity: 0; visibility: hidden; }
     }
     .duration-text {
       font-size: 0.75rem;
@@ -310,12 +391,12 @@ Here's the complete updated HTML document with all your requirements:
       font-weight: 600;
     }
     .duration-highlight {
-      background: #fef3c7;
-      padding: 4px 10px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      padding: 4px 12px;
       border-radius: 20px;
       display: inline-block;
       font-size: 0.7rem;
-      font-weight: 700;
+      font-weight: 800;
       color: #b45309;
     }
     #print-area {
@@ -345,10 +426,11 @@ Here's the complete updated HTML document with all your requirements:
 </head>
 <body>
 <div class="app-container">
+  <!-- 3D Colorful Header -->
   <div class="header">
     <h1>MAJEED FOODS PVT LTD</h1>
-    <p>Bahawalpur | Electrical & Automation Maintenance System</p>
-    <div class="subhead">GitHub Pages + Local Storage + COO Dashboard</div>
+    <p>BAHAWALPUR</p>
+    <div class="subhead">Electrical & Automation Maintenance System</div>
     <div id="userDisplay" class="user-info">🔒 Not logged in</div>
   </div>
 
@@ -596,11 +678,6 @@ Here's the complete updated HTML document with all your requirements:
   }
   
   // User authentication functions
-  function saveUsers() {
-    const users = JSON.parse(localStorage.getItem('majeed_users') || '[]');
-    localStorage.setItem('majeed_users', JSON.stringify(users));
-  }
-  
   function getUsers() {
     return JSON.parse(localStorage.getItem('majeed_users') || '[]');
   }
@@ -651,15 +728,6 @@ Here's the complete updated HTML document with all your requirements:
     }
   }
   
-  function signOut() {
-    currentUser = null;
-    localStorage.removeItem('currentUser');
-    document.getElementById("userDisplay").innerHTML = "🔒 Not logged in";
-    document.getElementById("mainTabs").style.display = "none";
-    switchToScreen('login');
-    showToast("Signed out successfully");
-  }
-  
   function checkAutoLogin() {
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
@@ -687,8 +755,6 @@ Here's the complete updated HTML document with all your requirements:
     // Add sample data if empty
     if (faults.length === 0) {
       const now = Date.now();
-      const threeDaysAgo = now - 3 * 24 * 3600000;
-      const fiveDaysAgo = now - 5 * 24 * 3600000;
       faults = [
         { id: now + 1, date: "2026-03-20", area: "Utility", equipmentName: "Air Compressor 01", faultType: "Electrical", faultCode: "OVERHEAT", description: "Compressor overheating", status: "Open", statusHistory: [{ status: "Open", timestamp: now - 2 * 3600000 }] },
         { id: now + 2, date: "2026-03-18", area: "Robotic", equipmentName: "ABB IRB460 Robotic Arm", faultType: "Mechanical", faultCode: "ARM-ERR", description: "Arm movement error", status: "In Progress", statusHistory: [{ status: "Open", timestamp: now - 48 * 3600000 }, { status: "In Progress", timestamp: now - 24 * 3600000 }] },
@@ -700,8 +766,7 @@ Here's the complete updated HTML document with all your requirements:
     if (pmRecords.length === 0) {
       pmRecords = [
         { id: Date.now() + 4, date: "2026-03-22", area: "Robotic", equipment: "IRC5 Controller", frequency: "Weekly", assignedTo: "Fahim", status: "Pending", remarks: "Check communication modules, backup battery", nextDueDate: "2026-03-29" },
-        { id: Date.now() + 5, date: "2026-03-21", area: "Passenger Elevator", equipment: "Elevator Control Panel", frequency: "Monthly", assignedTo: "Ahmed", status: "Pending", remarks: "Inspect all relays and safety circuits", nextDueDate: "2026-04-21" },
-        { id: Date.now() + 6, date: "2026-03-20", area: "Robotic", equipment: "FlexPendant", frequency: "Daily", assignedTo: "Ali", status: "Done", remarks: "Screen calibration completed", nextDueDate: "2026-03-21" }
+        { id: Date.now() + 5, date: "2026-03-21", area: "Passenger Elevator", equipment: "Elevator Control Panel", frequency: "Monthly", assignedTo: "Ahmed", status: "Pending", remarks: "Inspect all relays and safety circuits", nextDueDate: "2026-04-21" }
       ];
       savePM();
     }
