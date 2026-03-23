@@ -249,11 +249,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
     .plant-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -288,7 +283,6 @@
     .stat-card .label { font-size: 0.8rem; opacity: 0.9; margin-top: 8px; font-weight: 600; }
     .stat-card .icon { font-size: 1.8rem; margin-bottom: 8px; }
     
-    /* Colorful Filter Cards */
     .filter-cards {
       display: flex;
       gap: 12px;
@@ -318,7 +312,6 @@
     .coo-orange { background: linear-gradient(145deg, #ea580c, #f97316); }
     .coo-purple { background: linear-gradient(145deg, #7c3aed, #8b5cf6); }
     .coo-teal { background: linear-gradient(145deg, #0d9488, #14b8a6); }
-    .coo-blue { background: linear-gradient(145deg, #2563eb, #3b82f6); }
     
     .input, .select, .textarea {
       width: 100%;
@@ -380,7 +373,7 @@
     .duration-text { font-size: 0.7rem; color: #6b7280; margin-top: 6px; font-weight: 600; }
     .file-input { display: none; }
     #print-area { display: none; }
-    .section-title { font-size: 1.1rem; font-weight: 800; color: #2c3e50; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .section-title { font-size: 1rem; font-weight: 800; color: #2c3e50; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
     .app-footer {
       position: fixed;
       bottom: 0;
@@ -405,11 +398,22 @@
       background: #f8fafc;
       padding: 8px 12px;
       border-radius: 12px;
-      margin-bottom: 8px;
-      font-size: 0.8rem;
+      margin-bottom: 6px;
+      font-size: 0.75rem;
       display: flex;
       align-items: center;
       gap: 8px;
+      border-left: 3px solid #f97316;
+    }
+    .frequency-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      margin-left: 8px;
+      background: #e2e8f0;
+      color: #334155;
     }
     @media print { body * { visibility: hidden; } #print-area, #print-area * { visibility: visible; } #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; background: white; } .no-print { display: none; } .app-footer { display: none; } }
   </style>
@@ -440,7 +444,7 @@
   <div id="loginScreen" class="screen active-screen"><div class="card"><div class="card-title"><span>🔐</span> SIGN IN / REGISTER</div><input type="text" id="loginName" class="input" placeholder="Full Name"><input type="email" id="loginEmail" class="input" placeholder="Email"><input type="password" id="loginPassword" class="input" placeholder="Password (min 4 chars)"><select id="loginRole" class="select"><option>Engineer</option><option>Supervisor</option><option>COO</option><option>Electrical In-charge</option><option>Electrician</option></select><button class="btn" id="signupBtn">📝 CREATE ACCOUNT</button><button class="btn" id="signinBtn">🔑 SIGN IN</button><div id="authStatus" class="status-message">👋 Please sign in to access the system</div></div></div>
   <div id="dashboardScreen" class="screen"><div class="card"><div class="card-title"><span>📊</span> OVERVIEW</div><div class="grid-2"><div class="stat-card coo-red" onclick="switchToScreen('fault')"><div class="icon">⚠️</div><div class="big-number" id="dashOpenFaults">0</div><div class="label">OPEN FAULTS</div></div><div class="stat-card coo-orange" onclick="switchToScreen('pm')"><div class="icon">🔧</div><div class="big-number" id="dashPmDue">0</div><div class="label">PM DUE / OVERDUE</div></div><div class="stat-card coo-yellow" onclick="switchToScreen('coo')"><div class="icon">🔔</div><div class="big-number" id="dashNotifications">0</div><div class="label">PENDING ALERTS</div></div><div class="stat-card coo-green" onclick="switchToScreen('equip')"><div class="icon">⚙️</div><div class="big-number" id="dashActiveEquip">0</div><div class="label">ACTIVE EQUIPMENT</div></div><div class="stat-card coo-teal" onclick="switchToScreen('pm')"><div class="icon">✅</div><div class="big-number" id="dashCompletedPM">0</div><div class="label">COMPLETED PM</div></div><div class="stat-card coo-purple" onclick="switchToScreen('equip')"><div class="icon">🔄</div><div class="big-number" id="dashVibroMotors">0</div><div class="label">VIBRO MOTORS</div></div></div></div><div class="card"><div class="card-title"><span>⚠️</span> RECENT ALERTS</div><div id="recentAlerts"></div></div></div>
   <div id="faultScreen" class="screen"><div class="card"><div class="card-title"><span>🚨</span> NEW BREAKDOWN</div><input type="date" id="faultDate" class="input"><select id="faultArea" class="select"></select><select id="faultEquipment" class="select"></select><select id="faultType" class="select"></select><input id="faultCode" class="input" placeholder="Fault Code"><textarea id="faultDesc" class="textarea" placeholder="Description"></textarea><button class="btn" onclick="createBreakdown()">💾 SAVE FAULT</button></div><div class="card"><div class="card-title"><span>📋</span> BREAKDOWN RECORDS</div><div class="filter-cards" id="faultFilters"><div data-filter="all" class="filter-card all">📊 ALL</div><div data-filter="Open" class="filter-card open">⚠️ OPEN</div><div data-filter="In Progress" class="filter-card progress">🔄 IN PROGRESS</div><div data-filter="Closed" class="filter-card closed">✅ CLOSED</div></div><div id="faultListContainer"></div><div class="pagination" id="faultPagination"></div></div></div>
-  <div id="pmScreen" class="screen"><div class="card"><div class="card-title"><span>🔧</span> PREVENTIVE MAINTENANCE</div><input type="date" id="pmDate" class="input"><select id="pmArea" class="select"></select><select id="pmEquipment" class="select"></select><select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select><div id="pmChecklist" class="card" style="padding: 12px; margin-bottom: 12px;"><div class="section-title">📋 Inspection Checklist</div><div id="checklistItems"></div></div><input id="pmAssigned" class="input" placeholder="Assigned To"><select id="pmStatusSelect" class="select"><option>Pending</option><option>Done</option></select><textarea id="pmRemarks" class="textarea" placeholder="Remarks / Inspection Notes"></textarea><button class="btn" onclick="createPM()">💾 SAVE PM RECORD</button></div><div class="card"><div class="card-title"><span>📅</span> PM RECORDS</div><div id="pmListContainer"></div><div class="pagination" id="pmPagination"></div></div></div>
+  <div id="pmScreen" class="screen"><div class="card"><div class="card-title"><span>🔧</span> PREVENTIVE MAINTENANCE</div><input type="date" id="pmDate" class="input"><select id="pmArea" class="select"></select><select id="pmEquipment" class="select"></select><select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select><div id="pmChecklist" class="card" style="padding: 16px; margin-bottom: 12px; background: #fefce8;"><div class="section-title">📋 INSPECTION CHECKLIST</div><div id="checklistItems"></div></div><input id="pmAssigned" class="input" placeholder="Assigned To"><select id="pmStatusSelect" class="select"><option>Pending</option><option>Done</option></select><textarea id="pmRemarks" class="textarea" placeholder="Remarks / Inspection Notes"></textarea><button class="btn" onclick="createPM()">💾 SAVE PM RECORD</button></div><div class="card"><div class="card-title"><span>📅</span> PM RECORDS</div><div id="pmListContainer"></div><div class="pagination" id="pmPagination"></div></div></div>
   <div id="plantScreen" class="screen"><div class="card"><div class="card-title"><span>🏭</span> PLANT SECTIONS</div><div class="plant-grid" id="plantGrid"></div></div></div>
   <div id="equipScreen" class="screen"><div class="card"><div class="card-title"><span>📟</span> EQUIPMENT REGISTER</div><select id="equipSection" class="select"></select><input id="equipName" class="input" placeholder="Equipment Name"><select id="equipType" class="select"></select><input id="equipCode" class="input" placeholder="Tag/Code"><button class="btn" onclick="addEquipment()">💾 SAVE EQUIPMENT</button></div><div class="card"><div class="card-title"><span>📋</span> REGISTERED ASSETS</div><div id="equipListContainer"></div><div class="pagination" id="equipPagination"></div></div></div>
   <div id="cooScreen" class="screen"><div class="card"><div class="card-title"><span>👔</span> COO EXECUTIVE SUMMARY</div><div class="grid-2"><div class="stat-card coo-red"><div class="icon">📊</div><div class="big-number" id="cooTotalFaults">0</div><div class="label">TOTAL FAULTS</div></div><div class="stat-card coo-orange"><div class="icon">⚠️</div><div class="big-number" id="cooOpenProgress">0</div><div class="label">OPEN+IN PROGRESS</div></div><div class="stat-card coo-green"><div class="icon">✅</div><div class="big-number" id="cooClosedFaults">0</div><div class="label">CLOSED FAULTS</div></div><div class="stat-card coo-yellow"><div class="icon">🔧</div><div class="big-number" id="cooPmPending">0</div><div class="label">PM PENDING</div></div><div class="stat-card coo-teal"><div class="icon">✔️</div><div class="big-number" id="cooPmDone">0</div><div class="label">PM DONE</div></div><div class="stat-card coo-purple"><div class="icon">📟</div><div class="big-number" id="cooTotalEquip">0</div><div class="label">TOTAL EQUIPMENT</div></div></div></div><div class="card"><div class="section-title"><span>⚠️</span> TOP PROBLEM EQUIPMENT</div><div id="topProblemList"></div></div><div class="card"><div class="section-title"><span>⏱️</span> AVERAGE FAULT RESOLUTION TIME</div><div id="avgResolutionTime" class="status-message">Calculating...</div></div><div class="card"><button class="btn" onclick="printCOOSummaryWithPDF()">📄 PRINT COO SUMMARY & PDF</button></div></div>
@@ -453,29 +457,38 @@
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1;
   const pageSize = 5;
   
-  // Inspection Checklists for different equipment types
+  // Smart Equipment-Specific Inspection Checklists (Short & Relevant)
   const inspectionChecklists = {
-    "Motor": ["Check motor temperature", "Check vibration levels", "Inspect bearings for noise", "Check insulation resistance", "Verify mounting bolts tightness", "Check cooling fan operation", "Inspect terminal box connections", "Check alignment"],
-    "VFD": ["Check input/output voltage", "Inspect cooling fans", "Check parameter settings", "Verify communication", "Check DC bus voltage", "Inspect heatsink for dust", "Check fault history"],
-    "PLC": ["Check CPU status LEDs", "Verify I/O module status", "Check communication links", "Inspect power supply", "Check battery backup", "Verify program backup", "Check scan time"],
-    "HMI": ["Check touch screen response", "Verify display brightness", "Check communication", "Inspect backlight", "Check alarm history", "Verify data logging"],
-    "Compressor": ["Check oil level", "Inspect belts", "Check pressure readings", "Verify safety valves", "Check cooling system", "Inspect air filters", "Check vibration", "Listen for unusual noise"],
-    "Boiler": ["Check water level", "Inspect pressure gauge", "Check burner operation", "Verify safety controls", "Check blowdown valves", "Inspect refractory", "Check flame sensor"],
-    "Transformer": ["Check oil level", "Inspect bushings", "Check temperature reading", "Verify cooling fans", "Check Buchholz relay", "Inspect tap changer", "Check insulation resistance"],
-    "General": ["Visual inspection", "Check for unusual noise", "Check for leaks", "Verify safety guards", "Check lubrication", "Clean equipment", "Check mounting hardware"]
+    "Motor": ["🔊 Noise/Vibration", "🌡️ Temperature", "🔌 Terminal connections", "🔄 Bearing condition", "💧 Lubrication", "📊 Current draw"],
+    "Vibro Motor": ["🔊 Vibration level", "🌡️ Body temp", "🔌 Cable condition", "⚙️ Eccentric weights", "🔄 Mounting bolts", "📊 Current balance"],
+    "VFD": ["📺 Display errors", "🌡️ Heatsink temp", "🔌 Input/Output voltage", "💨 Fan operation", "⚙️ Parameter check", "📊 Fault history"],
+    "PLC Panel": ["💚 CPU status LED", "🔌 I/O module lights", "📡 Communication", "🔋 Battery backup", "🌡️ Panel temp", "📊 Program backup"],
+    "HMI / MCGS HMI": ["🖱️ Touch response", "💡 Display brightness", "📡 Communication", "⚙️ Alarm logs", "🔌 Backlight", "📊 Data logging"],
+    "Compressor": ["🔊 Unusual noise", "🛢️ Oil level", "📊 Pressure reading", "💨 Air filter", "🔌 Belt tension", "🌡️ Discharge temp"],
+    "Boiler": ["💧 Water level", "📊 Pressure gauge", "🔥 Burner flame", "⚙️ Safety valve", "🔌 Controls", "🌡️ Stack temp"],
+    "Transformer": ["🛢️ Oil level/color", "📊 Temperature", "🔌 Bushing condition", "🔊 Sound", "⚙️ Tap changer", "📊 Voltage ratio"],
+    "ACB/VCB/MCCB": ["🔌 Contact condition", "📊 Trip settings", "⚙️ Mechanism operation", "🔋 Aux contacts", "🌡️ Temp rise", "📊 Load current"],
+    "PFI Panel": ["⚡ Capacitor health", "📊 Power factor", "🔌 Fuse condition", "🌡️ Temp", "🔊 Humming noise", "📊 Current balance"],
+    "Conveyor": ["🔌 Belt tension", "🔄 Roller condition", "🔊 Bearing noise", "⚙️ Drive coupling", "📊 Speed", "🛡️ Guard condition"],
+    "Elevator": ["🔌 Door operation", "📊 Leveling", "🔊 Motor noise", "⚙️ Brake operation", "🛡️ Safety circuit", "📊 Speed control"],
+    "Packing Machine": ["🔌 Sealer temp", "📊 Film tracking", "⚙️ Cutter operation", "🔊 Noise", "📡 Sensor alignment", "📊 Cycle time"],
+    "Dampening Device": ["💧 Water level", "🔌 Spray nozzles", "📊 Humidity sensor", "⚙️ Roller condition", "🔊 Motor noise", "📡 PLC signals"],
+    "Auto Scale": ["⚖️ Zero calibration", "📊 Weight accuracy", "🔌 Load cell", "📡 Communication", "💡 Display", "🔊 Alarm test"],
+    "Roller Mill": ["🔊 Roller noise", "🌡️ Bearing temp", "📊 Gap setting", "🔄 Feed rate", "🔌 Vibration", "📊 Motor current"],
+    "General": ["👀 Visual inspection", "🔊 Unusual noise", "🔌 Connections tight", "💧 Leaks check", "📊 Parameter check", "🛡️ Safety guards"]
   };
   
   const sections = {
     "Cleaning": ["Dampening Device", "Dampening MCGS HMI", "Gates Sensor", "Colour Sort Machine", "Material Elevator", "Vibro Motor - Cleaning"],
-    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill Machine", "Roller Mill HMI", "Roller Mill VFD", "Conveyors", "Vibro Motor - Milling"],
+    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Roller Mill HMI", "Roller Mill VFD", "Conveyors", "Vibro Motor - Milling"],
     "Auto Scales": ["Electronic Card", "Controller 2.0", "DC Power Supply", "Load Cells", "Weighing Indicator", "Vibro Motor - Auto Scale"],
     "Packing": ["Packing Machine", "Packing MCGS HMI", "VFD", "Electronics Cards", "Bagging Machine", "Packing Machine Load Cells", "Vibro Motor - Packing"],
     "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer", "Generator", "Vibro Motor - Utility"],
     "Control Room": ["PLC Panel", "MCC Panel", "IO Modules", "VFDs", "CPU", "HMI"],
     "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer", "Palletizer Gripper", "Palletizer Photoelectric Sensor"],
-    "Elevators": ["Passenger Elevator Control Panel", "Cargo Elevator Control Panel", "Elevator Motor", "Door Controller", "Position Sensor", "Safety Brake System"],
+    "Elevators": ["Passenger Elevator", "Cargo Elevator", "Elevator Motor", "Door Controller", "Position Sensor", "Safety Brake"],
     "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller", "Humidity Sensor", "Air Heater", "Exhaust Fan", "Vibro Motor - Drying"],
-    "Power Distribution": ["11kV Panel Wapda Room", "Mill HV Room 11kV VCB Panel", "2500kVA Transformer", "LT Room Wapda Incoming 3200A ACB", "LT Room Generator Incoming 3200A ACB", "PFI Panel 01", "PFI Panel 02"]
+    "Power Distribution": ["11kV Panel", "VCB Panel", "2500kVA Transformer", "LT ACB Panel", "PFI Panel 01", "PFI Panel 02"]
   };
   
   const cardColors = [
@@ -491,26 +504,22 @@
     "linear-gradient(135deg, #1ABC9C, #16A085)"
   ];
   
-  const equipmentTypes = ["PLC Panel", "Motor", "Vibro Motor", "Sensor", "Machine", "Compressor", "Robot", "VFD", "Transformer", "Control Panel", "Controller", "ACB", "VCB", "MCCB", "PFI Panel", "Gripper", "Photoelectric Sensor", "Load Cell", "DC Power Supply", "Electronic Card", "HMI", "MCGS HMI", "Boiler"];
+  const equipmentTypes = ["Motor", "Vibro Motor", "VFD", "PLC Panel", "HMI", "MCGS HMI", "Compressor", "Boiler", "Transformer", "ACB", "VCB", "MCCB", "PFI Panel", "Conveyor", "Elevator", "Packing Machine", "Dampening Device", "Auto Scale", "Roller Mill", "Sensor", "Robot", "Controller", "Load Cell", "General"];
   const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Deviation Fault", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue", "Pressure Issue", "Load Cell Failure", "Controller Error", "HMI Failure", "VFD Fault"];
 
-  function getChecklistForEquipment(equipmentType, equipmentName) {
-    let checklist = [];
-    if (equipmentType === "Motor" || equipmentType === "Vibro Motor") checklist = inspectionChecklists["Motor"];
-    else if (equipmentType === "VFD") checklist = inspectionChecklists["VFD"];
-    else if (equipmentType === "PLC Panel") checklist = inspectionChecklists["PLC"];
-    else if (equipmentType === "HMI" || equipmentType === "MCGS HMI") checklist = inspectionChecklists["HMI"];
-    else if (equipmentType === "Compressor") checklist = inspectionChecklists["Compressor"];
-    else if (equipmentType === "Boiler") checklist = inspectionChecklists["Boiler"];
-    else if (equipmentType === "Transformer") checklist = inspectionChecklists["Transformer"];
-    else checklist = inspectionChecklists["General"];
-    return checklist;
+  function getChecklistForEquipment(equipmentType) {
+    if (!equipmentType) return inspectionChecklists["General"];
+    for (let key in inspectionChecklists) {
+      if (equipmentType.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(equipmentType.toLowerCase())) {
+        return inspectionChecklists[key];
+      }
+    }
+    return inspectionChecklists["General"];
   }
 
   function updateChecklist() {
     const equipType = document.getElementById("equipType")?.value || "";
-    const equipName = document.getElementById("pmEquipment")?.value || "";
-    const checklist = getChecklistForEquipment(equipType, equipName);
+    const checklist = getChecklistForEquipment(equipType);
     const container = document.getElementById("checklistItems");
     if (container) {
       container.innerHTML = checklist.map(item => `<div class="checklist-item"><span>✅</span> ${item}</div>`).join("");
@@ -529,7 +538,7 @@
   function signIn(){ const e=document.getElementById("loginEmail").value.trim(), p=document.getElementById("loginPassword").value.trim(); const u=getUsers().find(x=>x.email===e&&x.password===p); if(u){ currentUser=u; localStorage.setItem('currentUser',JSON.stringify(u)); document.getElementById("userDisplay").innerHTML=`👤 ${u.name} (${u.role}) <button class="logout-btn" onclick="logout()">🚪 Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); showToast(`Welcome ${u.name}!`); updateNotifications(); } else showToast("Invalid email or password"); }
   function logout(){ currentUser=null; localStorage.removeItem('currentUser'); document.getElementById("userDisplay").innerHTML="🔒 Not logged in"; document.getElementById("mainTabs").style.display="none"; switchToScreen('login'); showToast("Logged out successfully"); }
   function checkAutoLogin(){ const s=localStorage.getItem('currentUser'); if(s){ currentUser=JSON.parse(s); document.getElementById("userDisplay").innerHTML=`👤 ${currentUser.name} (${currentUser.role}) <button class="logout-btn" onclick="logout()">🚪 Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); } }
-  function loadData(){ faults=JSON.parse(localStorage.getItem('majeed_faults')||'[]'); pmRecords=JSON.parse(localStorage.getItem('majeed_pm')||'[]'); equipmentList=JSON.parse(localStorage.getItem('majeed_equipment')||'[]'); if(faults.length===0){ const n=Date.now(); faults=[{id:n+1,date:"2026-03-23",area:"Cleaning",equipmentName:"Dampening Device",faultType:"Electrical",faultCode:"Fault",status:"Open",statusHistory:[{status:"Open",timestamp:n-114000}]},{id:n+2,date:"2026-03-23",area:"Cleaning",equipmentName:"Dampening Device",faultType:"Electrical",faultCode:"Fault",status:"Open",statusHistory:[{status:"Open",timestamp:n-4080000}]},{id:n+3,date:"2026-03-23",area:"Auto Scales",equipmentName:"Electronic Card",faultType:"Electrical",faultCode:"Error 58",status:"Closed",statusHistory:[{status:"Open",timestamp:n-25000},{status:"Closed",timestamp:n}]}]; saveFaults(); } if(pmRecords.length===0){ pmRecords=[{id:Date.now()+1,date:"2026-03-23",area:"Milling",equipment:"Roller Mill Motor",frequency:"Weekly",assignedTo:"Fahim",status:"Pending",nextDueDate:"2026-03-30",checklist:inspectionChecklists["Motor"]},{id:Date.now()+2,date:"2026-03-22",area:"Utility",equipment:"Air Compressor 01",frequency:"Daily",assignedTo:"Ahmed",status:"Done",nextDueDate:"2026-03-23",checklist:inspectionChecklists["Compressor"]}]; savePM(); } if(equipmentList.length===0){ equipmentList=[{id:Date.now()+1,section:"Auto Scales",name:"Controller 2.0",type:"Controller",code:"AUTO-CTRL-01"},{id:Date.now()+2,section:"Milling",name:"Roller Mill Motor",type:"Motor",code:"MIL-MOT-01"},{id:Date.now()+3,section:"Utility",name:"Air Compressor 01",type:"Compressor",code:"UTL-COM-01"}]; saveEquipment(); } }
+  function loadData(){ faults=JSON.parse(localStorage.getItem('majeed_faults')||'[]'); pmRecords=JSON.parse(localStorage.getItem('majeed_pm')||'[]'); equipmentList=JSON.parse(localStorage.getItem('majeed_equipment')||'[]'); if(faults.length===0){ const n=Date.now(); faults=[{id:n+1,date:"2026-03-23",area:"Cleaning",equipmentName:"Dampening Device",faultType:"Electrical",faultCode:"Fault",status:"Open",statusHistory:[{status:"Open",timestamp:n-114000}]},{id:n+2,date:"2026-03-23",area:"Cleaning",equipmentName:"Dampening Device",faultType:"Electrical",faultCode:"Fault",status:"Open",statusHistory:[{status:"Open",timestamp:n-4080000}]},{id:n+3,date:"2026-03-23",area:"Auto Scales",equipmentName:"Electronic Card",faultType:"Electrical",faultCode:"Error 58",status:"Closed",statusHistory:[{status:"Open",timestamp:n-25000},{status:"Closed",timestamp:n}]}]; saveFaults(); } if(pmRecords.length===0){ pmRecords=[{id:Date.now()+1,date:"2026-03-23",area:"Milling",equipment:"Roller Mill Motor",frequency:"Weekly",assignedTo:"Fahim",status:"Pending",nextDueDate:"2026-03-30",equipmentType:"Motor"},{id:Date.now()+2,date:"2026-03-22",area:"Utility",equipment:"Air Compressor 01",frequency:"Daily",assignedTo:"Ahmed",status:"Done",nextDueDate:"2026-03-23",equipmentType:"Compressor"}]; savePM(); } if(equipmentList.length===0){ equipmentList=[{id:Date.now()+1,section:"Auto Scales",name:"Controller 2.0",type:"Controller",code:"AUTO-CTRL-01"},{id:Date.now()+2,section:"Milling",name:"Roller Mill Motor",type:"Motor",code:"MIL-MOT-01"},{id:Date.now()+3,section:"Utility",name:"Air Compressor 01",type:"Compressor",code:"UTL-COM-01"}]; saveEquipment(); } }
   function saveFaults(){ localStorage.setItem('majeed_faults',JSON.stringify(faults)); updateNotifications(); renderAll(); }
   function savePM(){ localStorage.setItem('majeed_pm',JSON.stringify(pmRecords)); updateNotifications(); renderAll(); }
   function saveEquipment(){ localStorage.setItem('majeed_equipment',JSON.stringify(equipmentList)); renderAll(); }
@@ -539,12 +548,12 @@
   function updateSelectors(){ ["faultArea","pmArea","equipSection"].forEach(id=>{ const s=document.getElementById(id); if(s){ s.innerHTML=""; Object.keys(sections).forEach(sec=>{ let o=document.createElement("option"); o.value=sec; o.textContent=sec; s.appendChild(o); }); } }); document.getElementById("faultType").innerHTML=faultTypes.map(t=>`<option>${t}</option>`).join(""); document.getElementById("equipType").innerHTML=equipmentTypes.map(t=>`<option>${t}</option>`).join(""); }
   function updateDynamicEquipment(areaId,targetId){ const a=document.getElementById(areaId)?.value; const t=document.getElementById(targetId); if(t&&a&&sections[a]) t.innerHTML=sections[a].map(eq=>`<option>${eq}</option>`).join(""); }
   function renderFaults(){ let f=faultFilter==="Open"?faults.filter(x=>x.status==="Open"):faultFilter==="In Progress"?faults.filter(x=>x.status==="In Progress"):faultFilter==="Closed"?faults.filter(x=>x.status==="Closed"):faults; f.sort((a,b)=>b.id-a.id); const s=(faultPage-1)*pageSize, p=f.slice(s,s+pageSize); const c=document.getElementById("faultListContainer"); if(c){ c.innerHTML=p.map(f=>`<div class="record-item"><div class="record-title"><span>⚠️</span> ${f.equipmentName} - ${f.faultCode||"Fault"}</div><div class="record-meta">🛠️ ${f.area} | 📅 ${f.date} | 🔧 ${f.faultType}</div><div><span class="badge ${f.status==='Open'?'badge-open':f.status==='In Progress'?'badge-progress':'badge-closed'}">${f.status}</span></div><div class="duration-text">⏱️ Duration: ${getFaultDuration(f)?formatDurationDetailed(getFaultDuration(f)):"Active"}</div><div class="row-actions"><button class="small-btn" onclick="updateFaultStatus('${f.id}')">🔄 Change Status</button></div></div>`).join(""); document.getElementById("faultPagination").innerHTML=`<button class="small-btn" onclick="faultPage--;renderFaults()">◀ Prev</button><span>${faultPage}/${Math.ceil(f.length/pageSize)||1}</span><button class="small-btn" onclick="faultPage++;renderFaults()">Next ▶</button>`; } }
-  function renderPM(){ const s=(pmPage-1)*pageSize, p=pmRecords.slice(s,s+pageSize); const c=document.getElementById("pmListContainer"); if(c){ c.innerHTML=p.map(p=>`<div class="record-item"><div class="record-title"><span>🔧</span> ${p.equipment} | ${p.frequency}</div><div class="record-meta">📍 ${p.area} | 📅 ${p.date} | ⏰ Next: ${p.nextDueDate||"-"} | 👤 ${p.assignedTo||"-"}</div><div><span class="badge ${p.status==='Done'?'badge-done':'badge-pending'}">${p.status}</span></div><div class="row-actions"><button class="small-btn" onclick="updatePMStatus('${p.id}')">✅ Mark Done/Pending</button></div></div>`).join(""); document.getElementById("pmPagination").innerHTML=`<button class="small-btn" onclick="pmPage--;renderPM()">◀ Prev</button><span>${pmPage}/${Math.ceil(pmRecords.length/pageSize)||1}</span><button class="small-btn" onclick="pmPage++;renderPM()">Next ▶</button>`; } }
+  function renderPM(){ const s=(pmPage-1)*pageSize, p=pmRecords.slice(s,s+pageSize); const c=document.getElementById("pmListContainer"); if(c){ c.innerHTML=p.map(p=>`<div class="record-item"><div class="record-title"><span>🔧</span> ${p.equipment} | ${p.frequency}<span class="frequency-badge">${p.equipmentType || "General"}</span></div><div class="record-meta">📍 ${p.area} | 📅 ${p.date} | ⏰ Next: ${p.nextDueDate||"-"} | 👤 ${p.assignedTo||"-"}</div><div><span class="badge ${p.status==='Done'?'badge-done':'badge-pending'}">${p.status}</span></div><div class="row-actions"><button class="small-btn" onclick="updatePMStatus('${p.id}')">✅ Mark Done/Pending</button></div></div>`).join(""); document.getElementById("pmPagination").innerHTML=`<button class="small-btn" onclick="pmPage--;renderPM()">◀ Prev</button><span>${pmPage}/${Math.ceil(pmRecords.length/pageSize)||1}</span><button class="small-btn" onclick="pmPage++;renderPM()">Next ▶</button>`; } }
   function renderEquipment(){ const s=(equipPage-1)*pageSize, p=equipmentList.slice(s,s+pageSize); const c=document.getElementById("equipListContainer"); if(c){ c.innerHTML=p.map(e=>`<div class="record-item"><div class="record-title"><span>📟</span> ${e.name}</div><div class="record-meta">📍 ${e.section} | 🔧 ${e.type} | 🏷️ ${e.code}</div></div>`).join(""); document.getElementById("equipPagination").innerHTML=`<button class="small-btn" onclick="equipPage--;renderEquipment()">◀ Prev</button><span>${equipPage}/${Math.ceil(equipmentList.length/pageSize)||1}</span><button class="small-btn" onclick="equipPage++;renderEquipment()">Next ▶</button>`; } }
   function updateDashboard(){ document.getElementById("dashOpenFaults").innerText=faults.filter(f=>f.status!=="Closed").length; document.getElementById("dashPmDue").innerText=pmRecords.filter(p=>p.status!=="Done").length; document.getElementById("dashCompletedPM").innerText=pmRecords.filter(p=>p.status==="Done").length; document.getElementById("dashActiveEquip").innerText=equipmentList.length; document.getElementById("dashVibroMotors").innerText=equipmentList.filter(e=>e.type==="Vibro Motor").length; }
   function updateCOO(){ document.getElementById("cooTotalFaults").innerText=faults.length; document.getElementById("cooOpenProgress").innerText=faults.filter(f=>f.status!=="Closed").length; document.getElementById("cooClosedFaults").innerText=faults.filter(f=>f.status==="Closed").length; document.getElementById("cooPmPending").innerText=pmRecords.filter(p=>p.status!=="Done").length; document.getElementById("cooPmDone").innerText=pmRecords.filter(p=>p.status==="Done").length; document.getElementById("cooTotalEquip").innerText=equipmentList.length; document.getElementById("avgResolutionTime").innerHTML=`⏱️ AVERAGE RESOLUTION TIME: <strong style="font-size:1.2rem">${getAverageResolutionTime()}</strong>`; const m={}; faults.forEach(f=>{if(f.equipmentName) m[f.equipmentName]=(m[f.equipmentName]||0)+1;}); const top=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,5); document.getElementById("topProblemList").innerHTML=top.map(([n,c])=>`<div class="record-item"><div class="record-title"><span>⚠️</span> ${n}</div><div class="record-meta">Fault Count: ${c}</div></div>`).join("")||'<div class="status-message">No data</div>'; }
   function createBreakdown(){ if(!currentUser){ showToast("Please sign in"); return; } faults.unshift({id:Date.now(),date:document.getElementById("faultDate").value,area:document.getElementById("faultArea").value,equipmentName:document.getElementById("faultEquipment").value,faultType:document.getElementById("faultType").value,faultCode:document.getElementById("faultCode").value,description:document.getElementById("faultDesc").value,status:"Open",statusHistory:[{status:"Open",timestamp:Date.now()}]}); saveFaults(); renderFaults(); updateDashboard(); updateCOO(); showToast("✅ Fault saved!"); document.getElementById("faultCode").value=""; document.getElementById("faultDesc").value=""; }
-  function createPM(){ if(!currentUser){ showToast("Please sign in"); return; } const d=document.getElementById("pmDate").value, f=document.getElementById("pmFreq").value, nd=new Date(d); if(f==="Daily") nd.setDate(nd.getDate()+1); else if(f==="Weekly") nd.setDate(nd.getDate()+7); else if(f==="Monthly") nd.setMonth(nd.getMonth()+1); else if(f==="Quarterly") nd.setMonth(nd.getMonth()+3); else if(f==="Yearly") nd.setFullYear(nd.getFullYear()+1); const equipType = document.getElementById("equipType")?.value || "General"; const equipName = document.getElementById("pmEquipment").value; const checklist = getChecklistForEquipment(equipType, equipName); pmRecords.unshift({id:Date.now(),date:d,area:document.getElementById("pmArea").value,equipment:document.getElementById("pmEquipment").value,frequency:f,assignedTo:document.getElementById("pmAssigned").value,status:document.getElementById("pmStatusSelect").value,remarks:document.getElementById("pmRemarks").value,nextDueDate:nd.toISOString().slice(0,10),checklist:checklist}); savePM(); renderPM(); updateDashboard(); updateCOO(); showToast("✅ PM saved!"); document.getElementById("pmAssigned").value=""; document.getElementById("pmRemarks").value=""; }
+  function createPM(){ if(!currentUser){ showToast("Please sign in"); return; } const d=document.getElementById("pmDate").value, f=document.getElementById("pmFreq").value, nd=new Date(d); if(f==="Daily") nd.setDate(nd.getDate()+1); else if(f==="Weekly") nd.setDate(nd.getDate()+7); else if(f==="Monthly") nd.setMonth(nd.getMonth()+1); else if(f==="Quarterly") nd.setMonth(nd.getMonth()+3); else if(f==="Yearly") nd.setFullYear(nd.getFullYear()+1); const equipType = document.getElementById("equipType")?.value || "General"; pmRecords.unshift({id:Date.now(),date:d,area:document.getElementById("pmArea").value,equipment:document.getElementById("pmEquipment").value,frequency:f,assignedTo:document.getElementById("pmAssigned").value,status:document.getElementById("pmStatusSelect").value,remarks:document.getElementById("pmRemarks").value,nextDueDate:nd.toISOString().slice(0,10),equipmentType:equipType}); savePM(); renderPM(); updateDashboard(); updateCOO(); showToast("✅ PM saved!"); document.getElementById("pmAssigned").value=""; document.getElementById("pmRemarks").value=""; }
   function addEquipment(){ if(!currentUser){ showToast("Please sign in"); return; } equipmentList.unshift({id:Date.now(),section:document.getElementById("equipSection").value,name:document.getElementById("equipName").value||"New Equipment",type:document.getElementById("equipType").value,code:document.getElementById("equipCode").value||"AUTO-"+Date.now()}); saveEquipment(); renderEquipment(); showToast("✅ Equipment added!"); document.getElementById("equipName").value=""; document.getElementById("equipCode").value=""; }
   function updateFaultStatus(id){ const f=faults.find(x=>x.id==id); if(f){ if(f.status==="Open") f.status="In Progress"; else if(f.status==="In Progress") f.status="Closed"; else f.status="Open"; if(!f.statusHistory) f.statusHistory=[]; f.statusHistory.push({status:f.status,timestamp:Date.now()}); saveFaults(); renderFaults(); updateDashboard(); updateCOO(); showToast(`Status changed to ${f.status}`); } }
   function updatePMStatus(id){ const p=pmRecords.find(x=>x.id==id); if(p){ p.status=p.status==="Done"?"Pending":"Done"; savePM(); renderPM(); updateDashboard(); updateCOO(); showToast(`PM status: ${p.status}`); } }
@@ -562,7 +571,7 @@
   function renderAll(){ renderFaults(); renderPM(); renderEquipment(); updateDashboard(); updateCOO(); updateNotifications(); }
   function toggleView(){ const b=document.body; const t=document.getElementById("viewToggleBtn"); if(b.classList.contains("desktop-view")){ b.classList.remove("desktop-view"); t.innerHTML="<span>🖥️</span> Desktop View"; localStorage.setItem("viewMode","mobile"); } else { b.classList.add("desktop-view"); t.innerHTML="<span>📱</span> Mobile View"; localStorage.setItem("viewMode","desktop"); } }
   function loadViewPreference(){ if(localStorage.getItem("viewMode")==="desktop"){ document.body.classList.add("desktop-view"); document.getElementById("viewToggleBtn").innerHTML="<span>📱</span> Mobile View"; } }
-  document.getElementById("faultArea")?.addEventListener("change",()=>updateDynamicEquipment("faultArea","faultEquipment")); document.getElementById("pmArea")?.addEventListener("change",()=>updateDynamicEquipment("pmArea","pmEquipment")); document.getElementById("equipType")?.addEventListener("change",updateChecklist); document.getElementById("pmEquipment")?.addEventListener("change",updateChecklist); document.getElementById("signupBtn")?.addEventListener("click",createAccount); document.getElementById("signinBtn")?.addEventListener("click",signIn); document.getElementById("bellIcon")?.addEventListener("click",toggleNotifications); document.getElementById("viewToggleBtn")?.addEventListener("click",toggleView); document.addEventListener("click",(e)=>{ if(!e.target.closest(".notification-area")) document.getElementById("notificationPanel")?.classList.remove("show"); }); document.querySelectorAll("#faultFilters .filter-card").forEach(btn=>{ btn.onclick=()=>{ faultFilter=btn.dataset.filter; faultPage=1; document.querySelectorAll("#faultFilters .filter-card").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); renderFaults(); }; }); document.querySelectorAll(".tab-btn").forEach(btn=>{ btn.onclick=()=>switchToScreen(btn.dataset.screen); });
+  document.getElementById("faultArea")?.addEventListener("change",()=>updateDynamicEquipment("faultArea","faultEquipment")); document.getElementById("pmArea")?.addEventListener("change",()=>updateDynamicEquipment("pmArea","pmEquipment")); document.getElementById("equipType")?.addEventListener("change",updateChecklist); document.getElementById("signupBtn")?.addEventListener("click",createAccount); document.getElementById("signinBtn")?.addEventListener("click",signIn); document.getElementById("bellIcon")?.addEventListener("click",toggleNotifications); document.getElementById("viewToggleBtn")?.addEventListener("click",toggleView); document.addEventListener("click",(e)=>{ if(!e.target.closest(".notification-area")) document.getElementById("notificationPanel")?.classList.remove("show"); }); document.querySelectorAll("#faultFilters .filter-card").forEach(btn=>{ btn.onclick=()=>{ faultFilter=btn.dataset.filter; faultPage=1; document.querySelectorAll("#faultFilters .filter-card").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); renderFaults(); }; }); document.querySelectorAll(".tab-btn").forEach(btn=>{ btn.onclick=()=>switchToScreen(btn.dataset.screen); });
   function init(){ loadData(); updateSelectors(); updateDynamicEquipment("faultArea","faultEquipment"); updateDynamicEquipment("pmArea","pmEquipment"); buildPlantGrid(); renderAll(); document.getElementById("faultDate").valueAsDate=new Date(); document.getElementById("pmDate").valueAsDate=new Date(); checkAutoLogin(); loadViewPreference(); updateChecklist(); setInterval(()=>{ if(currentUser) updateNotifications(); },60000); }
   init();
 </script>
