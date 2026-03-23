@@ -490,7 +490,7 @@
   <div id="pmScreen" class="screen"><div class="card"><div class="card-title"><span>🔧</span> PREVENTIVE MAINTENANCE</div><input type="date" id="pmDate" class="input"><select id="pmArea" class="select"></select><select id="pmEquipment" class="select"></select><select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select><div id="pmChecklist" class="card" style="padding: 16px; margin-bottom: 12px; background: #fefce8;"><div class="section-title">📋 INSPECTION CHECKLIST</div><div id="checklistItems"></div></div><input id="pmAssigned" class="input" placeholder="Assigned To"><select id="pmStatusSelect" class="select"><option>Pending</option><option>Done</option></select><textarea id="pmRemarks" class="textarea" placeholder="Remarks / Inspection Notes"></textarea><button class="btn" onclick="createPM()">💾 SAVE PM RECORD</button></div><div class="card"><div class="card-title"><span>📅</span> PM RECORDS</div><div id="pmListContainer"></div><div class="pagination" id="pmPagination"></div></div></div>
   <div id="plantScreen" class="screen"><div class="card"><div class="card-title"><span>🏭</span> PLANT SECTIONS</div><div class="plant-grid" id="plantGrid"></div></div></div>
   <div id="equipScreen" class="screen"><div class="card"><div class="card-title"><span>📟</span> EQUIPMENT REGISTER</div><select id="equipSection" class="select"></select><input id="equipName" class="input" placeholder="Equipment Name"><select id="equipType" class="select"></select><input id="equipCode" class="input" placeholder="Tag/Code"><button class="btn" onclick="addEquipment()">💾 SAVE EQUIPMENT</button></div><div class="card"><div class="card-title"><span>📋</span> REGISTERED ASSETS</div><div id="equipListContainer"></div><div class="pagination" id="equipPagination"></div></div></div>
-  <div id="drawingScreen" class="screen"><div class="card"><div class="card-title"><span>📐</span> DRAWING MANAGEMENT</div><select id="drawingCategory" class="select"><option>Plant Layout</option><option>Electrical Single Line</option><option>P&ID</option><option>PLC Panel Layout</option><option>Motor Control Circuit</option><option>Power Distribution</option><option>Robotic Layout</option><option>Conveyor Layout</option><option>Equipment Drawing</option><option>Other</option></select><select id="drawingEquipment" class="select"><option>All Equipment</option></select><input type="file" id="drawingFile" class="file-input" accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.xlsx,.xls,.doc,.docx,.txt"><button class="btn btn-warning" onclick="document.getElementById('drawingFile').click()">📁 SELECT FILE (PDF/Image/Word/Excel)</button><button class="btn" onclick="uploadDrawing()">📤 UPLOAD DRAWING</button></div><div class="card"><div class="card-title"><span>📂</span> DRAWING LIBRARY</div><div id="drawingListContainer"></div><div class="pagination" id="drawingPagination"></div></div></div>
+  <div id="drawingScreen" class="screen"><div class="card"><div class="card-title"><span>📐</span> DRAWING MANAGEMENT</div><select id="drawingCategory" class="select"><option>Plant Layout</option><option>Electrical Single Line</option><option>P&ID</option><option>PLC Panel Layout</option><option>Motor Control Circuit</option><option>Power Distribution</option><option>Robotic Layout</option><option>Conveyor Layout</option><option>Equipment Drawing</option><option>Other</option></select><select id="drawingEquipment" class="select"><option>All Equipment</option></select><input type="file" id="drawingFile" class="file-input" accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp"><button class="btn btn-warning" onclick="document.getElementById('drawingFile').click()">📁 SELECT FILE (PDF/Image)</button><button class="btn" onclick="uploadDrawing()">📤 UPLOAD DRAWING</button><div class="status-message" style="margin-top: 12px;">💡 Tip: Upload PDF drawings, electrical diagrams, or equipment images (Max 5MB per file)</div></div><div class="card"><div class="card-title"><span>📂</span> DRAWING LIBRARY</div><div id="drawingListContainer"></div><div class="pagination" id="drawingPagination"></div></div></div>
   <div id="cooScreen" class="screen"><div class="card"><div class="card-title"><span>👔</span> COO EXECUTIVE SUMMARY</div><div class="grid-2"><div class="stat-card coo-red"><div class="icon">📊</div><div class="big-number" id="cooTotalFaults">0</div><div class="label">TOTAL FAULTS</div></div><div class="stat-card coo-orange"><div class="icon">⚠️</div><div class="big-number" id="cooOpenProgress">0</div><div class="label">OPEN+IN PROGRESS</div></div><div class="stat-card coo-green"><div class="icon">✅</div><div class="big-number" id="cooClosedFaults">0</div><div class="label">CLOSED FAULTS</div></div><div class="stat-card coo-yellow"><div class="icon">🔧</div><div class="big-number" id="cooPmPending">0</div><div class="label">PM PENDING</div></div><div class="stat-card coo-teal"><div class="icon">✔️</div><div class="big-number" id="cooPmDone">0</div><div class="label">PM DONE</div></div><div class="stat-card coo-purple"><div class="icon">📟</div><div class="big-number" id="cooTotalEquip">0</div><div class="label">TOTAL EQUIPMENT</div></div></div></div><div class="card"><div class="section-title"><span>⚠️</span> TOP PROBLEM EQUIPMENT</div><div id="topProblemList"></div></div><div class="card"><div class="section-title"><span>⏱️</span> AVERAGE FAULT RESOLUTION TIME</div><div id="avgResolutionTime" class="status-message">Calculating...</div></div><div class="card"><button class="btn" onclick="printCOOSummaryWithPDF()">📄 PRINT COO SUMMARY & PDF</button></div></div>
   <div id="toolsScreen" class="screen"><div class="card"><div class="card-title"><span>🛠️</span> DATA TOOLS</div><button class="btn btn-success" onclick="exportData()">📤 EXPORT DATA (Backup)</button><button class="btn btn-success" onclick="document.getElementById('importFile').click()">📥 IMPORT DATA (Restore)</button><input type="file" id="importFile" class="file-input" accept=".json" onchange="importData(this)"><div style="height: 12px;"></div><button class="btn" onclick="printWeeklyHistory()">📆 PRINT WEEKLY FAULT HISTORY</button><button class="btn" onclick="printMonthlyHistory()">📅 PRINT MONTHLY FAULT HISTORY</button><button class="btn" onclick="printPMFullHistory()">📑 PRINT ALL PM RECORDS</button><button class="btn" onclick="printEquipmentFullList()">📇 PRINT EQUIPMENT REGISTER</button><div style="height: 12px;"></div><button class="btn btn-danger" onclick="deleteAllFaults()">🗑️ DELETE ALL FAULTS</button><button class="btn btn-danger" onclick="deleteAllPM()">🗑️ DELETE ALL PM</button><button class="btn btn-danger" onclick="deleteAllEquipment()">🗑️ DELETE ALL EQUIPMENT</button></div></div>
 </div>
@@ -500,35 +500,32 @@
   let faults = [], pmRecords = [], equipmentList = [], drawings = [], currentUser = null;
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1, drawingPage = 1;
   const pageSize = 5;
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB limit
   
   const inspectionChecklists = {
     "Motor": ["🔊 Noise/Vibration", "🌡️ Temperature", "🔌 Terminal connections", "🔄 Bearing condition", "💧 Lubrication", "📊 Current draw"],
-    "Vibro Motor": ["🔊 Vibration level", "🌡️ Body temp", "🔌 Cable condition", "⚙️ Eccentric weights", "🔄 Mounting bolts"],
     "VFD": ["📺 Display errors", "🌡️ Heatsink temp", "🔌 Input/Output voltage", "💨 Fan operation", "📊 Fault history"],
     "PLC Panel": ["💚 CPU status LED", "🔌 I/O module lights", "📡 Communication", "🔋 Battery backup", "🌡️ Panel temp"],
-    "HMI": ["🖱️ Touch response", "💡 Display brightness", "📡 Communication", "⚙️ Alarm logs"],
     "Compressor": ["🔊 Unusual noise", "🛢️ Oil level", "📊 Pressure reading", "💨 Air filter", "🌡️ Discharge temp"],
-    "Boiler": ["💧 Water level", "📊 Pressure gauge", "🔥 Burner flame", "⚙️ Safety valve", "🌡️ Stack temp"],
-    "Transformer": ["🛢️ Oil level", "📊 Temperature", "🔌 Bushing condition", "🔊 Sound", "📊 Voltage ratio"],
     "General": ["👀 Visual inspection", "🔊 Unusual noise", "🔌 Connections tight", "💧 Leaks check", "🛡️ Safety guards"]
   };
   
   const sections = {
-    "Cleaning": ["Dampening Device", "Dampening MCGS HMI", "Gates Sensor", "Colour Sort Machine", "Material Elevator", "Vibro Motor"],
-    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Roller Mill HMI", "Roller Mill VFD", "Conveyors", "Vibro Motor"],
-    "Auto Scales": ["Electronic Card", "Controller 2.0", "DC Power Supply", "Load Cells", "Weighing Indicator"],
-    "Packing": ["Packing Machine", "Packing MCGS HMI", "VFD", "Electronics Cards", "Bagging Machine", "Packing Machine Load Cells"],
-    "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer", "Generator"],
+    "Cleaning": ["Dampening Device", "Gates Sensor", "Colour Sort Machine", "Material Elevator"],
+    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Conveyors"],
+    "Auto Scales": ["Electronic Card", "Controller 2.0", "DC Power Supply", "Load Cells"],
+    "Packing": ["Packing Machine", "VFD", "Electronics Cards", "Bagging Machine"],
+    "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer"],
     "Control Room": ["PLC Panel", "MCC Panel", "IO Modules", "VFDs", "CPU", "HMI"],
-    "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer", "Palletizer Gripper"],
-    "Elevators": ["Passenger Elevator", "Cargo Elevator", "Elevator Motor", "Door Controller", "Safety Brake"],
-    "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller", "Humidity Sensor"],
+    "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer"],
+    "Elevators": ["Passenger Elevator", "Cargo Elevator", "Elevator Motor", "Door Controller"],
+    "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller"],
     "Power Distribution": ["11kV Panel", "VCB Panel", "2500kVA Transformer", "LT ACB Panel", "PFI Panel"]
   };
   
   const cardColors = ["linear-gradient(135deg, #FF6B6B, #C92A2A)", "linear-gradient(135deg, #4ECDC4, #0E7C6E)", "linear-gradient(135deg, #45B7D1, #1E6F8F)", "linear-gradient(135deg, #96CEB4, #2D6A4F)", "linear-gradient(135deg, #FFEAA7, #F39C12)", "linear-gradient(135deg, #D4A5A5, #8B5A5A)", "linear-gradient(135deg, #9B59B6, #6C3483)", "linear-gradient(135deg, #3498DB, #1F618D)", "linear-gradient(135deg, #F39C12, #E67E22)", "linear-gradient(135deg, #1ABC9C, #16A085)"];
-  const equipmentTypes = ["Motor", "Vibro Motor", "VFD", "PLC Panel", "HMI", "MCGS HMI", "Compressor", "Boiler", "Transformer", "General"];
-  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue"];
+  const equipmentTypes = ["Motor", "VFD", "PLC Panel", "HMI", "Compressor", "Boiler", "Transformer", "General"];
+  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Sensor Fault", "Software Error", "Hardware Failure"];
 
   function getChecklistForEquipment(equipmentType) {
     if (!equipmentType) return inspectionChecklists["General"];
@@ -547,17 +544,32 @@
     if (container) container.innerHTML = checklist.map(item => `<div class="checklist-item"><span>✅</span> ${item}</div>`).join("");
   }
   
-  // Drawing Functions
+  // Drawing Functions - Fixed
   function loadDrawings() {
-    const saved = localStorage.getItem('majeed_drawings');
-    if (saved) drawings = JSON.parse(saved);
-    else drawings = [];
+    try {
+      const saved = localStorage.getItem('majeed_drawings');
+      if (saved) {
+        drawings = JSON.parse(saved);
+      } else {
+        drawings = [];
+      }
+    } catch(e) {
+      drawings = [];
+    }
     updateDrawingList();
     if(document.getElementById("dashDrawings")) document.getElementById("dashDrawings").innerText = drawings.length;
   }
   
   function saveDrawings() {
-    localStorage.setItem('majeed_drawings', JSON.stringify(drawings));
+    try {
+      localStorage.setItem('majeed_drawings', JSON.stringify(drawings));
+    } catch(e) {
+      if (e.name === 'QuotaExceededError') {
+        showToast("Storage full! Please delete some drawings first.");
+      } else {
+        showToast("Error saving drawing");
+      }
+    }
     updateDrawingList();
     if(document.getElementById("dashDrawings")) document.getElementById("dashDrawings").innerText = drawings.length;
   }
@@ -566,11 +578,17 @@
     if (!currentUser) { showToast("Please sign in first"); return; }
     const fileInput = document.getElementById("drawingFile");
     const file = fileInput.files[0];
-    if (!file) { showToast("Please select a file"); return; }
+    if (!file) { showToast("Please select a file first"); return; }
     
-    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/bmp', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel', 'text/plain'];
-    if (!allowedTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|gif|bmp|doc|docx|xls|xlsx|txt)$/i)) {
-      showToast("Unsupported file type. Please upload PDF, Image, Word, Excel, or Text files.");
+    // Check file size
+    if (file.size > MAX_FILE_SIZE) {
+      showToast("File too large! Maximum 5MB allowed.");
+      return;
+    }
+    
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/bmp'];
+    if (!allowedTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|gif|bmp)$/i)) {
+      showToast("Please upload PDF or Image files only.");
       return;
     }
     
@@ -595,7 +613,9 @@
       showToast("✅ Drawing uploaded successfully!");
       fileInput.value = "";
     };
-    reader.onerror = function() { showToast("Error reading file"); };
+    reader.onerror = function() { 
+      showToast("Error reading file. Please try again."); 
+    };
     reader.readAsDataURL(file);
   }
   
@@ -605,7 +625,7 @@
     const container = document.getElementById("drawingListContainer");
     if (container) {
       if (pageDrawings.length === 0) {
-        container.innerHTML = '<div class="status-message">📂 No drawings uploaded yet. Click "SELECT FILE" to upload PDF, Images, Word, Excel files.</div>';
+        container.innerHTML = '<div class="status-message">📂 No drawings uploaded yet. Click "SELECT FILE" to upload PDF or Image files.</div>';
       } else {
         container.innerHTML = pageDrawings.map(d => `
           <div class="drawing-item">
