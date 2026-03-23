@@ -415,14 +415,17 @@
       align-items: center;
       justify-content: space-between;
       border: 1px solid #e2e8f0;
+      flex-wrap: wrap;
     }
     .drawing-info {
       flex: 1;
+      min-width: 150px;
     }
     .drawing-name {
       font-weight: 700;
       font-size: 0.9rem;
       color: #1e293b;
+      word-break: break-all;
     }
     .drawing-meta {
       font-size: 0.7rem;
@@ -432,6 +435,7 @@
     .drawing-actions {
       display: flex;
       gap: 8px;
+      margin-top: 8px;
     }
     .icon-btn {
       background: none;
@@ -486,7 +490,7 @@
   <div id="pmScreen" class="screen"><div class="card"><div class="card-title"><span>🔧</span> PREVENTIVE MAINTENANCE</div><input type="date" id="pmDate" class="input"><select id="pmArea" class="select"></select><select id="pmEquipment" class="select"></select><select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select><div id="pmChecklist" class="card" style="padding: 16px; margin-bottom: 12px; background: #fefce8;"><div class="section-title">📋 INSPECTION CHECKLIST</div><div id="checklistItems"></div></div><input id="pmAssigned" class="input" placeholder="Assigned To"><select id="pmStatusSelect" class="select"><option>Pending</option><option>Done</option></select><textarea id="pmRemarks" class="textarea" placeholder="Remarks / Inspection Notes"></textarea><button class="btn" onclick="createPM()">💾 SAVE PM RECORD</button></div><div class="card"><div class="card-title"><span>📅</span> PM RECORDS</div><div id="pmListContainer"></div><div class="pagination" id="pmPagination"></div></div></div>
   <div id="plantScreen" class="screen"><div class="card"><div class="card-title"><span>🏭</span> PLANT SECTIONS</div><div class="plant-grid" id="plantGrid"></div></div></div>
   <div id="equipScreen" class="screen"><div class="card"><div class="card-title"><span>📟</span> EQUIPMENT REGISTER</div><select id="equipSection" class="select"></select><input id="equipName" class="input" placeholder="Equipment Name"><select id="equipType" class="select"></select><input id="equipCode" class="input" placeholder="Tag/Code"><button class="btn" onclick="addEquipment()">💾 SAVE EQUIPMENT</button></div><div class="card"><div class="card-title"><span>📋</span> REGISTERED ASSETS</div><div id="equipListContainer"></div><div class="pagination" id="equipPagination"></div></div></div>
-  <div id="drawingScreen" class="screen"><div class="card"><div class="card-title"><span>📐</span> DRAWING MANAGEMENT</div><select id="drawingCategory" class="select"><option>Plant Layout</option><option>Electrical Single Line</option><option>P&ID</option><option>PLC Panel Layout</option><option>Motor Control Circuit</option><option>Power Distribution</option><option>Robotic Layout</option><option>Conveyor Layout</option><option>Equipment Drawing</option><option>Other</option></select><select id="drawingEquipment" class="select"><option>All Equipment</option></select><input type="file" id="drawingFile" class="file-input" accept=".pdf,.jpg,.jpeg,.png,.dwg"><button class="btn btn-warning" onclick="document.getElementById('drawingFile').click()">📁 SELECT PDF/DWG/IMAGE</button><button class="btn" onclick="uploadDrawing()">📤 UPLOAD DRAWING</button></div><div class="card"><div class="card-title"><span>📂</span> DRAWING LIBRARY</div><div id="drawingListContainer"></div><div class="pagination" id="drawingPagination"></div></div></div>
+  <div id="drawingScreen" class="screen"><div class="card"><div class="card-title"><span>📐</span> DRAWING MANAGEMENT</div><select id="drawingCategory" class="select"><option>Plant Layout</option><option>Electrical Single Line</option><option>P&ID</option><option>PLC Panel Layout</option><option>Motor Control Circuit</option><option>Power Distribution</option><option>Robotic Layout</option><option>Conveyor Layout</option><option>Equipment Drawing</option><option>Other</option></select><select id="drawingEquipment" class="select"><option>All Equipment</option></select><input type="file" id="drawingFile" class="file-input" accept=".pdf,.jpg,.jpeg,.png,.gif,.bmp,.xlsx,.xls,.doc,.docx,.txt"><button class="btn btn-warning" onclick="document.getElementById('drawingFile').click()">📁 SELECT FILE (PDF/Image/Word/Excel)</button><button class="btn" onclick="uploadDrawing()">📤 UPLOAD DRAWING</button></div><div class="card"><div class="card-title"><span>📂</span> DRAWING LIBRARY</div><div id="drawingListContainer"></div><div class="pagination" id="drawingPagination"></div></div></div>
   <div id="cooScreen" class="screen"><div class="card"><div class="card-title"><span>👔</span> COO EXECUTIVE SUMMARY</div><div class="grid-2"><div class="stat-card coo-red"><div class="icon">📊</div><div class="big-number" id="cooTotalFaults">0</div><div class="label">TOTAL FAULTS</div></div><div class="stat-card coo-orange"><div class="icon">⚠️</div><div class="big-number" id="cooOpenProgress">0</div><div class="label">OPEN+IN PROGRESS</div></div><div class="stat-card coo-green"><div class="icon">✅</div><div class="big-number" id="cooClosedFaults">0</div><div class="label">CLOSED FAULTS</div></div><div class="stat-card coo-yellow"><div class="icon">🔧</div><div class="big-number" id="cooPmPending">0</div><div class="label">PM PENDING</div></div><div class="stat-card coo-teal"><div class="icon">✔️</div><div class="big-number" id="cooPmDone">0</div><div class="label">PM DONE</div></div><div class="stat-card coo-purple"><div class="icon">📟</div><div class="big-number" id="cooTotalEquip">0</div><div class="label">TOTAL EQUIPMENT</div></div></div></div><div class="card"><div class="section-title"><span>⚠️</span> TOP PROBLEM EQUIPMENT</div><div id="topProblemList"></div></div><div class="card"><div class="section-title"><span>⏱️</span> AVERAGE FAULT RESOLUTION TIME</div><div id="avgResolutionTime" class="status-message">Calculating...</div></div><div class="card"><button class="btn" onclick="printCOOSummaryWithPDF()">📄 PRINT COO SUMMARY & PDF</button></div></div>
   <div id="toolsScreen" class="screen"><div class="card"><div class="card-title"><span>🛠️</span> DATA TOOLS</div><button class="btn btn-success" onclick="exportData()">📤 EXPORT DATA (Backup)</button><button class="btn btn-success" onclick="document.getElementById('importFile').click()">📥 IMPORT DATA (Restore)</button><input type="file" id="importFile" class="file-input" accept=".json" onchange="importData(this)"><div style="height: 12px;"></div><button class="btn" onclick="printWeeklyHistory()">📆 PRINT WEEKLY FAULT HISTORY</button><button class="btn" onclick="printMonthlyHistory()">📅 PRINT MONTHLY FAULT HISTORY</button><button class="btn" onclick="printPMFullHistory()">📑 PRINT ALL PM RECORDS</button><button class="btn" onclick="printEquipmentFullList()">📇 PRINT EQUIPMENT REGISTER</button><div style="height: 12px;"></div><button class="btn btn-danger" onclick="deleteAllFaults()">🗑️ DELETE ALL FAULTS</button><button class="btn btn-danger" onclick="deleteAllPM()">🗑️ DELETE ALL PM</button><button class="btn btn-danger" onclick="deleteAllEquipment()">🗑️ DELETE ALL EQUIPMENT</button></div></div>
 </div>
@@ -497,47 +501,34 @@
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1, drawingPage = 1;
   const pageSize = 5;
   
-  // Smart Equipment-Specific Inspection Checklists (Short & Relevant)
   const inspectionChecklists = {
     "Motor": ["🔊 Noise/Vibration", "🌡️ Temperature", "🔌 Terminal connections", "🔄 Bearing condition", "💧 Lubrication", "📊 Current draw"],
-    "Vibro Motor": ["🔊 Vibration level", "🌡️ Body temp", "🔌 Cable condition", "⚙️ Eccentric weights", "🔄 Mounting bolts", "📊 Current balance"],
-    "VFD": ["📺 Display errors", "🌡️ Heatsink temp", "🔌 Input/Output voltage", "💨 Fan operation", "⚙️ Parameter check", "📊 Fault history"],
-    "PLC Panel": ["💚 CPU status LED", "🔌 I/O module lights", "📡 Communication", "🔋 Battery backup", "🌡️ Panel temp", "📊 Program backup"],
-    "HMI / MCGS HMI": ["🖱️ Touch response", "💡 Display brightness", "📡 Communication", "⚙️ Alarm logs", "🔌 Backlight", "📊 Data logging"],
-    "Compressor": ["🔊 Unusual noise", "🛢️ Oil level", "📊 Pressure reading", "💨 Air filter", "🔌 Belt tension", "🌡️ Discharge temp"],
-    "Boiler": ["💧 Water level", "📊 Pressure gauge", "🔥 Burner flame", "⚙️ Safety valve", "🔌 Controls", "🌡️ Stack temp"],
-    "Transformer": ["🛢️ Oil level/color", "📊 Temperature", "🔌 Bushing condition", "🔊 Sound", "⚙️ Tap changer", "📊 Voltage ratio"],
-    "General": ["👀 Visual inspection", "🔊 Unusual noise", "🔌 Connections tight", "💧 Leaks check", "📊 Parameter check", "🛡️ Safety guards"]
+    "Vibro Motor": ["🔊 Vibration level", "🌡️ Body temp", "🔌 Cable condition", "⚙️ Eccentric weights", "🔄 Mounting bolts"],
+    "VFD": ["📺 Display errors", "🌡️ Heatsink temp", "🔌 Input/Output voltage", "💨 Fan operation", "📊 Fault history"],
+    "PLC Panel": ["💚 CPU status LED", "🔌 I/O module lights", "📡 Communication", "🔋 Battery backup", "🌡️ Panel temp"],
+    "HMI": ["🖱️ Touch response", "💡 Display brightness", "📡 Communication", "⚙️ Alarm logs"],
+    "Compressor": ["🔊 Unusual noise", "🛢️ Oil level", "📊 Pressure reading", "💨 Air filter", "🌡️ Discharge temp"],
+    "Boiler": ["💧 Water level", "📊 Pressure gauge", "🔥 Burner flame", "⚙️ Safety valve", "🌡️ Stack temp"],
+    "Transformer": ["🛢️ Oil level", "📊 Temperature", "🔌 Bushing condition", "🔊 Sound", "📊 Voltage ratio"],
+    "General": ["👀 Visual inspection", "🔊 Unusual noise", "🔌 Connections tight", "💧 Leaks check", "🛡️ Safety guards"]
   };
   
   const sections = {
-    "Cleaning": ["Dampening Device", "Dampening MCGS HMI", "Gates Sensor", "Colour Sort Machine", "Material Elevator", "Vibro Motor - Cleaning"],
-    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Roller Mill HMI", "Roller Mill VFD", "Conveyors", "Vibro Motor - Milling"],
-    "Auto Scales": ["Electronic Card", "Controller 2.0", "DC Power Supply", "Load Cells", "Weighing Indicator", "Vibro Motor - Auto Scale"],
-    "Packing": ["Packing Machine", "Packing MCGS HMI", "VFD", "Electronics Cards", "Bagging Machine", "Packing Machine Load Cells", "Vibro Motor - Packing"],
-    "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer", "Generator", "Vibro Motor - Utility"],
+    "Cleaning": ["Dampening Device", "Dampening MCGS HMI", "Gates Sensor", "Colour Sort Machine", "Material Elevator", "Vibro Motor"],
+    "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Roller Mill HMI", "Roller Mill VFD", "Conveyors", "Vibro Motor"],
+    "Auto Scales": ["Electronic Card", "Controller 2.0", "DC Power Supply", "Load Cells", "Weighing Indicator"],
+    "Packing": ["Packing Machine", "Packing MCGS HMI", "VFD", "Electronics Cards", "Bagging Machine", "Packing Machine Load Cells"],
+    "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer", "Generator"],
     "Control Room": ["PLC Panel", "MCC Panel", "IO Modules", "VFDs", "CPU", "HMI"],
-    "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer", "Palletizer Gripper", "Palletizer Photoelectric Sensor"],
-    "Elevators": ["Passenger Elevator", "Cargo Elevator", "Elevator Motor", "Door Controller", "Position Sensor", "Safety Brake"],
-    "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller", "Humidity Sensor", "Air Heater", "Exhaust Fan", "Vibro Motor - Drying"],
-    "Power Distribution": ["11kV Panel", "VCB Panel", "2500kVA Transformer", "LT ACB Panel", "PFI Panel 01", "PFI Panel 02"]
+    "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer", "Palletizer Gripper"],
+    "Elevators": ["Passenger Elevator", "Cargo Elevator", "Elevator Motor", "Door Controller", "Safety Brake"],
+    "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller", "Humidity Sensor"],
+    "Power Distribution": ["11kV Panel", "VCB Panel", "2500kVA Transformer", "LT ACB Panel", "PFI Panel"]
   };
   
-  const cardColors = [
-    "linear-gradient(135deg, #FF6B6B, #C92A2A)",
-    "linear-gradient(135deg, #4ECDC4, #0E7C6E)",
-    "linear-gradient(135deg, #45B7D1, #1E6F8F)",
-    "linear-gradient(135deg, #96CEB4, #2D6A4F)",
-    "linear-gradient(135deg, #FFEAA7, #F39C12)",
-    "linear-gradient(135deg, #D4A5A5, #8B5A5A)",
-    "linear-gradient(135deg, #9B59B6, #6C3483)",
-    "linear-gradient(135deg, #3498DB, #1F618D)",
-    "linear-gradient(135deg, #F39C12, #E67E22)",
-    "linear-gradient(135deg, #1ABC9C, #16A085)"
-  ];
-  
+  const cardColors = ["linear-gradient(135deg, #FF6B6B, #C92A2A)", "linear-gradient(135deg, #4ECDC4, #0E7C6E)", "linear-gradient(135deg, #45B7D1, #1E6F8F)", "linear-gradient(135deg, #96CEB4, #2D6A4F)", "linear-gradient(135deg, #FFEAA7, #F39C12)", "linear-gradient(135deg, #D4A5A5, #8B5A5A)", "linear-gradient(135deg, #9B59B6, #6C3483)", "linear-gradient(135deg, #3498DB, #1F618D)", "linear-gradient(135deg, #F39C12, #E67E22)", "linear-gradient(135deg, #1ABC9C, #16A085)"];
   const equipmentTypes = ["Motor", "Vibro Motor", "VFD", "PLC Panel", "HMI", "MCGS HMI", "Compressor", "Boiler", "Transformer", "General"];
-  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Deviation Fault", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue", "Pressure Issue"];
+  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue"];
 
   function getChecklistForEquipment(equipmentType) {
     if (!equipmentType) return inspectionChecklists["General"];
@@ -553,9 +544,7 @@
     const equipType = document.getElementById("equipType")?.value || "";
     const checklist = getChecklistForEquipment(equipType);
     const container = document.getElementById("checklistItems");
-    if (container) {
-      container.innerHTML = checklist.map(item => `<div class="checklist-item"><span>✅</span> ${item}</div>`).join("");
-    }
+    if (container) container.innerHTML = checklist.map(item => `<div class="checklist-item"><span>✅</span> ${item}</div>`).join("");
   }
   
   // Drawing Functions
@@ -564,13 +553,13 @@
     if (saved) drawings = JSON.parse(saved);
     else drawings = [];
     updateDrawingList();
-    document.getElementById("dashDrawings").innerText = drawings.length;
+    if(document.getElementById("dashDrawings")) document.getElementById("dashDrawings").innerText = drawings.length;
   }
   
   function saveDrawings() {
     localStorage.setItem('majeed_drawings', JSON.stringify(drawings));
     updateDrawingList();
-    document.getElementById("dashDrawings").innerText = drawings.length;
+    if(document.getElementById("dashDrawings")) document.getElementById("dashDrawings").innerText = drawings.length;
   }
   
   function uploadDrawing() {
@@ -578,6 +567,12 @@
     const fileInput = document.getElementById("drawingFile");
     const file = fileInput.files[0];
     if (!file) { showToast("Please select a file"); return; }
+    
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/bmp', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel', 'text/plain'];
+    if (!allowedTypes.includes(file.type) && !file.name.match(/\.(pdf|jpg|jpeg|png|gif|bmp|doc|docx|xls|xlsx|txt)$/i)) {
+      showToast("Unsupported file type. Please upload PDF, Image, Word, Excel, or Text files.");
+      return;
+    }
     
     const category = document.getElementById("drawingCategory").value;
     const equipment = document.getElementById("drawingEquipment").value;
@@ -600,6 +595,7 @@
       showToast("✅ Drawing uploaded successfully!");
       fileInput.value = "";
     };
+    reader.onerror = function() { showToast("Error reading file"); };
     reader.readAsDataURL(file);
   }
   
@@ -609,7 +605,7 @@
     const container = document.getElementById("drawingListContainer");
     if (container) {
       if (pageDrawings.length === 0) {
-        container.innerHTML = '<div class="status-message">📂 No drawings uploaded yet. Click "SELECT FILE" to upload PDF/DWG/Images.</div>';
+        container.innerHTML = '<div class="status-message">📂 No drawings uploaded yet. Click "SELECT FILE" to upload PDF, Images, Word, Excel files.</div>';
       } else {
         container.innerHTML = pageDrawings.map(d => `
           <div class="drawing-item">
@@ -638,10 +634,13 @@
     const drawing = drawings.find(d => d.id == id);
     if (drawing && drawing.data) {
       const win = window.open();
-      win.document.write(`
-        <html><head><title>${drawing.name}</title><style>body{margin:0;padding:20px;text-align:center;background:#1e293b;} img,iframe{max-width:100%;max-height:90vh;margin:auto;}</style></head>
-        <body>${drawing.type.includes('pdf') ? `<iframe src="${drawing.data}" width="100%" height="90vh" style="border:none;"></iframe>` : `<img src="${drawing.data}" alt="${drawing.name}" style="max-width:100%;max-height:90vh;">`}<p style="color:white;margin-top:10px;">${drawing.name} | Category: ${drawing.category} | Equipment: ${drawing.equipment}</p></body></html>
-      `);
+      if (drawing.type.includes('pdf') || drawing.name.toLowerCase().includes('.pdf')) {
+        win.document.write(`<html><head><title>${drawing.name}</title><style>body{margin:0;padding:0;}</style></head><body><iframe src="${drawing.data}" width="100%" height="100%" style="border:none;position:absolute;top:0;left:0;right:0;bottom:0;"></iframe></body></html>`);
+      } else if (drawing.type.includes('image') || drawing.name.match(/\.(jpg|jpeg|png|gif|bmp)$/i)) {
+        win.document.write(`<html><head><title>${drawing.name}</title><style>body{display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;background:#1e293b;} img{max-width:95%;max-height:95vh;box-shadow:0 4px 20px rgba(0,0,0,0.3);}</style></head><body><img src="${drawing.data}" alt="${drawing.name}"></body></html>`);
+      } else {
+        win.document.write(`<html><head><title>${drawing.name}</title><style>body{font-family:monospace;padding:20px;background:#f8fafc;}</style></head><body><h3>📄 ${drawing.name}</h3><p>File Type: ${drawing.type}</p><p>Size: ${drawing.size}</p><p>Uploaded: ${drawing.date}</p><p>Category: ${drawing.category}</p><p>Equipment: ${drawing.equipment}</p><hr><a href="${drawing.data}" download="${drawing.name}" style="background:#2c3e50;color:white;padding:10px 20px;text-decoration:none;border-radius:8px;">⬇️ Download File</a></body></html>`);
+      }
     } else {
       showToast("Unable to view drawing");
     }
@@ -700,7 +699,7 @@
   function renderFaults(){ let f=faultFilter==="Open"?faults.filter(x=>x.status==="Open"):faultFilter==="In Progress"?faults.filter(x=>x.status==="In Progress"):faultFilter==="Closed"?faults.filter(x=>x.status==="Closed"):faults; f.sort((a,b)=>b.id-a.id); const s=(faultPage-1)*pageSize, p=f.slice(s,s+pageSize); const c=document.getElementById("faultListContainer"); if(c){ c.innerHTML=p.map(f=>`<div class="record-item"><div class="record-title"><span>⚠️</span> ${f.equipmentName} - ${f.faultCode||"Fault"}</div><div class="record-meta">🛠️ ${f.area} | 📅 ${f.date} | 🔧 ${f.faultType}</div><div><span class="badge ${f.status==='Open'?'badge-open':f.status==='In Progress'?'badge-progress':'badge-closed'}">${f.status}</span></div><div class="duration-text">⏱️ Duration: ${getFaultDuration(f)?formatDurationDetailed(getFaultDuration(f)):"Active"}</div><div class="row-actions"><button class="small-btn" onclick="updateFaultStatus('${f.id}')">🔄 Change Status</button></div></div>`).join(""); document.getElementById("faultPagination").innerHTML=`<button class="small-btn" onclick="faultPage--;renderFaults()">◀ Prev</button><span>${faultPage}/${Math.ceil(f.length/pageSize)||1}</span><button class="small-btn" onclick="faultPage++;renderFaults()">Next ▶</button>`; } }
   function renderPM(){ const s=(pmPage-1)*pageSize, p=pmRecords.slice(s,s+pageSize); const c=document.getElementById("pmListContainer"); if(c){ c.innerHTML=p.map(p=>`<div class="record-item"><div class="record-title"><span>🔧</span> ${p.equipment} | ${p.frequency}<span class="frequency-badge">${p.equipmentType || "General"}</span></div><div class="record-meta">📍 ${p.area} | 📅 ${p.date} | ⏰ Next: ${p.nextDueDate||"-"} | 👤 ${p.assignedTo||"-"}</div><div><span class="badge ${p.status==='Done'?'badge-done':'badge-pending'}">${p.status}</span></div><div class="row-actions"><button class="small-btn" onclick="updatePMStatus('${p.id}')">✅ Mark Done/Pending</button></div></div>`).join(""); document.getElementById("pmPagination").innerHTML=`<button class="small-btn" onclick="pmPage--;renderPM()">◀ Prev</button><span>${pmPage}/${Math.ceil(pmRecords.length/pageSize)||1}</span><button class="small-btn" onclick="pmPage++;renderPM()">Next ▶</button>`; } }
   function renderEquipment(){ const s=(equipPage-1)*pageSize, p=equipmentList.slice(s,s+pageSize); const c=document.getElementById("equipListContainer"); if(c){ c.innerHTML=p.map(e=>`<div class="record-item"><div class="record-title"><span>📟</span> ${e.name}</div><div class="record-meta">📍 ${e.section} | 🔧 ${e.type} | 🏷️ ${e.code}</div></div>`).join(""); document.getElementById("equipPagination").innerHTML=`<button class="small-btn" onclick="equipPage--;renderEquipment()">◀ Prev</button><span>${equipPage}/${Math.ceil(equipmentList.length/pageSize)||1}</span><button class="small-btn" onclick="equipPage++;renderEquipment()">Next ▶</button>`; } }
-  function updateDashboard(){ document.getElementById("dashOpenFaults").innerText=faults.filter(f=>f.status!=="Closed").length; document.getElementById("dashPmDue").innerText=pmRecords.filter(p=>p.status!=="Done").length; document.getElementById("dashCompletedPM").innerText=pmRecords.filter(p=>p.status==="Done").length; document.getElementById("dashActiveEquip").innerText=equipmentList.length; document.getElementById("dashVibroMotors").innerText=equipmentList.filter(e=>e.type==="Vibro Motor").length; document.getElementById("dashDrawings").innerText=drawings.length; }
+  function updateDashboard(){ document.getElementById("dashOpenFaults").innerText=faults.filter(f=>f.status!=="Closed").length; document.getElementById("dashPmDue").innerText=pmRecords.filter(p=>p.status!=="Done").length; document.getElementById("dashCompletedPM").innerText=pmRecords.filter(p=>p.status==="Done").length; document.getElementById("dashActiveEquip").innerText=equipmentList.length; document.getElementById("dashDrawings").innerText=drawings.length; }
   function updateCOO(){ document.getElementById("cooTotalFaults").innerText=faults.length; document.getElementById("cooOpenProgress").innerText=faults.filter(f=>f.status!=="Closed").length; document.getElementById("cooClosedFaults").innerText=faults.filter(f=>f.status==="Closed").length; document.getElementById("cooPmPending").innerText=pmRecords.filter(p=>p.status!=="Done").length; document.getElementById("cooPmDone").innerText=pmRecords.filter(p=>p.status==="Done").length; document.getElementById("cooTotalEquip").innerText=equipmentList.length; document.getElementById("avgResolutionTime").innerHTML=`⏱️ AVERAGE RESOLUTION TIME: <strong style="font-size:1.2rem">${getAverageResolutionTime()}</strong>`; const m={}; faults.forEach(f=>{if(f.equipmentName) m[f.equipmentName]=(m[f.equipmentName]||0)+1;}); const top=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,5); document.getElementById("topProblemList").innerHTML=top.map(([n,c])=>`<div class="record-item"><div class="record-title"><span>⚠️</span> ${n}</div><div class="record-meta">Fault Count: ${c}</div></div>`).join("")||'<div class="status-message">No data</div>'; }
   function createBreakdown(){ if(!currentUser){ showToast("Please sign in"); return; } faults.unshift({id:Date.now(),date:document.getElementById("faultDate").value,area:document.getElementById("faultArea").value,equipmentName:document.getElementById("faultEquipment").value,faultType:document.getElementById("faultType").value,faultCode:document.getElementById("faultCode").value,description:document.getElementById("faultDesc").value,status:"Open",statusHistory:[{status:"Open",timestamp:Date.now()}]}); saveFaults(); renderFaults(); updateDashboard(); updateCOO(); showToast("✅ Fault saved!"); document.getElementById("faultCode").value=""; document.getElementById("faultDesc").value=""; }
   function createPM(){ if(!currentUser){ showToast("Please sign in"); return; } const d=document.getElementById("pmDate").value, f=document.getElementById("pmFreq").value, nd=new Date(d); if(f==="Daily") nd.setDate(nd.getDate()+1); else if(f==="Weekly") nd.setDate(nd.getDate()+7); else if(f==="Monthly") nd.setMonth(nd.getMonth()+1); else if(f==="Quarterly") nd.setMonth(nd.getMonth()+3); else if(f==="Yearly") nd.setFullYear(nd.getFullYear()+1); const equipType = document.getElementById("equipType")?.value || "General"; pmRecords.unshift({id:Date.now(),date:d,area:document.getElementById("pmArea").value,equipment:document.getElementById("pmEquipment").value,frequency:f,assignedTo:document.getElementById("pmAssigned").value,status:document.getElementById("pmStatusSelect").value,remarks:document.getElementById("pmRemarks").value,nextDueDate:nd.toISOString().slice(0,10),equipmentType:equipType}); savePM(); renderPM(); updateDashboard(); updateCOO(); showToast("✅ PM saved!"); document.getElementById("pmAssigned").value=""; document.getElementById("pmRemarks").value=""; }
