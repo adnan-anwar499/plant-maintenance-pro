@@ -45,7 +45,7 @@
       bottom: 20px;
       right: 20px;
       z-index: 1000;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2c3e50 0%, #1a2632 100%);
       color: white;
       border: none;
       padding: 12px 20px;
@@ -120,6 +120,22 @@
       display: inline-block;
       font-weight: 700;
       color: #ffffff;
+    }
+    .logout-btn {
+      background: rgba(220, 38, 38, 0.8);
+      margin-left: 10px;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-weight: 700;
+    }
+    .logout-btn:hover {
+      background: #dc2626;
+      transform: scale(1.05);
     }
     .notification-area {
       position: relative;
@@ -276,7 +292,32 @@
     .stat-card .big-number { font-size: 2.4rem; font-weight: 800; }
     .stat-card .label { font-size: 0.85rem; opacity: 0.9; margin-top: 8px; font-weight: 600; }
     
-    /* COO Summary Colorful Cards */
+    /* Colorful Filter Buttons */
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .filter-chip {
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+    }
+    .filter-chip.all { background: #1e293b; }
+    .filter-chip.open { background: #f97316; }
+    .filter-chip.progress { background: #3b82f6; }
+    .filter-chip.closed { background: #10b981; }
+    .filter-chip.critical { background: #ef4444; }
+    .filter-chip.active { transform: scale(1.02); box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 2px solid white; }
+    
     .coo-red { background: linear-gradient(145deg, #dc2626, #ef4444); }
     .coo-yellow { background: linear-gradient(145deg, #d97706, #f59e0b); }
     .coo-green { background: linear-gradient(145deg, #059669, #10b981); }
@@ -360,9 +401,9 @@
   <div class="tabs no-print" id="mainTabs" style="display: none;">
     <button class="tab-btn" data-screen="dashboard">DASH</button><button class="tab-btn" data-screen="fault">FAULT</button><button class="tab-btn" data-screen="pm">PM</button><button class="tab-btn" data-screen="plant">PLANT</button><button class="tab-btn" data-screen="equip">EQUIP</button><button class="tab-btn" data-screen="coo">COO</button><button class="tab-btn" data-screen="tools">TOOLS</button>
   </div>
-  <div id="loginScreen" class="screen active-screen"><div class="card"><div class="card-title">🔐 SIGN IN / REGISTER</div><input type="text" id="loginName" class="input" placeholder="Full Name"><input type="email" id="loginEmail" class="input" placeholder="Email"><input type="password" id="loginPassword" class="input" placeholder="Password (min 4 chars)"><select id="loginRole" class="select"><option>Engineer</option><option>Supervisor</option><option>COO</option></select><button class="btn" id="signupBtn">CREATE ACCOUNT</button><button class="btn btn-outline" id="signinBtn">SIGN IN</button><div id="authStatus" class="status-message">👋 Please sign in to access the system</div></div></div>
+  <div id="loginScreen" class="screen active-screen"><div class="card"><div class="card-title">🔐 SIGN IN / REGISTER</div><input type="text" id="loginName" class="input" placeholder="Full Name"><input type="email" id="loginEmail" class="input" placeholder="Email"><input type="password" id="loginPassword" class="input" placeholder="Password (min 4 chars)"><select id="loginRole" class="select"><option>Engineer</option><option>Supervisor</option><option>COO</option><option>Electrical In-charge</option><option>Electrician</option></select><button class="btn" id="signupBtn">CREATE ACCOUNT</button><button class="btn" id="signinBtn">SIGN IN</button><div id="authStatus" class="status-message">👋 Please sign in to access the system</div></div></div>
   <div id="dashboardScreen" class="screen"><div class="card"><div class="card-title">📊 MAINTENANCE SNAPSHOT</div><div class="grid-2"><div class="stat-card coo-red" onclick="switchToScreen('fault')"><div class="big-number" id="dashOpenFaults">0</div><div class="label">OPEN FAULTS</div></div><div class="stat-card coo-orange" onclick="switchToScreen('pm')"><div class="big-number" id="dashPmDue">0</div><div class="label">PM DUE / OVERDUE</div></div><div class="stat-card coo-yellow" onclick="switchToScreen('coo')"><div class="big-number" id="dashNotifications">0</div><div class="label">PENDING ALERTS</div></div><div class="stat-card coo-green" onclick="toggleNotifications()"><div class="big-number" id="dashUrgent">0</div><div class="label">URGENT</div></div></div></div><div class="card"><div class="card-title">⚠️ RECENT ALERTS</div><div id="recentAlerts"></div></div></div>
-  <div id="faultScreen" class="screen"><div class="card"><div class="card-title">🚨 NEW BREAKDOWN</div><input type="date" id="faultDate" class="input"><select id="faultArea" class="select"></select><select id="faultEquipment" class="select"></select><select id="faultType" class="select"></select><input id="faultCode" class="input" placeholder="Fault Code"><textarea id="faultDesc" class="textarea" placeholder="Description"></textarea><button class="btn" onclick="createBreakdown()">SAVE FAULT</button></div><div class="card"><div class="card-title">📋 BREAKDOWN RECORDS</div><div class="filter-group" id="faultFilters"><button data-filter="all" class="filter-chip active">ALL</button><button data-filter="Open" class="filter-chip">OPEN</button><button data-filter="In Progress" class="filter-chip">IN PROGRESS</button><button data-filter="Closed" class="filter-chip">CLOSED</button></div><div id="faultListContainer"></div><div class="pagination" id="faultPagination"></div></div></div>
+  <div id="faultScreen" class="screen"><div class="card"><div class="card-title">🚨 NEW BREAKDOWN</div><input type="date" id="faultDate" class="input"><select id="faultArea" class="select"></select><select id="faultEquipment" class="select"></select><select id="faultType" class="select"></select><input id="faultCode" class="input" placeholder="Fault Code"><textarea id="faultDesc" class="textarea" placeholder="Description"></textarea><button class="btn" onclick="createBreakdown()">SAVE FAULT</button></div><div class="card"><div class="card-title">📋 BREAKDOWN RECORDS</div><div class="filter-group" id="faultFilters"><button data-filter="all" class="filter-chip all">ALL</button><button data-filter="Open" class="filter-chip open">OPEN</button><button data-filter="In Progress" class="filter-chip progress">IN PROGRESS</button><button data-filter="Closed" class="filter-chip closed">CLOSED</button></div><div id="faultListContainer"></div><div class="pagination" id="faultPagination"></div></div></div>
   <div id="pmScreen" class="screen"><div class="card"><div class="card-title">🔧 PREVENTIVE MAINTENANCE</div><input type="date" id="pmDate" class="input"><select id="pmArea" class="select"></select><select id="pmEquipment" class="select"></select><select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option></select><input id="pmAssigned" class="input" placeholder="Assigned To"><select id="pmStatusSelect" class="select"><option>Pending</option><option>Done</option></select><textarea id="pmRemarks" class="textarea" placeholder="Remarks"></textarea><button class="btn" onclick="createPM()">SAVE PM RECORD</button></div><div class="card"><div class="card-title">📅 PM RECORDS</div><div id="pmListContainer"></div><div class="pagination" id="pmPagination"></div></div></div>
   <div id="plantScreen" class="screen"><div class="card"><div class="card-title">🏭 PLANT SECTIONS</div><div class="plant-grid" id="plantGrid"></div></div></div>
   <div id="equipScreen" class="screen"><div class="card"><div class="card-title">📟 EQUIPMENT REGISTER</div><select id="equipSection" class="select"></select><input id="equipName" class="input" placeholder="Equipment Name"><select id="equipType" class="select"></select><input id="equipCode" class="input" placeholder="Tag/Code"><button class="btn" onclick="addEquipment()">SAVE EQUIPMENT</button></div><div class="card"><div class="card-title">📋 REGISTERED ASSETS</div><div id="equipListContainer"></div><div class="pagination" id="equipPagination"></div></div></div>
@@ -378,7 +419,8 @@
   const sections = {
     "Cleaning": ["Dampening Device", "Gates Sensor", "Colour Sort Machine", "Material Elevator"],
     "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Conveyors"],
-    "Packing": ["Packing Machine", "VFD", "Electronics Cards", "Panel", "Bagging Machine"],
+    "Auto Scales": ["Electronic Card", "Controller 2.0", "DC Power Supply", "Load Cells", "Weighing Indicator", "Communication Module"],
+    "Packing": ["Packing Machine", "VFD", "Electronics Cards", "Panel", "Bagging Machine", "Packing Machine Load Cells", "Weighing Load Cells"],
     "Utility": ["Air Compressor 01", "Air Compressor 02", "Dryer", "Transformer", "Generator"],
     "Control Room": ["PLC Panel", "MCC Panel", "IO Modules", "VFDs", "CPU", "HMI"],
     "Robotic": ["ABB IRB460 Robotic Arm", "FlexPendant", "IRC5 Controller", "Palletizer", "Palletizer Gripper", "Palletizer Photoelectric Sensor"],
@@ -396,11 +438,12 @@
     "linear-gradient(135deg, #D4A5A5, #8B5A5A)",
     "linear-gradient(135deg, #9B59B6, #6C3483)",
     "linear-gradient(135deg, #3498DB, #1F618D)",
-    "linear-gradient(135deg, #F39C12, #E67E22)"
+    "linear-gradient(135deg, #F39C12, #E67E22)",
+    "linear-gradient(135deg, #1ABC9C, #16A085)"
   ];
   
-  const equipmentTypes = ["PLC Panel", "Motor", "Sensor", "Machine", "Compressor", "Robot", "VFD", "Transformer", "Control Panel", "Controller", "ACB", "VCB", "MCCB", "PFI Panel", "Gripper", "Photoelectric Sensor"];
-  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Deviation Fault", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue", "Pressure Issue"];
+  const equipmentTypes = ["PLC Panel", "Motor", "Sensor", "Machine", "Compressor", "Robot", "VFD", "Transformer", "Control Panel", "Controller", "ACB", "VCB", "MCCB", "PFI Panel", "Gripper", "Photoelectric Sensor", "Load Cell", "DC Power Supply", "Electronic Card"];
+  const faultTypes = ["Electrical", "Mechanical", "Communication", "Trip", "Overload", "Deviation Fault", "Sensor Fault", "Software Error", "Hardware Failure", "Temperature Issue", "Pressure Issue", "Load Cell Failure", "Controller Error"];
 
   function formatDurationDetailed(ms) { if (!ms || ms < 1000) return "Just now"; const s=Math.floor(ms/1000), m=Math.floor(s/60), h=Math.floor(m/60), d=Math.floor(h/24); if(d>0) return `${d}d ${h%24}h`; if(h>0) return `${h}h ${m%60}m`; if(m>0) return `${m}m ${s%60}s`; return `${s}s`; }
   function getFaultDuration(fault) { const hist = fault.statusHistory || []; const open = hist.find(h=>h.status==="Open"); const closed = hist.find(h=>h.status==="Closed"); if(open && closed) return closed.timestamp - open.timestamp; if(open && fault.status!=="Closed") return Date.now() - open.timestamp; return null; }
@@ -411,9 +454,10 @@
   function toggleNotifications(){ document.getElementById("notificationPanel").classList.toggle("show"); }
   function getUsers(){ return JSON.parse(localStorage.getItem('majeed_users')||'[]'); }
   function createAccount(){ const n=document.getElementById("loginName").value.trim(), e=document.getElementById("loginEmail").value.trim(), p=document.getElementById("loginPassword").value.trim(), r=document.getElementById("loginRole").value; if(!n||!e||!p){ showToast("Please fill all fields"); return; } const u=getUsers(); if(u.find(x=>x.email===e)){ showToast("Email already registered"); return; } u.push({name:n,email:e,password:p,role:r,id:Date.now()}); localStorage.setItem('majeed_users',JSON.stringify(u)); showToast("Account created! Please sign in."); }
-  function signIn(){ const e=document.getElementById("loginEmail").value.trim(), p=document.getElementById("loginPassword").value.trim(); const u=getUsers().find(x=>x.email===e&&x.password===p); if(u){ currentUser=u; localStorage.setItem('currentUser',JSON.stringify(u)); document.getElementById("userDisplay").innerHTML=`👤 ${u.name} (${u.role})`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); showToast(`Welcome ${u.name}!`); updateNotifications(); } else showToast("Invalid email or password"); }
-  function checkAutoLogin(){ const s=localStorage.getItem('currentUser'); if(s){ currentUser=JSON.parse(s); document.getElementById("userDisplay").innerHTML=`👤 ${currentUser.name} (${currentUser.role})`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); } }
-  function loadData(){ faults=JSON.parse(localStorage.getItem('majeed_faults')||'[]'); pmRecords=JSON.parse(localStorage.getItem('majeed_pm')||'[]'); equipmentList=JSON.parse(localStorage.getItem('majeed_equipment')||'[]'); if(faults.length===0){ const n=Date.now(); faults=[{id:n+1,date:"2026-03-20",area:"Utility",equipmentName:"Air Compressor 01",faultType:"Electrical",faultCode:"OVERHEAT",status:"Open",statusHistory:[{status:"Open",timestamp:n-5*24*3600000}]},{id:n+2,date:"2026-03-21",area:"Drying System",equipmentName:"Boiler",faultType:"Temperature Issue",faultCode:"TEMP-HIGH",status:"In Progress",statusHistory:[{status:"Open",timestamp:n-2*24*3600000},{status:"In Progress",timestamp:n-1*24*3600000}]},{id:n+3,date:"2026-03-18",area:"Power Distribution",equipmentName:"11kV Panel Wapda Room",faultType:"Electrical",faultCode:"VCB-TRIP",status:"Closed",statusHistory:[{status:"Open",timestamp:n-7*24*3600000},{status:"In Progress",timestamp:n-5*24*3600000},{status:"Closed",timestamp:n-3*24*3600000}]}]; saveFaults(); } if(pmRecords.length===0){ pmRecords=[{id:Date.now()+1,date:"2026-03-22",area:"Power Distribution",equipment:"2500kVA Transformer",frequency:"Monthly",assignedTo:"Fahim",status:"Pending",nextDueDate:"2026-04-22"},{id:Date.now()+2,date:"2026-03-20",area:"Power Distribution",equipment:"PFI Panel 01",frequency:"Weekly",assignedTo:"Ahmed",status:"Pending",nextDueDate:"2026-03-27"}]; savePM(); } if(equipmentList.length===0){ equipmentList=[{id:Date.now()+1,section:"Power Distribution",name:"11kV Panel Wapda Room",type:"VCB Panel",code:"PWR-11KV-01"},{id:Date.now()+2,section:"Power Distribution",name:"2500kVA Oil Type Transformer",type:"Transformer",code:"PWR-TRF-01"},{id:Date.now()+3,section:"Power Distribution",name:"Wapda Incoming Panel 3200A ACB",type:"ACB",code:"PWR-ACB-01"},{id:Date.now()+4,section:"Power Distribution",name:"Generator Incoming Panel 3200A ACB",type:"ACB",code:"PWR-ACB-02"},{id:Date.now()+5,section:"Power Distribution",name:"PFI Panel 01",type:"PFI Panel",code:"PWR-PFI-01"}]; saveEquipment(); } }
+  function signIn(){ const e=document.getElementById("loginEmail").value.trim(), p=document.getElementById("loginPassword").value.trim(); const u=getUsers().find(x=>x.email===e&&x.password===p); if(u){ currentUser=u; localStorage.setItem('currentUser',JSON.stringify(u)); document.getElementById("userDisplay").innerHTML=`👤 ${u.name} (${u.role}) <button class="logout-btn" onclick="logout()">Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); showToast(`Welcome ${u.name}!`); updateNotifications(); } else showToast("Invalid email or password"); }
+  function logout(){ currentUser=null; localStorage.removeItem('currentUser'); document.getElementById("userDisplay").innerHTML="🔒 Not logged in"; document.getElementById("mainTabs").style.display="none"; switchToScreen('login'); showToast("Logged out successfully"); }
+  function checkAutoLogin(){ const s=localStorage.getItem('currentUser'); if(s){ currentUser=JSON.parse(s); document.getElementById("userDisplay").innerHTML=`👤 ${currentUser.name} (${currentUser.role}) <button class="logout-btn" onclick="logout()">Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); } }
+  function loadData(){ faults=JSON.parse(localStorage.getItem('majeed_faults')||'[]'); pmRecords=JSON.parse(localStorage.getItem('majeed_pm')||'[]'); equipmentList=JSON.parse(localStorage.getItem('majeed_equipment')||'[]'); if(faults.length===0){ const n=Date.now(); faults=[{id:n+1,date:"2026-03-20",area:"Auto Scales",equipmentName:"Controller 2.0",faultType:"Controller Error",faultCode:"ERR-101",status:"Open",statusHistory:[{status:"Open",timestamp:n-5*24*3600000}]},{id:n+2,date:"2026-03-21",area:"Drying System",equipmentName:"Boiler",faultType:"Temperature Issue",faultCode:"TEMP-HIGH",status:"In Progress",statusHistory:[{status:"Open",timestamp:n-2*24*3600000},{status:"In Progress",timestamp:n-1*24*3600000}]},{id:n+3,date:"2026-03-18",area:"Power Distribution",equipmentName:"11kV Panel Wapda Room",faultType:"Electrical",faultCode:"VCB-TRIP",status:"Closed",statusHistory:[{status:"Open",timestamp:n-7*24*3600000},{status:"In Progress",timestamp:n-5*24*3600000},{status:"Closed",timestamp:n-3*24*3600000}]}]; saveFaults(); } if(pmRecords.length===0){ pmRecords=[{id:Date.now()+1,date:"2026-03-22",area:"Auto Scales",equipment:"Controller 2.0",frequency:"Monthly",assignedTo:"Fahim",status:"Pending",nextDueDate:"2026-04-22"},{id:Date.now()+2,date:"2026-03-20",area:"Packing",equipment:"Packing Machine Load Cells",frequency:"Weekly",assignedTo:"Ahmed",status:"Pending",nextDueDate:"2026-03-27"}]; savePM(); } if(equipmentList.length===0){ equipmentList=[{id:Date.now()+1,section:"Auto Scales",name:"Controller 2.0",type:"Controller",code:"AUTO-CTRL-01"},{id:Date.now()+2,section:"Auto Scales",name:"Electronic Card",type:"Electronic Card",code:"AUTO-EC-01"},{id:Date.now()+3,section:"Auto Scales",name:"DC Power Supply",type:"Power Supply",code:"AUTO-PS-01"},{id:Date.now()+4,section:"Auto Scales",name:"Load Cells",type:"Load Cell",code:"AUTO-LC-01"},{id:Date.now()+5,section:"Packing",name:"Packing Machine Load Cells",type:"Load Cell",code:"PKG-LC-01"}]; saveEquipment(); } }
   function saveFaults(){ localStorage.setItem('majeed_faults',JSON.stringify(faults)); updateNotifications(); renderAll(); }
   function savePM(){ localStorage.setItem('majeed_pm',JSON.stringify(pmRecords)); updateNotifications(); renderAll(); }
   function saveEquipment(){ localStorage.setItem('majeed_equipment',JSON.stringify(equipmentList)); renderAll(); }
