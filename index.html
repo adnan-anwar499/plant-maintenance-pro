@@ -23,6 +23,8 @@
       min-height: 100vh;
       box-shadow: 0 0 30px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
+      position: relative;
+      padding-bottom: 60px;
     }
     body.desktop-view .app-container {
       max-width: 1400px;
@@ -227,7 +229,7 @@
       box-shadow: 0 4px 15px rgba(44, 62, 80, 0.4);
     }
     .screen {
-      padding: 20px 18px 100px;
+      padding: 20px 18px 20px;
       display: none;
     }
     .screen.active-screen {
@@ -399,7 +401,43 @@
     .file-input { display: none; }
     #print-area { display: none; }
     .section-title { font-size: 1.2rem; font-weight: 800; color: #2c3e50; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    @media print { body * { visibility: hidden; } #print-area, #print-area * { visibility: visible; } #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; background: white; } .no-print { display: none; } }
+    
+    /* Footer Styles */
+    .app-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 550px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #2c3e50 0%, #1a2632 100%);
+      color: #94a3b8;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+    body.desktop-view .app-footer {
+      max-width: 1400px;
+      border-radius: 20px 20px 0 0;
+    }
+    .app-footer span {
+      color: #f97316;
+      font-weight: 700;
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #print-area, #print-area * { visibility: visible; }
+      #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; background: white; }
+      .no-print { display: none; }
+      .app-footer { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -434,7 +472,14 @@
   <div id="cooScreen" class="screen"><div class="card"><div class="card-title"><span>👔</span> COO EXECUTIVE SUMMARY</div><div class="grid-2"><div class="stat-card coo-red"><div class="icon">📊</div><div class="big-number" id="cooTotalFaults">0</div><div class="label">TOTAL FAULTS</div></div><div class="stat-card coo-orange"><div class="icon">⚠️</div><div class="big-number" id="cooOpenProgress">0</div><div class="label">OPEN+IN PROGRESS</div></div><div class="stat-card coo-green"><div class="icon">✅</div><div class="big-number" id="cooClosedFaults">0</div><div class="label">CLOSED FAULTS</div></div><div class="stat-card coo-yellow"><div class="icon">🔧</div><div class="big-number" id="cooPmPending">0</div><div class="label">PM PENDING</div></div><div class="stat-card coo-teal"><div class="icon">✔️</div><div class="big-number" id="cooPmDone">0</div><div class="label">PM DONE</div></div><div class="stat-card coo-purple"><div class="icon">📟</div><div class="big-number" id="cooTotalEquip">0</div><div class="label">TOTAL EQUIPMENT</div></div></div></div><div class="card"><div class="section-title"><span>⚠️</span> TOP PROBLEM EQUIPMENT</div><div id="topProblemList"></div></div><div class="card"><div class="section-title"><span>⏱️</span> AVERAGE FAULT RESOLUTION TIME</div><div id="avgResolutionTime" class="status-message">Calculating...</div></div><div class="card"><button class="btn" onclick="printCOOSummaryWithPDF()">📄 PRINT COO SUMMARY & PDF</button></div></div>
   <div id="toolsScreen" class="screen"><div class="card"><div class="card-title"><span>🛠️</span> DATA TOOLS</div><button class="btn btn-success" onclick="exportData()">📤 EXPORT DATA (Backup)</button><button class="btn btn-success" onclick="document.getElementById('importFile').click()">📥 IMPORT DATA (Restore)</button><input type="file" id="importFile" class="file-input" accept=".json" onchange="importData(this)"><div style="height: 12px;"></div><button class="btn" onclick="printWeeklyHistory()">📆 PRINT WEEKLY FAULT HISTORY</button><button class="btn" onclick="printMonthlyHistory()">📅 PRINT MONTHLY FAULT HISTORY</button><button class="btn" onclick="printPMFullHistory()">📑 PRINT ALL PM RECORDS</button><button class="btn" onclick="printEquipmentFullList()">📇 PRINT EQUIPMENT REGISTER</button><div style="height: 12px;"></div><button class="btn btn-danger" onclick="deleteAllFaults()">🗑️ DELETE ALL FAULTS</button><button class="btn btn-danger" onclick="deleteAllPM()">🗑️ DELETE ALL PM</button><button class="btn btn-danger" onclick="deleteAllEquipment()">🗑️ DELETE ALL EQUIPMENT</button></div></div>
 </div>
+
+<!-- Footer -->
+<div class="app-footer no-print">
+  Developed for Majeed Foods by <span>Adnan Anwer</span>
+</div>
+
 <div id="print-area"></div>
+
 <script>
   let faults = [], pmRecords = [], equipmentList = [], currentUser = null;
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1;
@@ -503,7 +548,7 @@
   function deleteAllFaults(){ if(confirm("Delete ALL faults?")){ faults=[]; saveFaults(); renderFaults(); updateDashboard(); updateCOO(); } }
   function deleteAllPM(){ if(confirm("Delete ALL PM?")){ pmRecords=[]; savePM(); renderPM(); updateDashboard(); updateCOO(); } }
   function deleteAllEquipment(){ if(confirm("Delete ALL equipment?")){ equipmentList=[]; saveEquipment(); renderEquipment(); updateDashboard(); updateCOO(); } }
-  function printToPDF(title,contentHtml){ const p=document.getElementById("print-area"); p.innerHTML=`<div style="padding:20px; font-family:Arial;"><h1 style="color:#2c3e50;">🏭 MAJEED FOODS PVT LTD - BAHAWALPUR</h1><h3>${title}</h3><p>Generated: ${new Date().toLocaleString()}</p><hr>${contentHtml}<hr><p style="text-align:center;">⚡ Electrical & Automation Maintenance System</p></div>`; window.print(); }
+  function printToPDF(title,contentHtml){ const p=document.getElementById("print-area"); p.innerHTML=`<div style="padding:20px; font-family:Arial;"><h1 style="color:#2c3e50;">🏭 MAJEED FOODS PVT LTD - BAHAWALPUR</h1><h3>${title}</h3><p>Generated: ${new Date().toLocaleString()}</p><hr>${contentHtml}<hr><p style="text-align:center;">⚡ Electrical & Automation Maintenance System</p><p style="text-align:center; font-size:12px; color:#666;">Developed for Majeed Foods by Adnan Anwer</p></div>`; window.print(); }
   function printCOOSummaryWithPDF(){ const avgTime=getAverageResolutionTime(); const topProb=document.getElementById("topProblemList").innerHTML; const html=`<h3>📊 Fault Statistics</h3><p>Total Faults: ${faults.length} | Open/Progress: ${faults.filter(f=>f.status!=="Closed").length} | Closed: ${faults.filter(f=>f.status==="Closed").length}</p><h3>⏱️ Average Resolution Time</h3><p><strong>${avgTime}</strong></p><h3>🔧 PM Statistics</h3><p>Pending: ${pmRecords.filter(p=>p.status!=="Done").length} | Completed: ${pmRecords.filter(p=>p.status==="Done").length}</p><h3>📟 Equipment</h3><p>Total: ${equipmentList.length}</p><h3>⚠️ Top Problem Equipment</h3>${topProb}`; printToPDF("COO Executive Summary",html); }
   function printWeeklyHistory(){ const cutoff=new Date(); cutoff.setDate(cutoff.getDate()-7); const filtered=faults.filter(f=>new Date(f.date)>=cutoff); const html=`<h3>📆 Weekly Fault History (Last 7 Days)</h3>${filtered.map(f=>`<div style="border:1px solid #ccc; padding:10px; margin:10px 0;"><strong>⚠️ ${f.equipmentName}</strong><br>📅 Date: ${f.date} | 📌 Status: ${f.status} | ⏱️ Duration: ${getFaultDuration(f)?formatDurationDetailed(getFaultDuration(f)):"Active"}<br>📝 Description: ${f.description||"-"}</div>`).join("")||"<p>No faults in last 7 days</p>"}`; printToPDF("Weekly Fault History",html); }
   function printMonthlyHistory(){ const cutoff=new Date(); cutoff.setDate(cutoff.getDate()-30); const filtered=faults.filter(f=>new Date(f.date)>=cutoff); const html=`<h3>📅 Monthly Fault History (Last 30 Days)</h3>${filtered.map(f=>`<div style="border:1px solid #ccc; padding:10px; margin:10px 0;"><strong>⚠️ ${f.equipmentName}</strong><br>📅 Date: ${f.date} | 📌 Status: ${f.status} | ⏱️ Duration: ${getFaultDuration(f)?formatDurationDetailed(getFaultDuration(f)):"Active"}<br>📝 Description: ${f.description||"-"}</div>`).join("")||"<p>No faults in last 30 days</p>"}`; printToPDF("Monthly Fault History",html); }
@@ -520,4 +565,3 @@
 </script>
 </body>
 </html>
-```
