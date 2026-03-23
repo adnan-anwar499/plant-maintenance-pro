@@ -1,4 +1,6 @@
+Here's the complete HTML with both Mobile and Desktop view options. Added a toggle button to switch between views:
 
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,14 +17,98 @@
     body {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      transition: all 0.3s ease;
     }
+    
+    /* Mobile View (Default) */
     .app-container {
       max-width: 550px;
       margin: 0 auto;
       background: #f8fafc;
       min-height: 100vh;
       box-shadow: 0 0 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
     }
+    
+    /* Desktop View */
+    body.desktop-view {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+    }
+    
+    body.desktop-view .app-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      border-radius: 32px;
+      overflow: hidden;
+    }
+    
+    body.desktop-view .tabs {
+      justify-content: center;
+    }
+    
+    body.desktop-view .tab-btn {
+      min-width: 100px;
+      font-size: 1rem;
+      padding: 14px 0;
+    }
+    
+    body.desktop-view .screen {
+      padding: 30px;
+    }
+    
+    body.desktop-view .grid-2 {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    
+    body.desktop-view .plant-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    
+    body.desktop-view .card {
+      padding: 30px;
+    }
+    
+    body.desktop-view .card-title {
+      font-size: 2rem;
+    }
+    
+    body.desktop-view .stat-card .big-number {
+      font-size: 2.8rem;
+    }
+    
+    body.desktop-view .record-item {
+      padding: 20px;
+    }
+    
+    /* View Toggle Button */
+    .view-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    
+    .view-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    
     .header {
       background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 25%, #45B7D1 50%, #96CEB4 75%, #FFEAA7 100%);
       color: white;
@@ -210,7 +296,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
-    /* Centered plant grid */
     .plant-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -290,7 +375,7 @@
     .badge-open { background: #fee2e2; color: #b91c1c; }
     .badge-progress { background: #fff3e3; color: #b45309; }
     .badge-closed { background: #e0f2e9; color: #15803d; }
-    .row-actions { display: flex; gap: 12px; margin-top: 14px; }
+    .row-actions { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
     .small-btn {
       background: #eef2ff;
       border: none;
@@ -336,6 +421,25 @@
       font-weight: 600;
     }
     #print-area { display: none; }
+    
+    /* Desktop View Specific Styles */
+    body.desktop-view .grid-2 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    body.desktop-view .plant-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    @media (max-width: 768px) {
+      body.desktop-view .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      body.desktop-view .plant-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
     @media print {
       body * { visibility: hidden; }
       #print-area, #print-area * { visibility: visible; }
@@ -345,6 +449,10 @@
   </style>
 </head>
 <body>
+<button class="view-toggle no-print" id="viewToggleBtn">
+  <span>🖥️</span> Switch to Desktop View
+</button>
+
 <div class="app-container">
   <div class="header">
     <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
@@ -453,7 +561,7 @@
     </div>
   </div>
 
-  <!-- PLANT SCREEN with centered cards and unique colors -->
+  <!-- PLANT SCREEN -->
   <div id="plantScreen" class="screen">
     <div class="card">
       <div class="card-title">🏭 PLANT SECTIONS</div>
@@ -527,7 +635,6 @@
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1;
   const pageSize = 5;
 
-  // Updated sections with COMBINED ELEVATOR
   const sections = {
     "Cleaning": ["Dampening Device", "Gates Sensor", "Colour Sort Machine", "Material Elevator"],
     "Milling": ["Auto Scale", "Plansifter", "Purifier", "Roller Mill", "Conveyors"],
@@ -539,7 +646,6 @@
     "Drying System": ["Drying PLC Panel", "Drying MCC Panel", "Boiler", "Temperature Controller", "Humidity Sensor", "Air Heater", "Exhaust Fan", "Conveyor Dryer", "Burner Control Unit"]
   };
   
-  // Unique color palette for plant cards
   const cardColors = [
     "linear-gradient(135deg, #FF6B6B, #C92A2A)",
     "linear-gradient(135deg, #4ECDC4, #0E7C6E)",
@@ -896,11 +1002,35 @@
   
   function renderAll() { renderFaults(); renderPM(); renderEquipment(); updateDashboard(); updateCOO(); updateNotifications(); }
   
+  // View Toggle Functionality
+  function toggleView() {
+    const body = document.body;
+    const toggleBtn = document.getElementById("viewToggleBtn");
+    if (body.classList.contains("desktop-view")) {
+      body.classList.remove("desktop-view");
+      toggleBtn.innerHTML = "<span>🖥️</span> Switch to Desktop View";
+      localStorage.setItem("viewMode", "mobile");
+    } else {
+      body.classList.add("desktop-view");
+      toggleBtn.innerHTML = "<span>📱</span> Switch to Mobile View";
+      localStorage.setItem("viewMode", "desktop");
+    }
+  }
+  
+  function loadViewPreference() {
+    const savedView = localStorage.getItem("viewMode");
+    if (savedView === "desktop") {
+      document.body.classList.add("desktop-view");
+      document.getElementById("viewToggleBtn").innerHTML = "<span>📱</span> Switch to Mobile View";
+    }
+  }
+  
   document.getElementById("faultArea")?.addEventListener("change", () => updateDynamicEquipment("faultArea", "faultEquipment"));
   document.getElementById("pmArea")?.addEventListener("change", () => updateDynamicEquipment("pmArea", "pmEquipment"));
   document.getElementById("signupBtn")?.addEventListener("click", createAccount);
   document.getElementById("signinBtn")?.addEventListener("click", signIn);
   document.getElementById("bellIcon")?.addEventListener("click", toggleNotifications);
+  document.getElementById("viewToggleBtn")?.addEventListener("click", toggleView);
   document.addEventListener("click", (e) => { if(!e.target.closest(".notification-area")) document.getElementById("notificationPanel")?.classList.remove("show"); });
   document.querySelectorAll("#faultFilters .filter-chip").forEach(btn => { btn.onclick = () => { faultFilter = btn.dataset.filter; faultPage = 1; renderFaults(); }; });
   document.querySelectorAll(".tab-btn").forEach(btn => { btn.onclick = () => switchToScreen(btn.dataset.screen); });
@@ -915,6 +1045,7 @@
     document.getElementById("faultDate").valueAsDate = new Date();
     document.getElementById("pmDate").valueAsDate = new Date();
     checkAutoLogin();
+    loadViewPreference();
     setInterval(() => { if(currentUser) updateNotifications(); }, 60000);
   }
   init();
