@@ -14,7 +14,6 @@
     body {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      transition: all 0.3s ease;
     }
     .app-container {
       max-width: 550px;
@@ -22,7 +21,6 @@
       background: #f8fafc;
       min-height: 100vh;
       box-shadow: 0 0 30px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
       position: relative;
       padding-bottom: 60px;
     }
@@ -55,7 +53,6 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -79,7 +76,6 @@
       text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
       color: #ffffff;
       margin-bottom: 8px;
-      letter-spacing: 1px;
     }
     .header p {
       font-size: 0.95rem;
@@ -98,7 +94,6 @@
       margin-top: 12px;
       backdrop-filter: blur(5px);
       color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.2);
     }
     .user-info {
       background: rgba(0,0,0,0.6);
@@ -117,14 +112,12 @@
       border-radius: 40px;
       font-size: 0.8rem;
       cursor: pointer;
-      transition: all 0.3s ease;
       border: none;
       color: white;
       font-weight: 700;
     }
     .logout-btn:hover {
       background: #dc2626;
-      transform: scale(1.05);
     }
     .notification-area {
       position: relative;
@@ -134,7 +127,6 @@
     }
     .bell-icon {
       font-size: 1.5rem;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
       color: #ffffff;
     }
     .notification-badge {
@@ -203,7 +195,6 @@
       padding: 10px 0;
       border-radius: 50px;
       color: #1e293b;
-      transition: all 0.3s ease;
       cursor: pointer;
     }
     .tab-btn.active {
@@ -230,9 +221,7 @@
       margin-bottom: 24px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       border: 1px solid #e9edf2;
-      transition: transform 0.2s ease;
     }
-    .card:hover { transform: translateY(-3px); }
     .card-title {
       font-size: 1.5rem;
       font-weight: 800;
@@ -260,7 +249,6 @@
       padding: 20px 14px;
       color: white;
       box-shadow: 0 12px 20px -8px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
       cursor: pointer;
       text-align: center;
     }
@@ -271,7 +259,6 @@
       padding: 20px 14px;
       color: white;
       box-shadow: 0 12px 20px -8px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -296,7 +283,6 @@
       font-weight: 800;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.3s ease;
       color: white;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
@@ -334,7 +320,6 @@
       background: linear-gradient(135deg, #2c3e50 0%, #1a2632 100%);
       cursor: pointer;
       margin-top: 8px;
-      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -342,7 +327,6 @@
     }
     .btn-danger { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); }
     .btn-success { background: linear-gradient(135deg, #059669 0%, #10b981 100%); }
-    .btn-warning { background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); }
     .btn-critical { background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%); }
     .btn-minor { background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); }
     .record-item {
@@ -393,12 +377,11 @@
       padding: 8px 16px;
       font-size: 0.65rem;
       font-weight: 500;
-      letter-spacing: 0.3px;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
       z-index: 100;
     }
-    body.desktop-view .app-footer { max-width: 1400px; border-radius: 20px 20px 0 0; }
+    body.desktop-view .app-footer { max-width: 1400px; }
     .app-footer span { color: #f97316; font-weight: 700; }
     .checklist-item {
       background: #f8fafc;
@@ -411,25 +394,9 @@
       gap: 8px;
       border-left: 3px solid #f97316;
     }
-    .run-record {
-      background: #f0fdf4;
-      border-left: 4px solid #10b981;
-    }
-    .run-record-critical {
-      background: #fef2f2;
-      border-left: 4px solid #dc2626;
-    }
-    .frequency-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 0.6rem;
-      font-weight: 700;
-      margin-left: 8px;
-      background: #e2e8f0;
-      color: #334155;
-    }
-    @media print { body * { visibility: hidden; } #print-area, #print-area * { visibility: visible; } #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; background: white; } .no-print { display: none; } .app-footer { display: none; } }
+    .run-record { background: #f0fdf4; border-left: 4px solid #10b981; }
+    .run-record-critical { background: #fef2f2; border-left: 4px solid #dc2626; }
+    @media print { body * { visibility: hidden; } #print-area, #print-area * { visibility: visible; } #print-area { display: block; position: absolute; top: 0; left: 0; width: 100%; padding: 20px; background: white; } .no-print { display: none; } }
   </style>
 </head>
 <body>
@@ -462,7 +429,7 @@
   <div id="pmScreen" class="screen"><div class="card"><div class="card-title"><span>🔧</span> PREVENTIVE MAINTENANCE</div><input type="date" id="pmDate" class="input"><select id="pmArea" class="select"></select><select id="pmEquipment" class="select"></select><select id="pmFreq" class="select"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Yearly</option></select><div id="pmChecklist" class="card" style="padding: 16px; margin-bottom: 12px; background: #fefce8;"><div class="section-title">📋 INSPECTION CHECKLIST</div><div id="checklistItems"></div></div><input id="pmAssigned" class="input" placeholder="Assigned To"><select id="pmStatusSelect" class="select"><option>Pending</option><option>Done</option></select><textarea id="pmRemarks" class="textarea" placeholder="Remarks / Inspection Notes"></textarea><button class="btn" onclick="createPM()">💾 SAVE PM RECORD</button></div><div class="card"><div class="card-title"><span>📅</span> PM RECORDS</div><div id="pmListContainer"></div><div class="pagination" id="pmPagination"></div></div></div>
   <div id="plantScreen" class="screen"><div class="card"><div class="card-title"><span>🏭</span> PLANT SECTIONS</div><div class="plant-grid" id="plantGrid"></div></div></div>
   <div id="equipScreen" class="screen"><div class="card"><div class="card-title"><span>📟</span> EQUIPMENT REGISTER</div><select id="equipSection" class="select"></select><input id="equipName" class="input" placeholder="Equipment Name"><select id="equipType" class="select"></select><input id="equipCode" class="input" placeholder="Tag/Code"><button class="btn" onclick="addEquipment()">💾 SAVE EQUIPMENT</button></div><div class="card"><div class="card-title"><span>📋</span> REGISTERED ASSETS</div><div id="equipListContainer"></div><div class="pagination" id="equipPagination"></div></div></div>
-  <div id="runScreen" class="screen"><div class="card"><div class="card-title"><span>⏱️</span> PLANT OPERATION TRACKING</div><div class="status-message" style="background: #e0f2fe;">📌 Track daily plant operation with start/stop times and fault impact</div><div class="grid-2" style="margin: 16px 0;"><div class="stat-card coo-green"><div class="icon">✅</div><div class="big-number" id="weeklyRunCount">0</div><div class="label">FAULT-FREE (THIS WEEK)</div></div><div class="stat-card coo-blue"><div class="icon">📅</div><div class="big-number" id="monthlyRunCount">0</div><div class="label">FAULT-FREE (THIS MONTH)</div></div></div><div style="background: #f1f5f9; border-radius: 24px; padding: 16px; margin-bottom: 16px;"><div class="section-title">🕐 DAILY OPERATION RECORD</div><input type="date" id="runDate" class="input" value=""><div class="grid-2"><input type="time" id="startTime" class="input" placeholder="Start Time"><input type="time" id="stopTime" class="input" placeholder="Stop Time"></div><div class="grid-2"><button class="btn btn-critical" onclick="recordRunTime('critical')">🔴 RECORD WITH CRITICAL FAULT (Plant Stopped)</button><button class="btn btn-minor" onclick="recordRunTime('minor')">🟡 RECORD WITH MINOR FAULT (Production Continued)</button><button class="btn btn-success" onclick="recordRunTime('none')">✅ RECORD FAULT-FREE DAY</button></div><div class="status-message" style="margin-top: 12px;">💡 Critical Fault = Plant completely stopped | Minor Fault = Production continued while fault being fixed</div></div></div><div class="card"><div class="card-title"><span>📊</span> OPERATION HISTORY</div><div id="runHistoryContainer"></div><div class="pagination" id="runPagination"></div></div></div>
+  <div id="runScreen" class="screen"><div class="card"><div class="card-title"><span>⏱️</span> PLANT OPERATION TRACKING</div><div class="status-message" style="background: #e0f2fe;">📌 Track daily plant operation with start/stop times and fault impact</div><div class="grid-2" style="margin: 16px 0;"><div class="stat-card coo-green"><div class="icon">✅</div><div class="big-number" id="weeklyRunCount">0</div><div class="label">FAULT-FREE (THIS WEEK)</div></div><div class="stat-card coo-blue"><div class="icon">📅</div><div class="big-number" id="monthlyRunCount">0</div><div class="label">FAULT-FREE (THIS MONTH)</div></div></div><div style="background: #f1f5f9; border-radius: 24px; padding: 16px; margin-bottom: 16px;"><div class="section-title">🕐 DAILY OPERATION RECORD</div><input type="date" id="runDate" class="input" value=""><div class="grid-2"><input type="time" id="startTime" class="input" placeholder="Start Time"><input type="time" id="stopTime" class="input" placeholder="Stop Time"></div><div class="grid-2"><button class="btn btn-critical" onclick="recordRunTime('critical')">🔴 CRITICAL FAULT (Plant Stopped)</button><button class="btn btn-minor" onclick="recordRunTime('minor')">🟡 MINOR FAULT (Production Continued)</button><button class="btn btn-success" onclick="recordRunTime('none')">✅ FAULT-FREE DAY</button></div></div></div><div class="card"><div class="card-title"><span>📊</span> OPERATION HISTORY</div><div id="runHistoryContainer"></div><div class="pagination" id="runPagination"></div></div></div>
   <div id="cooScreen" class="screen"><div class="card"><div class="card-title"><span>👔</span> COO EXECUTIVE SUMMARY</div><div class="grid-2"><div class="stat-card coo-red"><div class="icon">📊</div><div class="big-number" id="cooTotalFaults">0</div><div class="label">TOTAL FAULTS</div></div><div class="stat-card coo-orange"><div class="icon">⚠️</div><div class="big-number" id="cooOpenProgress">0</div><div class="label">OPEN+IN PROGRESS</div></div><div class="stat-card coo-green"><div class="icon">✅</div><div class="big-number" id="cooClosedFaults">0</div><div class="label">CLOSED FAULTS</div></div><div class="stat-card coo-yellow"><div class="icon">🔧</div><div class="big-number" id="cooPmPending">0</div><div class="label">PM PENDING</div></div><div class="stat-card coo-teal"><div class="icon">✔️</div><div class="big-number" id="cooPmDone">0</div><div class="label">PM DONE</div></div><div class="stat-card coo-purple"><div class="icon">📟</div><div class="big-number" id="cooTotalEquip">0</div><div class="label">TOTAL EQUIPMENT</div></div></div></div><div class="card"><div class="section-title"><span>⚠️</span> TOP PROBLEM EQUIPMENT</div><div id="topProblemList"></div></div><div class="card"><div class="section-title"><span>⏱️</span> AVERAGE FAULT RESOLUTION TIME</div><div id="avgResolutionTime" class="status-message">Calculating...</div></div><div class="card"><div class="section-title"><span>✅</span> FAULT-FREE OPERATION STATISTICS</div><div id="runStats" class="status-message">Loading...</div></div><div class="card"><button class="btn" onclick="printCOOSummaryWithPDF()">📄 PRINT COO SUMMARY & PDF</button></div></div>
   <div id="toolsScreen" class="screen"><div class="card"><div class="card-title"><span>🛠️</span> DATA TOOLS</div><button class="btn btn-success" onclick="exportData()">📤 EXPORT DATA (Backup)</button><button class="btn btn-success" onclick="document.getElementById('importFile').click()">📥 IMPORT DATA (Restore)</button><input type="file" id="importFile" class="file-input" accept=".json" onchange="importData(this)"><div style="height: 12px;"></div><button class="btn" onclick="printWeeklyHistory()">📆 PRINT WEEKLY FAULT HISTORY</button><button class="btn" onclick="printMonthlyHistory()">📅 PRINT MONTHLY FAULT HISTORY</button><button class="btn" onclick="printPMFullHistory()">📑 PRINT ALL PM RECORDS</button><button class="btn" onclick="printEquipmentFullList()">📇 PRINT EQUIPMENT REGISTER</button><div style="height: 12px;"></div><button class="btn btn-danger" onclick="deleteAllFaults()">🗑️ DELETE ALL FAULTS</button><button class="btn btn-danger" onclick="deleteAllPM()">🗑️ DELETE ALL PM</button><button class="btn btn-danger" onclick="deleteAllEquipment()">🗑️ DELETE ALL EQUIPMENT</button><button class="btn btn-danger" onclick="deleteAllRunRecords()">🗑️ DELETE ALL RUN RECORDS</button></div></div>
 </div>
@@ -474,7 +441,7 @@
   let faultFilter = "all", faultPage = 1, pmPage = 1, equipPage = 1, runPage = 1;
   const pageSize = 5;
   
-  // Data storage keys - SINGLE source of truth for all users
+  // SINGLE SOURCE OF TRUTH - All users share these keys
   const STORAGE_KEYS = {
     FAULTS: 'majeed_global_faults',
     PM: 'majeed_global_pm',
@@ -482,6 +449,14 @@
     RUN_RECORDS: 'majeed_global_run_records',
     USERS: 'majeed_users'
   };
+  
+  // Helper function to force refresh all data
+  function refreshAllData() {
+    loadGlobalData();
+    renderAll();
+    updateNotifications();
+    showToast("Data synchronized with server");
+  }
   
   function setFaultImpact(impact) {
     document.getElementById("faultImpact").value = impact;
@@ -546,17 +521,21 @@
     // Initialize with sample data if empty
     if (faults.length === 0) {
       const n = Date.now();
-      faults = [{id:n+1, date:"2026-03-20", area:"Cleaning", equipmentName:"Dampening Device", faultType:"Electrical", faultCode:"Fault", status:"Open", impact:"critical", statusHistory:[{status:"Open", timestamp:n-114000}]}];
+      faults = [{id:n+1, date:"2026-03-20", area:"Cleaning", equipmentName:"Dampening Device", faultType:"Electrical", faultCode:"Fault", status:"Open", impact:"critical", statusHistory:[{status:"Open", timestamp:n-114000}]},
+                {id:n+2, date:"2026-03-21", area:"Milling", equipmentName:"Roller Mill", faultType:"Mechanical", faultCode:"VIB-ERR", status:"In Progress", impact:"minor", statusHistory:[{status:"Open", timestamp:n-86400000},{status:"In Progress", timestamp:n-43200000}]},
+                {id:n+3, date:"2026-03-19", area:"Utility", equipmentName:"Air Compressor 01", faultType:"Electrical", faultCode:"OVERHEAT", status:"Closed", impact:"critical", statusHistory:[{status:"Open", timestamp:n-172800000},{status:"In Progress", timestamp:n-129600000},{status:"Closed", timestamp:n-86400000}]}];
       saveGlobalFaults();
     }
     if (pmRecords.length === 0) {
-      pmRecords = [{id:Date.now()+1, date:"2026-03-23", area:"Milling", equipment:"Roller Mill Motor", frequency:"Weekly", assignedTo:"Fahim", status:"Pending", nextDueDate:"2026-03-30", equipmentType:"Motor"}];
+      pmRecords = [{id:Date.now()+1, date:"2026-03-23", area:"Milling", equipment:"Roller Mill Motor", frequency:"Weekly", assignedTo:"Fahim", status:"Pending", nextDueDate:"2026-03-30", equipmentType:"Motor"},
+                   {id:Date.now()+2, date:"2026-03-22", area:"Utility", equipment:"Air Compressor 01", frequency:"Daily", assignedTo:"Ahmed", status:"Pending", nextDueDate:"2026-03-23", equipmentType:"Compressor"}];
       saveGlobalPM();
     }
     if (equipmentList.length === 0) {
       equipmentList = [
         {id:Date.now()+1, section:"Auto Scales", name:"Controller 2.0", type:"Controller", code:"AUTO-CTRL-01"},
-        {id:Date.now()+2, section:"Milling", name:"Roller Mill Motor", type:"Motor", code:"MIL-MOT-01"}
+        {id:Date.now()+2, section:"Milling", name:"Roller Mill Motor", type:"Motor", code:"MIL-MOT-01"},
+        {id:Date.now()+3, section:"Utility", name:"Air Compressor 01", type:"Compressor", code:"UTL-COM-01"}
       ];
       saveGlobalEquipment();
     }
@@ -632,8 +611,12 @@
     
     const existingRecord = runRecords.find(r => r.date === date);
     if (existingRecord) {
-      showToast("Record already exists for this date. You can delete it first if you want to update.");
-      return;
+      if(confirm("Record already exists for this date. Do you want to replace it?")) {
+        const index = runRecords.findIndex(r => r.date === date);
+        runRecords.splice(index, 1);
+      } else {
+        return;
+      }
     }
     
     let statusText = "", statusClass = "", hadStop = false;
@@ -730,9 +713,9 @@
   function toggleNotifications(){ document.getElementById("notificationPanel").classList.toggle("show"); }
   function getUsers(){ return JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)||'[]'); }
   function createAccount(){ const n=document.getElementById("loginName").value.trim(), e=document.getElementById("loginEmail").value.trim(), p=document.getElementById("loginPassword").value.trim(), r=document.getElementById("loginRole").value; if(!n||!e||!p){ showToast("Please fill all fields"); return; } const u=getUsers(); if(u.find(x=>x.email===e)){ showToast("Email already registered"); return; } u.push({name:n,email:e,password:p,role:r,id:Date.now()}); localStorage.setItem(STORAGE_KEYS.USERS,JSON.stringify(u)); showToast("Account created! Please sign in."); }
-  function signIn(){ const e=document.getElementById("loginEmail").value.trim(), p=document.getElementById("loginPassword").value.trim(); const u=getUsers().find(x=>x.email===e&&x.password===p); if(u){ currentUser=u; localStorage.setItem('currentUser',JSON.stringify(u)); document.getElementById("userDisplay").innerHTML=`👤 ${u.name} (${u.role}) <button class="logout-btn" onclick="logout()">🚪 Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); showToast(`Welcome ${u.name}!`); updateNotifications(); } else showToast("Invalid email or password"); }
+  function signIn(){ const e=document.getElementById("loginEmail").value.trim(), p=document.getElementById("loginPassword").value.trim(); const u=getUsers().find(x=>x.email===e&&x.password===p); if(u){ currentUser=u; localStorage.setItem('currentUser',JSON.stringify(u)); document.getElementById("userDisplay").innerHTML=`👤 ${u.name} (${u.role}) <button class="logout-btn" onclick="logout()">🚪 Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); showToast(`Welcome ${u.name}!`); updateNotifications(); refreshAllData(); } else showToast("Invalid email or password"); }
   function logout(){ currentUser=null; localStorage.removeItem('currentUser'); document.getElementById("userDisplay").innerHTML="🔒 Not logged in"; document.getElementById("mainTabs").style.display="none"; switchToScreen('login'); showToast("Logged out successfully"); }
-  function checkAutoLogin(){ const s=localStorage.getItem('currentUser'); if(s){ currentUser=JSON.parse(s); document.getElementById("userDisplay").innerHTML=`👤 ${currentUser.name} (${currentUser.role}) <button class="logout-btn" onclick="logout()">🚪 Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); } }
+  function checkAutoLogin(){ const s=localStorage.getItem('currentUser'); if(s){ currentUser=JSON.parse(s); document.getElementById("userDisplay").innerHTML=`👤 ${currentUser.name} (${currentUser.role}) <button class="logout-btn" onclick="logout()">🚪 Logout</button>`; document.getElementById("mainTabs").style.display="flex"; switchToScreen('dashboard'); refreshAllData(); } }
   function showToast(msg){ const t=document.createElement('div'); t.className='success-toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3000); }
   function exportData(){ const data={faults,pmRecords,equipmentList,runRecords,exportDate:new Date().toISOString()}; const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=`majeed_backup_${new Date().toISOString().slice(0,19)}.json`; a.click(); showToast("Data exported successfully!"); }
   function importData(input){ const file=input.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=function(e){ try{ const data=JSON.parse(e.target.result); if(data.faults) faults=data.faults; if(data.pmRecords) pmRecords=data.pmRecords; if(data.equipmentList) equipmentList=data.equipmentList; if(data.runRecords) runRecords=data.runRecords; saveGlobalFaults(); saveGlobalPM(); saveGlobalEquipment(); saveGlobalRunRecords(); showToast("Data imported successfully!"); renderAll(); } catch(err){ showToast("Invalid backup file"); } }; reader.readAsText(file); input.value=""; }
